@@ -43,7 +43,7 @@ export default function Home() {
         <Testimonials />
         <Contact />
 
-        <Footer /> */}
+        <Foote r /> */}
         <Login />
       </main>
     </body>
