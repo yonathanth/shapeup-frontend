@@ -34,17 +34,17 @@ export default function Home() {
   return (
     <body>
       <main>
-        {/* <Header />
+        <Header />
 
         <Hero />
         <About />
         <OurServices />
-        
+
         <Testimonials />
         <Contact />
 
-        <Foote r /> */}
-        <Login />
+        <Footer />
+        {/* <Login /> */}
       </main>
     </body>
   );
