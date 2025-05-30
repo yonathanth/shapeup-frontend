@@ -102,7 +102,7 @@ const downloadMemberId = async (memberDetails: memberDetails) => {
     : null;
 
   const barcodeImgBase64 = memberDetails.barcode;
-  const logoBase64 = await fetchImageAsBase64("/Images/logo (3).svg");
+  const logoBase64 = await fetchImageAsBase64("/Images/yello logo-1.png");
 
   // FRONT SIDE
   if (profileImgBase64) {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import logo from "@/assets/logos/logo (3).svg";
+import logo from "@/assets/logos/yello logo-1.png";
 import { jwtDecode } from "jwt-decode";
 
 interface AdminSidebarProps {

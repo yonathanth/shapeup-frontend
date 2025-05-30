@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
-import logo from "@/assets/logos/logo (3).svg";
+import logo from "@/assets/logos/yello logo-1.png";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faCalendarCheck,

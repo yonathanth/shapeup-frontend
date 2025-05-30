@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import styles from "../styles/ButtonStyles.module.css";
 import Image from "next/image";
-import logo from "@/assets/logos/logo (3).svg";
+import logo from "@/assets/logos/yello logo-1.png";
 import { Link } from "../../../i18n/routing";
 import LanguageSwitcher from "./LanguageSwitcher";
 import { useTranslations } from "next-intl";

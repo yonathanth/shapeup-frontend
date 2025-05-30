@@ -10,7 +10,7 @@ import {
 } from "@fortawesome/free-brands-svg-icons";
 import React, { useState } from "react";
 import Image from "next/image";
-import logo from "@/assets/logos/logo (2).svg";
+import logo from "@/assets/logos/yello logo-1.png";
 import { useTranslations } from "next-intl";
 import { Link } from "../../../i18n/routing";
 import TermsAndConditionsModal from "./TermsAndConditionsModal";
