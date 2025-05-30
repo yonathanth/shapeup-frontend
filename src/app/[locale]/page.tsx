@@ -34,7 +34,7 @@ export default function Home() {
   return (
     <body>
       <main>
-        <Header />
+        {/* <Header />
 
         <Hero />
         <About />
@@ -43,8 +43,8 @@ export default function Home() {
         <Testimonials />
         <Contact />
 
-        <Footer />
-        {/* <Login /> */}
+        <Footer /> */}
+        <Login />
       </main>
     </body>
   );

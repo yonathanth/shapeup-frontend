@@ -13,7 +13,7 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 // Define base URL for absolute URLs in metadata
 const baseUrl =
-  process.env.NEXT_PUBLIC_BASE_URL || "https://shapeupfitnesscne.com";
+  process.env.NEXT_PUBLIC_BASE_URL || "https://shapeup.shalops.com";
 
 // Move viewport to a separate export
 export const viewport: Viewport = {
