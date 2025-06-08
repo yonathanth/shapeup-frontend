@@ -1,4 +1,3 @@
-// components/WebcamCapture.tsx
 import React, { useRef, useEffect, useState } from "react";
 
 interface WebcamCaptureProps {
@@ -13,12 +12,20 @@ const WebcamCapture: React.FC<WebcamCaptureProps> = ({
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isCameraActive, setIsCameraActive] = useState(false);
+  const [facingMode, setFacingMode] = useState<"user" | "environment">("user");
+  const streamRef = useRef<MediaStream | null>(null);
 
-  useEffect(() => {
+  const startCamera = (facing: "user" | "environment") => {
     if (navigator.mediaDevices) {
+      // Stop existing stream if any
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((track) => track.stop());
+      }
+
       navigator.mediaDevices
-        .getUserMedia({ video: true })
+        .getUserMedia({ video: { facingMode: facing } })
         .then((stream) => {
+          streamRef.current = stream;
           if (videoRef.current) {
             videoRef.current.srcObject = stream;
             videoRef.current.play();
@@ -31,17 +38,24 @@ const WebcamCapture: React.FC<WebcamCaptureProps> = ({
         });
     } else {
       console.error("Camera not supported on this browser.");
+      setIsCameraActive(false);
     }
+  };
+
+  useEffect(() => {
+    startCamera(facingMode);
 
     // Cleanup on component unmount
     return () => {
-      if (videoRef.current && videoRef.current.srcObject) {
-        const stream = videoRef.current.srcObject as MediaStream;
-        const tracks = stream.getTracks();
-        tracks.forEach((track) => track.stop());
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach((track) => track.stop());
       }
     };
-  }, []);
+  }, [facingMode]);
+
+  const toggleCamera = () => {
+    setFacingMode((prev) => (prev === "user" ? "environment" : "user"));
+  };
 
   const capturePhoto = () => {
     if (canvasRef.current && videoRef.current) {
@@ -80,6 +94,16 @@ const WebcamCapture: React.FC<WebcamCaptureProps> = ({
             Unable to access the camera.
           </p>
         )}
+
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            toggleCamera();
+          }}
+          className="mt-4 w-full p-3 bg-blue-600 text-white rounded-lg"
+        >
+          Switch to {facingMode === "user" ? "Back" : "Front"} Camera
+        </button>
 
         <button
           onClick={(e) => {
