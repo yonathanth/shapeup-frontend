@@ -125,7 +125,7 @@ const WebcamCapture: React.FC<WebcamCaptureProps> = ({
           Close
         </button>
 
-        {/* Invisible canvas to capture image */}
+        {/* Invisible canvas to capture images */}
         <canvas ref={canvasRef} className="hidden"></canvas>
       </div>
     </div>
