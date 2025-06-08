@@ -378,7 +378,7 @@ const Register = () => {
             </div>
           ) : (
             // Step 2: Package Selection
-            <div className="p-8">
+            <div className="p-3">
               <h2 className="text-2xl font-semibold text-white mb-6">
                 Choose a Package
               </h2>
