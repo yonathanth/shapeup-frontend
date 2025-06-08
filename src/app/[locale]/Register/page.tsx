@@ -403,7 +403,7 @@ const Register = () => {
                 {services[selectedCategory]?.map((service) => (
                   <div
                     key={service.id}
-                    className={`p-4 border rounded-lg cursor-pointer transition-all ${
+                    className={`p-2 border rounded-lg cursor-pointer transition-all ${
                       selectedPackage === service.id
                         ? "border-customBlue bg-gray-700"
                         : "border-gray-600 hover:border-gray-500"
