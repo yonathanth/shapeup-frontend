@@ -56,7 +56,7 @@ const RegisterSummary = () => {
         <div className="border-t border-customHoverBlue pt-4">
           <div className="flex justify-between font-semibold text-lg">
             <p>Total:</p>
-            <p>{`Birr ${total}`}</p>
+            <p>{`Birr ${Number(total ?? "0") + 200}`} </p>
           </div>
         </div>
 
@@ -70,11 +70,11 @@ const RegisterSummary = () => {
               Please transfer the total amount to one of the following accounts:
             </p>
 
-            <ul className="text-sm">
-              <li>CBE: 1000403462385 - Nehemiah </li>
+            <ul className="text-sm text-black">
+              <li>CBE: 1000403462385 - Yohannes </li>
               <li>CBE: 1000351858684 - shape up fitness Gym </li>
 
-              <li>Telebirr: 0945511884 - Nehemiah</li>
+              <li>Telebirr: 0945511884 - Yohannes</li>
             </ul>
           </div>
           <p className="text-sm text-gray-400 mt-4">
