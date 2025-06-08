@@ -24,7 +24,7 @@ const Footer: React.FC = () => {
   const t = useTranslations("home_Page.footerSection");
 
   return (
-    <footer className="bg-customBlue text-white py-10 font-jost">
+    <footer className="bg-customBlue text-black py-10 font-jost">
       <div className="container mx-auto items-center px-4 sm:px-6 md:px-10 max-w-screen-2xl">
         <div className="flex flex-col md:flex-row md:justify-between ">
           <div className="mb-8 md:mb-0 w-40">
@@ -118,14 +118,14 @@ const Footer: React.FC = () => {
               onClose={closeModal}
             /> */}
           </div>
-          <div className="text-sm font-light flex items-center justify-center space-x-2 p-4 bg-gradient-to-r order-last md:order-none">
+          <div className="text-sm  font-light flex items-center justify-center space-x-2 p-4 bg-gradient-to-r order-last md:order-none">
             <span>Made by</span>
             <Link
               className="animate-pulse"
               href="https://shalops.com"
               target="_blank"
             >
-              <span className="bg-white text-[#382859] px-2 py-1 font-extrabold rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105">
+              <span className="bg-[#382859] text-white px-2 py-1 font-semibold rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105">
                 ShalOps Digitals
               </span>
             </Link>
@@ -133,23 +133,16 @@ const Footer: React.FC = () => {
 
           <div className="flex space-x-4">
             <a
-              href="https://www.instagram.com/shapeup?igsh=MWh5bzJzOXMxMjVxcw=="
+              href="https://www.instagram.com/shapeup_gymandfitness/"
               aria-label="Instagram"
               target="_blank"
               className="transition-transform duration-200 hover:scale-110"
             >
               <FontAwesomeIcon icon={faInstagram} size="lg" />
             </a>
+
             <a
-              href="https://vm.tiktok.com/ZMS8Svxh5/"
-              aria-label="TikTok"
-              target="_blank"
-              className="transition-transform duration-200 hover:scale-110"
-            >
-              <FontAwesomeIcon icon={faTiktok} size="lg" />
-            </a>
-            {/* <a
-              href="#"
+              href="https://www.facebook.com/profile.php?id=61562896362190"
               aria-label="Facebook"
               target="_blank"
               className="transition-transform duration-200 hover:scale-110"
@@ -157,6 +150,14 @@ const Footer: React.FC = () => {
               <FontAwesomeIcon icon={faFacebook} size="lg" />
             </a>
             <a
+              href="https://www.tiktok.com/@.shape_up?is_from_webapp=1&sender_device=pc"
+              aria-label="TikTok"
+              target="_blank"
+              className="transition-transform duration-200 hover:scale-110"
+            >
+              <FontAwesomeIcon icon={faTiktok} size="lg" />
+            </a>
+            {/* <a
               href="https://t.me/musclefitness"
               aria-label="Telegram"
               target="_blank"
