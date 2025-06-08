@@ -466,14 +466,14 @@ const Register = () => {
               <div className="flex justify-between mt-6">
                 <button
                   onClick={() => setStep(1)}
-                  className="px-6 py-3 text-white bg-gray-600 rounded-lg hover:bg-gray-500"
+                  className="px-6 py-2 md:py-3 text-white bg-gray-600 rounded-lg hover:bg-gray-500"
                 >
                   Back
                 </button>
                 <button
                   onClick={handleRegister}
                   disabled={isRegistering || !selectedPackage}
-                  className={`px-6 py-3 rounded-lg ${
+                  className={`px-6 py-2  md:py-3 rounded-lg ${
                     isRegistering || !selectedPackage
                       ? "bg-gray-500 cursor-not-allowed"
                       : "bg-customBlue text-black hover:bg-customHoverBlue hover:text-white"
@@ -485,7 +485,7 @@ const Register = () => {
                       <span className="ml-2">Processing...</span>
                     </span>
                   ) : (
-                    "Complete Registration"
+                    "Register"
                   )}
                 </button>
               </div>
