@@ -75,35 +75,35 @@ const Header = () => {
           <Link
             href="/en"
             onClick={() => setIsMenuOpen(false)}
-            className="hover:text-customBlue text-black text-center transition py-2"
+            className="hover:text-customBlue text-white text-center transition py-2"
           >
             Home
           </Link>
           <Link
             href="/en/about"
             onClick={() => setIsMenuOpen(false)}
-            className="hover:text-customBlue text-black text-center transition py-2"
+            className="hover:text-customBlue text-white text-center transition py-2"
           >
             About
           </Link>
           <Link
             href="/en/service"
             onClick={() => setIsMenuOpen(false)}
-            className="hover:text-customBlue text-black text-center transition py-2"
+            className="hover:text-customBlue text-white text-center transition py-2"
           >
             Services
           </Link>
           <Link
             href="/en/faq"
             onClick={() => setIsMenuOpen(false)}
-            className="hover:text-customBlue text-center text-black transition py-2"
+            className="hover:text-customBlue text-center text-white transition py-2"
           >
             FAQ
           </Link>
           <Link
             href="/en/contact"
             onClick={() => setIsMenuOpen(false)}
-            className="hover:text-customBlue text-black text-center transition py-2"
+            className="hover:text-customBlue text-white text-center transition py-2"
           >
             Contact
           </Link>
@@ -111,7 +111,7 @@ const Header = () => {
             <Link
               href="/en/login"
               onClick={() => setIsMenuOpen(false)}
-              className="hover:text-customBlue text-black text-center transition py-3 border-t border-white/20 pt-4"
+              className="hover:text-customBlue text-white text-center transition py-3 border-t border-white/20 pt-4"
             >
               Log In
             </Link>

@@ -5,6 +5,7 @@ import Image from "next/image";
 import aboutUsHero from "../../../../assets/images/about.jpeg";
 import ourPhilo from "../../../../assets/images/ourPhilosophy.jpg";
 import trainers from "../../../../assets/images/trainers.jpg";
+import photo from "../../../../public/photo.png";
 import { motion } from "framer-motion";
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -39,19 +40,19 @@ const AboutUsPage = () => {
   const teamMembers = [
     {
       name: "Nardos Amakele",
-      image: trainers,
+      image: photo,
     },
     {
       name: "Samuel Tesfaye",
-      image: trainers,
+      image: photo,
     },
     {
       name: "Lidiya Gebru",
-      image: trainers,
+      image: photo,
     },
     {
       name: "Dawit Mekonnen",
-      image: trainers,
+      image: photo,
     },
   ];
 
@@ -74,20 +75,20 @@ const AboutUsPage = () => {
               transition={{ duration: 0.8 }}
               className="text-4xl md:text-6xl font-bold text-white text-center mb-8"
             >
-              About ShapeUp Fitness
+              About Us
             </motion.h1>
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3, duration: 0.8 }}
-              className="text-lg md:text-xl text-white/90 max-w-2xl text-center mb-12"
+              className="text-base md:text-xl text-white/90 max-w-xs md:max-w-2xl text-center mb-12"
             >
               Discover our story, philosophy, and the team dedicated to your
               fitness journey
             </motion.p>
             <motion.div
               onClick={scrollToNextSection}
-              className="border-2 border-white/50 rounded-full p-3 cursor-pointer hover:border-white transition-all"
+              className="border-2 border-white/50 rounded-full p-3 cursor-pointer hover:border-[#F1AC17] transition-all"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               animate={isJumping ? { y: [0, -15, 0] } : {}}
@@ -99,68 +100,67 @@ const AboutUsPage = () => {
             >
               <FontAwesomeIcon
                 icon={faArrowUp}
-                className="text-white text-xl rotate-180"
+                className="text-white text-xl rotate-180 hover:text-[#F1AC17] transition-colors"
               />
             </motion.div>
           </div>
         </div>
 
         {/* About Section */}
-        <div ref={nextSectionRef} className="relative z-10 bg-black">
-          <div className="backdrop-blur-sm text-white flex flex-col md:flex-row items-center justify-center gap-12 px-6 md:px-16 lg:px-24 py-20 md:py-28 mx-auto max-w-7xl">
-            {/* Left Image */}
-            <motion.div
-              className="w-full md:w-1/2 flex justify-center items-center"
-              initial={{ opacity: 0, x: -50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <div className="relative w-full h-full max-w-[550px] overflow-hidden rounded-xl shadow-2xl">
-                <Image
-                  src={trainers}
-                  alt="Professional trainers at our gym"
-                  width={600}
-                  height={500}
-                  className="object-cover w-full h-auto md:h-[450px] transition-transform duration-500 hover:scale-105"
-                  priority
-                />
-              </div>
-            </motion.div>
+        <div ref={nextSectionRef} className="relative z-10 ">
+          <div className="bg-gray-950">
+            <div className="text-white flex flex-col md:flex-row items-center px-6 justify-center gap-8 md:gap-16 py-16 md:py-24 mx-auto max-w-7xl">
+              {/* Left Image */}
+              <motion.div
+                className="w-full md:w-1/2 flex justify-center items-center"
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+              >
+                <div className="relative w-full max-w-[550px] overflow-hidden rounded-lg border border-gray-800 hover:border-[#F1AC17]/30 transition-all">
+                  <Image
+                    src={trainers}
+                    alt="Professional trainers at our gym"
+                    width={600}
+                    height={500}
+                    className="object-cover w-full h-auto md:h-[450px] transition-transform duration-500 hover:scale-[1.02]"
+                    priority
+                  />
+                </div>
+              </motion.div>
 
-            {/* Right Text */}
-            <motion.div
-              className="w-full md:w-1/2 px-4 md:px-8 py-8 text-center md:text-left"
-              initial={{ opacity: 0, x: 50 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <span className="text-sm font-bold text-customBlue tracking-wider uppercase">
-                About Us
-              </span>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 mt-2 leading-tight">
-                Welcome To Our{" "}
-                <span className="text-customBlue">Fitness Gym</span>
-              </h2>
-              <p className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed">
-                At ShapeUp, we're dedicated to helping you achieve your fitness
-                goals with state-of-the-art facilities, expert trainers, and a
-                supportive community. Our personalized approach ensures every
-                member gets the attention they need to transform their health
-                and wellness.
-              </p>
-              <div className="flex justify-center md:justify-start">
-                <button className="bg-customBlue hover:bg-customHoverBlue text-black font-bold px-10 py-3 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg">
-                  Join Us Now
-                </button>
-              </div>
-            </motion.div>
+              {/* Right Text */}
+              <motion.div
+                className="w-full md:w-1/2 px-0 md:px-4 py-8 text-center md:text-left"
+                initial={{ opacity: 0, x: 30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.6 }}
+                viewport={{ once: true }}
+              >
+                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+                  Welcome To Our <br />
+                  <span className="text-[#F1AC17]">Fitness Gym</span>
+                </h2>
+                <p className="text-base md:text-lg text-gray-400 mb-8 leading-relaxed">
+                  At ShapeUp, we're dedicated to helping you achieve your
+                  fitness goals with state-of-the-art facilities, expert
+                  trainers, and a supportive community. Our personalized
+                  approach ensures every member gets the attention they need to
+                  transform their health and wellness.
+                </p>
+                <div className="flex justify-center md:justify-start">
+                  <button className="bg-[#F1AC17] hover:bg-[#7F5A0B] text-black font-medium px-8 py-3 rounded-lg transition-all duration-300 hover:scale-[1.02] shadow hover:shadow-[#F1AC17]/20">
+                    Join Us Now
+                  </button>
+                </div>
+              </motion.div>
+            </div>
           </div>
 
           {/* Video Section */}
           <div className="-mt-20 relative z-20 px-4 mb-20">
-            <div className="max-w-5xl mx-auto overflow-hidden rounded-xl shadow-lg">
+            <div className="max-w-5xl mx-auto overflow-hidden rounded-xl shadow-lg border border-[#F1AC17]/20">
               <iframe
                 className="w-full h-[400px] md:h-[500px] object-cover rounded-xl"
                 src="https://www.youtube.com/embed/veuUyWcIbNY?autoplay=1&mute=1&loop=1&playlist=veuUyWcIbNY"
@@ -173,62 +173,69 @@ const AboutUsPage = () => {
           </div>
 
           {/* Community Section */}
-          <div className="flex flex-col md:flex-row items-center justify-center px-6 md:px-16 lg:px-24 py-20 bg-black/50 backdrop-blur-sm">
+          <div className="flex flex-col md:flex-row items-center justify-center text-center px-6 md:px-16 lg:px-24 md:py-20 bg-gray-950">
             {/* Left Image */}
-            <motion.div
-              className="w-full md:w-1/2 p-4 flex justify-center items-center"
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <Image
-                src={trainers}
-                alt="Fitness community"
-                width={500}
-                height={300}
-                className="object-cover rounded-xl w-full h-auto max-h-[400px] shadow-2xl"
-              />
-            </motion.div>
+            <div className="max-w-7xl flex flex-col md:flex-row">
+              <motion.div
+                className="w-full md:w-1/2 p-4 flex justify-center items-center"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+              >
+                <Image
+                  src={trainers}
+                  alt="Fitness community"
+                  width={500}
+                  height={300}
+                  className="object-cover rounded-xl w-full h-auto max-h-[400px] shadow-2xl border border-gray-800"
+                />
+              </motion.div>
 
-            {/* Right Text */}
-            <motion.div
-              className="w-full md:w-1/2 px-4 md:px-8 py-8 text-center md:text-left"
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-3xl md:text-4xl font-bold mb-6">
-                Where Fitness Meets Community
-              </h2>
-              <p className="text-lg md:text-xl text-gray-300 mb-8 leading-relaxed">
-                Our gym isn't just about workouts - it's about building
-                relationships and achieving goals together. We've created a
-                space where everyone feels welcome and supported.
-              </p>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {[
-                  "Personalized coaching",
-                  "Nutrition plans",
-                  "Strength training",
-                  "Flexible hours",
-                  "Group workouts",
-                  "Wellness programs",
-                ].map((item, index) => (
-                  <div key={index} className="flex items-center">
-                    <span className="mr-3 text-customBlue text-xl">→</span>
-                    <span className="text-gray-200">{item}</span>
-                  </div>
-                ))}
-              </div>
-            </motion.div>
+              {/* Right Text */}
+              <motion.div
+                className="w-full md:w-1/2 px-4 md:px-8 py-8 text-center md:text-left"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2 }}
+                viewport={{ once: true }}
+              >
+                <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
+                  Where Fitness Meets Community
+                </h2>
+                <p className="text-lg md:text-xl text-gray-400 mb-8 leading-relaxed">
+                  Our gym isn't just about workouts - it's about building
+                  relationships and achieving goals together. We've created a
+                  space where everyone feels welcome and supported.
+                </p>
+                <div className="grid text-center items-center grid-cols-1 md:grid-cols-2 gap-4">
+                  {[
+                    "Personalized coaching",
+                    "Nutrition plans",
+                    "Strength training",
+                    "Flexible hours",
+                    "Group workouts",
+                    "Wellness programs",
+                  ].map((item, index) => (
+                    <div
+                      key={index}
+                      className="flex text-center justify-center items-center"
+                    >
+                      <span className="mr-3 text-center text-[#F1AC17] text-xl">
+                        →
+                      </span>
+                      <span className="text-center text-gray-200">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
           </div>
 
           {/* Vision Section */}
-          <div className="py-20 text-center bg-black/70 backdrop-blur-sm">
+          <div className="py-12 md:py-24 text-center bg-gray-950">
             <motion.h2
-              className="text-3xl md:text-4xl font-bold mb-16"
+              className="text-3xl md:text-5xl font-bold mb-12 md:mb-20 text-white"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.8 }}
@@ -237,7 +244,7 @@ const AboutUsPage = () => {
               Our Vision
             </motion.h2>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 px-6 max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-6 max-w-6xl mx-auto">
               {[
                 {
                   title: "Personal Training Programs",
@@ -262,23 +269,40 @@ const AboutUsPage = () => {
               ].map((card, index) => (
                 <motion.div
                   key={index}
-                  className="p-8 bg-gray-900 rounded-xl shadow-lg hover:shadow-customBlue/20 transition-all border border-gray-800 hover:border-customBlue/30"
-                  initial={{ opacity: 0, y: 30 }}
+                  className="p-8 bg-gray-900 rounded-lg hover:bg-gray-800 transition-all border border-gray-800 group"
+                  initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  transition={{ duration: 0.4, delay: index * 0.1 }}
                   viewport={{ once: true }}
                 >
-                  <h3 className="text-xl font-bold text-customBlue mb-4">
-                    {card.title}
-                  </h3>
-                  <p className="text-gray-300">{card.content}</p>
+                  <div className="flex flex-col items-center text-center">
+                    <div className="w-12 h-12 mb-4 rounded-full bg-[#F1AC17]/10 group-hover:bg-[#F1AC17]/20 flex items-center justify-center transition-all">
+                      <svg
+                        className="w-5 h-5 text-[#F1AC17]"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M5 13l4 4L19 7"
+                        />
+                      </svg>
+                    </div>
+                    <h3 className="text-xl font-semibold text-white mb-3">
+                      {card.title}
+                    </h3>
+                    <p className="text-gray-400">{card.content}</p>
+                  </div>
                 </motion.div>
               ))}
             </div>
           </div>
 
           {/* Team Section */}
-          <div className="px-6 sm:px-8 py-20 w-full flex flex-col items-center bg-black/50 backdrop-blur-sm">
+          <div className="px-6 sm:px-8 py-10 md:py-20 w-full flex flex-col items-center bg-gray-950">
             <motion.div
               className="text-center mb-16"
               initial={{ opacity: 0 }}
@@ -286,10 +310,10 @@ const AboutUsPage = () => {
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-xl font-bold text-customBlue mb-3">
+              <h2 className="text-xl font-bold text-[#F1AC17] mb-3">
                 The Team
               </h2>
-              <p className="text-2xl sm:text-3xl font-medium">
+              <p className="text-2xl sm:text-3xl font-medium text-white">
                 Our Professional Trainers
               </p>
             </motion.div>
@@ -305,16 +329,18 @@ const AboutUsPage = () => {
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                     viewport={{ once: true }}
                   >
-                    <div className="w-32 h-32 md:w-40 md:h-40 mx-auto mb-6 relative rounded-full overflow-hidden border-2 border-customBlue/50 hover:border-customBlue transition-all">
+                    <div className="w-32 h-32 md:w-52 md:h-52 mx-auto mb-6 relative overflow-hidden rounded-lg border border-gray-800 hover:border-[#F1AC17]/30 transition-all">
                       <Image
                         src={member.image}
                         alt={member.name}
                         fill
-                        className="object-cover"
+                        className="object-cover transition-transform duration-500 hover:scale-105"
                       />
                     </div>
-                    <h3 className="text-lg font-medium mb-2">{member.name}</h3>
-                    <div className="flex justify-center space-x-4">
+                    <h3 className="text-lg font-medium mb-2 text-white">
+                      {member.name}
+                    </h3>
+                    <div className="flex hover:text-[#7F5A0B] transition-colors cursor-pointer justify-center space-x-4 text-[#F1AC17]">
                       <FaPhoneAlt />
                       <FaEnvelope />
                     </div>
@@ -325,8 +351,8 @@ const AboutUsPage = () => {
           </div>
 
           {/* Explore Section */}
-          <div className="relative py-32 px-6 text-center bg-black/70 backdrop-blur-sm">
-            <div className="absolute inset-0 bg-[url('/explore-bg.jpg')] bg-cover bg-center opacity-20 -z-10"></div>
+          <div className="relative py-20 md:py-28 px-6 text-center bg-gray-950">
+            <div className="absolute inset-0 bg-[url('/explore-bg.jpg')] bg-cover bg-center opacity-10 -z-10"></div>
             <motion.div
               className="max-w-3xl mx-auto"
               initial={{ opacity: 0, y: 50 }}
@@ -334,18 +360,18 @@ const AboutUsPage = () => {
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-3xl md:text-4xl font-bold mb-6">
+              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
                 Explore Our Gym
               </h2>
-              <p className="text-xl text-customBlue mb-8">
+              <p className="text-xl text-[#F1AC17] mb-8">
                 Elevate Your Journey
               </p>
-              <p className="text-lg text-gray-300 mb-10 leading-relaxed">
+              <p className="text-base md:text-lg text-gray-400 mb-10 leading-relaxed">
                 Discover state-of-the-art equipment, expert trainers, and a
                 community that will push you to new heights. Your transformation
                 starts here.
               </p>
-              <button className="bg-customBlue hover:bg-customHoverBlue text-black font-bold px-12 py-3 rounded-xl transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg">
+              <button className="bg-[#F1AC17] hover:bg-[#7F5A0B] text-black font-bold px-12 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-[#F1AC17]/30">
                 Schedule a Tour
               </button>
             </motion.div>
