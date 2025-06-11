@@ -10,6 +10,32 @@ import { Stomp } from "@stomp/stompjs";
 // Configuration
 const FINGERPRINT_SERVER_URL = "https://localhost:8443/fingerprint-websocket";
 
+// Shimmer component for loading states
+const Shimmer = ({ className = "" }: { className?: string }) => {
+  return (
+    <div
+      className={`animate-pulse bg-gradient-to-r from-gray-700 via-gray-600 to-gray-700 bg-[length:200%_100%] animate-shimmer rounded ${className}`}
+    >
+      &nbsp;
+    </div>
+  );
+};
+
+// Add shimmer animation to CSS
+const shimmerStyle = `
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+  .animate-shimmer {
+    animation: shimmer 1.5s ease-in-out infinite;
+  }
+`;
+
 export default function AttendancePage() {
   // State for connection
   const [connectionStatus, setConnectionStatus] = useState<
@@ -32,7 +58,7 @@ export default function AttendancePage() {
   const [verificationResult, setVerificationResult] = useState<{
     verified: boolean;
     userName?: string;
-    remainingDays?: number;
+    remainingDays?: number | null;
     status?: string;
     userStatus?: string;
   } | null>(null);
@@ -155,7 +181,7 @@ export default function AttendancePage() {
     }
   };
 
-  // Handle WebSocket responses (Updated for optimized backend)
+  // Handle WebSocket responses (Updated for two-stage verification)
   const handleResponse = (response: any) => {
     console.log("Received:", response);
 
@@ -167,65 +193,67 @@ export default function AttendancePage() {
       setIsScanning(false);
 
       if (response.operation === "verify") {
-        // Handle verification result with optimized backend
+        // Handle verification result with two-stage optimization
         if (response.verified) {
-          const isCheckIn =
-            response.message.includes("check-in") ||
-            !response.message.includes("check-out");
-          const attendanceType = isCheckIn ? "check-in" : "check-out";
+          // Check if this is stage 1 (immediate match) or stage 2 (complete details)
+          const isStageOne = response.userName === "Loading...";
 
-          // Optimized backend provides immediate verification result
-          // Attendance recording happens asynchronously in background
-          setMessage(
-            `✅ Welcome, ${response.userName}! Verification successful. Attendance is being recorded...`
-          );
+          if (isStageOne) {
+            // Stage 1: Immediate feedback that match was found
+            setMessage(`✅ Fingerprint match found!`);
 
-          // Play appropriate sound based on status
-          if (response.userStatus?.toLowerCase() === "active") {
-            successAudioRef.current?.play();
-            toast.success(`Welcome ${response.userName}`, {
-              description: "Attendance recording in progress...",
+            setVerificationResult({
+              verified: true,
+              userName: "Loading user details...",
+              remainingDays: null,
+              status: "Fetching Details",
+              userStatus: "Loading...",
+            });
+
+            // Show immediate success feedback
+            toast.success("Match Found!", {
+              description: "Fetching user details...",
             });
           } else {
-            inactiveAudioRef.current?.play();
-            toast.warning(
-              `User verified but has status: ${response.userStatus}`,
-              {
-                description: "Contact admin for status update",
-              }
-            );
-          }
+            // Stage 2: Complete user details received
+            const isCheckIn =
+              response.message.includes("check-in") ||
+              !response.message.includes("check-out");
+            const attendanceType = isCheckIn ? "check-in" : "check-out";
 
-          setVerificationResult({
-            verified: true,
-            userName: response.userName,
-            remainingDays: response.remainingDays || 30,
-            status: response.status || "Attendance Recording",
-            userStatus: response.userStatus,
-          });
-
-          // Show attendance confirmation after a brief delay
-          setTimeout(() => {
             setMessage(
-              `✅ ${response.userName} - Attendance recorded successfully! Ready for next scan.`
+              `✅ Welcome, ${response.userName}! Attendance recorded successfully.`
             );
-            setVerificationResult((prev) =>
-              prev
-                ? {
-                    ...prev,
-                    status:
-                      attendanceType.charAt(0).toUpperCase() +
-                      attendanceType.slice(1) +
-                      " Completed",
-                  }
-                : null
-            );
-          }, 1500);
 
-          // Set timeout to start a new scan after 3 seconds
-          setTimeout(() => {
-            startVerification();
-          }, 3000);
+            // Play appropriate sound based on status
+            if (response.userStatus?.toLowerCase() === "active") {
+              successAudioRef.current?.play();
+              toast.success(`Welcome ${response.userName}`, {
+                description: "Attendance recorded successfully",
+              });
+            } else {
+              inactiveAudioRef.current?.play();
+              toast.warning(
+                `User verified but has status: ${response.userStatus}`,
+                {
+                  description: "Contact admin for status update",
+                }
+              );
+            }
+
+            setVerificationResult({
+              verified: true,
+              userName: response.userName,
+              remainingDays: response.remainingDays || 30,
+              status: "Attendance Recorded",
+              userStatus: response.userStatus,
+            });
+
+            // Set timeout to start a new scan after 3 seconds
+            setTimeout(() => {
+              startVerification();
+            }, 3000);
+          }
         } else {
           setMessage(
             "❌ No matching user found. Please try again or contact admin."
@@ -307,6 +335,7 @@ export default function AttendancePage() {
 
   return (
     <div className="space-y-6 p-6">
+      <style dangerouslySetInnerHTML={{ __html: shimmerStyle }} />
       <Card className="p-6 bg-black border-gray-800">
         <h1 className="text-2xl font-bold text-white mb-6">
           Fingerprint Attendance System
@@ -377,12 +406,9 @@ export default function AttendancePage() {
               title="Reload fingerprint templates from database"
             >
               {isReloading ? (
-                <>
-                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500 mr-2"></div>
-                  Reloading...
-                </>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-blue-500"></div>
               ) : (
-                <>Reload Templates</>
+                "Reload Templates"
               )}
             </Button>
           </div>
@@ -431,24 +457,37 @@ export default function AttendancePage() {
                 <div className="text-left">
                   <p className="text-white">
                     <span className="text-gray-400">Name:</span>{" "}
-                    {verificationResult.userName}
+                    {verificationResult.userName ===
+                    "Loading user details..." ? (
+                      <Shimmer className="inline-block w-32 h-4" />
+                    ) : (
+                      verificationResult.userName
+                    )}
                   </p>
                   <p className="text-white">
                     <span className="text-gray-400">Status:</span>{" "}
-                    <span
-                      className={
-                        verificationResult.userStatus === "active" ||
-                        verificationResult.userStatus === "Active"
-                          ? "text-green-500"
-                          : "text-yellow-500"
-                      }
-                    >
-                      {verificationResult.userStatus || "Unknown"}
-                    </span>
+                    {verificationResult.userStatus === "Loading..." ? (
+                      <Shimmer className="inline-block w-20 h-4" />
+                    ) : (
+                      <span
+                        className={
+                          verificationResult.userStatus === "active" ||
+                          verificationResult.userStatus === "Active"
+                            ? "text-green-500"
+                            : "text-yellow-500"
+                        }
+                      >
+                        {verificationResult.userStatus || "Unknown"}
+                      </span>
+                    )}
                   </p>
                   <p className="text-white">
                     <span className="text-gray-400">Remaining Days:</span>{" "}
-                    {verificationResult.remainingDays}
+                    {verificationResult.remainingDays === null ? (
+                      <Shimmer className="inline-block w-16 h-4" />
+                    ) : (
+                      verificationResult.remainingDays
+                    )}
                   </p>
                 </div>
               )}
