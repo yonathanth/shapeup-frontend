@@ -7,8 +7,8 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <header className="w-full fixed top-4 left-0 z-50 px-4">
-      <div className="mx-auto max-w-7xl px-6 py-3 sm:py-4 bg-[#d9d9d930] shadow-md backdrop-blur-md text-white rounded-xl flex items-center justify-between">
+    <header className="w-full fixed top-4 left-0 z-50 sm:px-16 px-4">
+      <div className="mx-auto md:max-w px-6  py-3 sm:py-4 bg-transparent  shadow-md backdrop-blur-md text-white rounded-xl flex items-center justify-between">
         {/* Left: Logo */}
         <div className="text-xl md:text-2xl font-bold hover:text-customBlue transition">
           <Link href="/">ShapeUp</Link>
@@ -26,7 +26,7 @@ const Header = () => {
             About
           </Link>
           <Link
-            href="/en/service"
+            href="/en/services"
             className="hover:text-customBlue transition py-1"
           >
             Services
@@ -38,7 +38,7 @@ const Header = () => {
             FAQ
           </Link>
           <Link
-            href="/en/contact"
+            href="/en/Contact"
             className="hover:text-customBlue transition py-1"
           >
             Contact
@@ -47,12 +47,12 @@ const Header = () => {
 
         {/* Right: Buttons (hidden on small screens) */}
         <div className="hidden md:flex gap-4 items-center">
-          <Link href="/en/login">
+          <Link href="/en/Login">
             <button className="px-5 py-2 text-base rounded-lg hover:text-customBlue hover:bg-white/10 transition">
               Log In
             </button>
           </Link>
-          <Link href="/en/signup">
+          <Link href="/en/Register">
             <button className="px-6 py-2 text-base bg-white text-black rounded-lg hover:bg-customBlue transition font-medium">
               Register
             </button>
@@ -87,7 +87,7 @@ const Header = () => {
             About
           </Link>
           <Link
-            href="/en/service"
+            href="/en/services"
             onClick={() => setIsMenuOpen(false)}
             className="hover:text-customBlue text-white text-center transition py-2"
           >

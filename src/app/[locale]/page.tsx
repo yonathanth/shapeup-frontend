@@ -1,18 +1,13 @@
 import Header from "./components/Header";
-import Footer from "./components/Footer";
-
+import Hero from "./components/Hero";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import "@fortawesome/fontawesome-svg-core/styles.css"; // Import the CSS
+import Footer from "./components/Footer";
 config.autoAddCss = false;
-import OurServices from "./components/OurServices";
-import Shop from "./components/Shops";
-import Supporting from "./components/Supporting";
-import Contact from "./components/Contact";
-import Hero from "./components/Hero";
-import About from "./components/About";
+
 import { Metadata } from "next";
-import Testimonials from "./components/Testimonials";
 import Login from "./Login/page";
+import About from "./components/About";
 
 export const metadata: Metadata = {
   title: "shape up fitness - Premier Fitness Center in Addis",
@@ -38,12 +33,8 @@ export default function Home() {
 
         <Hero />
         <About />
-        <OurServices />
-
-        <Testimonials />
-        <Contact />
-
         <Footer /> */}
+
         <Login />
       </main>
     </body>

@@ -1,172 +1,392 @@
-// "use client";
-// import React, { useState } from "react";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import {
-//   faMapMarkerAlt,
-//   faPhoneAlt,
-//   faEnvelope,
-// } from "@fortawesome/free-solid-svg-icons";
-// import emailjs from "emailjs-com";
+"use client";
+import React, { useRef, useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  FaPhone,
+  FaEnvelope,
+  FaMapMarkerAlt,
+  FaClock,
+  FaFacebook,
+  FaInstagram,
+  FaTiktok,
+} from "react-icons/fa";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import heroImage from "../../../../assets/images/about.jpeg";
 
-// // Components
-// import Header from "../components/Header";
-// import Footer from "../components/Footer";
-// import { useTranslations } from "next-intl";
+const ContactPage = () => {
+  const [isJumping, setIsJumping] = useState(true);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    subject: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const nextSectionRef = useRef<HTMLDivElement | null>(null);
 
-// const Contact = () => {
-//   const t = useTranslations("contact_page");
+  const scrollToNextSection = () => {
+    if (nextSectionRef.current) {
+      nextSectionRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
-//   // State to handle form submission feedback
-//   const [isSubmitting, setIsSubmitting] = useState(false);
-//   const [formStatus, setFormStatus] = useState("");
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+    if (isJumping) {
+      timeoutId = setTimeout(() => {
+        setIsJumping(false);
+      }, 1200);
+    } else {
+      timeoutId = setTimeout(() => {
+        setIsJumping(true);
+      }, 3000);
+    }
+    return () => clearTimeout(timeoutId);
+  }, [isJumping]);
 
-//   // Handle form submission
-//   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-//     e.preventDefault();
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
 
-//     setIsSubmitting(true);
-//     setFormStatus("");
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
 
-//     const form = e.target as HTMLFormElement;
+    // Simulate form submission
+    setTimeout(() => {
+      alert("Thank you for your message! We will get back to you soon.");
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        subject: "",
+        message: "",
+      });
+      setIsSubmitting(false);
+    }, 1500);
+  };
 
-//     emailjs
-//       .sendForm(
-//         "service_272hl9j",
-//         "template_bok0gye",
-//         form,
-//         "AXZ5k7a798TZsRv2y"
-//       )
-//       .then(
-//         (result) => {
-//           console.log("Message Sent:", result.text);
-//           setIsSubmitting(false);
-//           setFormStatus("Your message has been sent!");
-//         },
-//         (error) => {
-//           console.log("Error:", error.text);
-//           setIsSubmitting(false);
-//           setFormStatus("Something went wrong. Please try again.");
-//         }
-//       );
-//   };
+  const contactInfo = [
+    {
+      icon: FaPhone,
+      title: "Phone",
+      details: ["+251 911 123 456", "+251 922 654 321"],
+      color: "text-customBlue",
+    },
+    {
+      icon: FaEnvelope,
+      title: "Email",
+      details: ["info@shapeupgym.com", "support@shapeupgym.com"],
+      color: "text-customBlue",
+    },
+    {
+      icon: FaMapMarkerAlt,
+      title: "Address",
+      details: ["Bole Road, Addis Ababa", "Near Bole Airport"],
+      color: "text-customBlue",
+    },
+    {
+      icon: FaClock,
+      title: "Hours",
+      details: [
+        "Mon - Fri: 6:00 AM - 10:00 PM",
+        "Sat - Sun: 7:00 AM - 9:00 PM",
+      ],
+      color: "text-customBlue",
+    },
+  ];
 
-//   return (
-//     <>
-//       <Header />
+  return (
+    <>
+      <Header />
+      <div className="bg-black text-white scroll-container relative">
+        {/* Hero Section */}
+        <div
+          className="relative w-full h-screen bg-fixed bg-center bg-cover"
+          style={{
+            backgroundImage: `url(${heroImage.src})`,
+            backgroundAttachment: "fixed",
+          }}
+        >
+          <div className="absolute inset-0 bg-black/60 flex flex-col items-center justify-center px-4">
+            <motion.h1
+              initial={{ opacity: 0, y: -50 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8 }}
+              className="text-4xl md:text-6xl font-bold text-white text-center mb-8"
+            >
+              Contact Us
+            </motion.h1>
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.3, duration: 0.8 }}
+              className="text-base md:text-xl text-white/90 max-w-xs md:max-w-2xl text-center mb-12"
+            >
+              Get in touch with us for any questions about memberships, classes,
+              or facilities
+            </motion.p>
+            <motion.div
+              onClick={scrollToNextSection}
+              className="border-2 border-white/50 rounded-full p-3 cursor-pointer hover:border-customBlue transition-all"
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.9 }}
+              animate={isJumping ? { y: [0, -15, 0] } : {}}
+              transition={{
+                duration: 0.6,
+                ease: "easeInOut",
+                repeat: isJumping ? Infinity : 0,
+              }}
+            >
+              <FontAwesomeIcon
+                icon={faArrowUp}
+                className="text-white text-xl rotate-180 hover:text-customBlue transition-colors"
+              />
+            </motion.div>
+          </div>
+        </div>
 
-//       {/* Contact Us Section */}
-//       <section className="min-h-screen py-36 flex flex-col items-center justify-center bg-black text-white">
-//         <div className="text-center mb-10">
-//           <h2 className="text-4xl font-bold mb-4">{t("heading")}</h2>
-//           <p className="text-gray-400 max-w-3xl mx-5 ">{t("description")}</p>
-//         </div>
+        {/* Main Content Section */}
+        <div ref={nextSectionRef} className="relative z-10 bg-black">
+          {/* Contact Information Section */}
+          <section className="py-20 px-4 md:px-8 lg:px-16">
+            <div className="max-w-6xl mx-auto">
+              <motion.div
+                className="text-center mb-16"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+              >
+                <h2 className="text-4xl md:text-5xl font-bold mb-6">
+                  Get in <span className="text-customBlue">Touch</span>
+                </h2>
+                <p className="text-gray-400 text-lg max-w-2xl mx-auto">
+                  Ready to start your fitness journey? Contact us today and
+                  let's help you achieve your goals.
+                </p>
+              </motion.div>
 
-//         <div className="flex flex-wrap justify-around items-start w-full max-w-7xl px-6">
-//           {/* Left Side - Contact Information */}
-//           <div className="flex flex-col justify-center items-start p-8 w-full md:w-1/3 space-y-6 mb-8 mt-4 md:mb-0">
-//             <div className="space-y-10">
-//               <div id="address" className="flex items-center space-x-4">
-//                 <div className="bg-white p-3 rounded-full">
-//                   <FontAwesomeIcon
-//                     icon={faMapMarkerAlt}
-//                     className="w-6 h-6 text-gray-800"
-//                   />
-//                 </div>
-//                 <div>
-//                   <h3 className="text-lg font-semibold text-customBlue">
-//                     {t("details.address.label")}
-//                   </h3>
-//                   <p className="text-white">Megeneagna, Figa , Gerji , Hayat</p>
-//                 </div>
-//               </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+                {contactInfo.map((info, index) => (
+                  <motion.div
+                    key={index}
+                    className="bg-gray-900 p-6 rounded-xl text-center hover:bg-gray-800 transition-all duration-300"
+                    initial={{ opacity: 0, y: 50 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: index * 0.1 }}
+                    viewport={{ once: true }}
+                  >
+                    <div
+                      className={`inline-flex items-center justify-center w-12 h-12 rounded-full bg-gray-800 ${info.color} mb-4`}
+                    >
+                      <info.icon className="text-xl" />
+                    </div>
+                    <h3 className="text-lg font-semibold mb-3">{info.title}</h3>
+                    {info.details.map((detail, detailIndex) => (
+                      <p
+                        key={detailIndex}
+                        className="text-gray-400 text-sm mb-1"
+                      >
+                        {detail}
+                      </p>
+                    ))}
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </section>
 
-//               <div id="phone" className="flex items-center space-x-4">
-//                 <div className="bg-white p-3 rounded-full">
-//                   <FontAwesomeIcon
-//                     icon={faPhoneAlt}
-//                     className="w-6 h-6 text-gray-800"
-//                   />
-//                 </div>
-//                 <div>
-//                   <h3 className="text-lg font-semibold text-customBlue">
-//                     {t("details.phone.label")}
-//                   </h3>
-//                   <p className="text-white">0945511884</p>
-//                 </div>
-//               </div>
+          {/* Contact Form and Map Section */}
+          <section className="pb-20 px-4 md:px-8 lg:px-16">
+            <div className="max-w-6xl mx-auto">
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                {/* Contact Form */}
+                <motion.div
+                  className="bg-gray-900 p-8 rounded-xl"
+                  initial={{ opacity: 0, x: -50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8 }}
+                  viewport={{ once: true }}
+                >
+                  <h3 className="text-2xl font-bold mb-6">Send us a Message</h3>
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label
+                          htmlFor="name"
+                          className="block text-sm font-medium mb-2"
+                        >
+                          Full Name *
+                        </label>
+                        <input
+                          type="text"
+                          id="name"
+                          name="name"
+                          value={formData.name}
+                          onChange={handleInputChange}
+                          required
+                          className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-customBlue focus:border-transparent outline-none transition-all"
+                          placeholder="Your full name"
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="email"
+                          className="block text-sm font-medium mb-2"
+                        >
+                          Email Address *
+                        </label>
+                        <input
+                          type="email"
+                          id="email"
+                          name="email"
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          required
+                          className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-customBlue focus:border-transparent outline-none transition-all"
+                          placeholder="your.email@example.com"
+                        />
+                      </div>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <label
+                          htmlFor="phone"
+                          className="block text-sm font-medium mb-2"
+                        >
+                          Phone Number
+                        </label>
+                        <input
+                          type="tel"
+                          id="phone"
+                          name="phone"
+                          value={formData.phone}
+                          onChange={handleInputChange}
+                          className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-customBlue focus:border-transparent outline-none transition-all"
+                          placeholder="+251 911 123 456"
+                        />
+                      </div>
+                      <div>
+                        <label
+                          htmlFor="subject"
+                          className="block text-sm font-medium mb-2"
+                        >
+                          Subject *
+                        </label>
+                        <input
+                          type="text"
+                          id="subject"
+                          name="subject"
+                          value={formData.subject}
+                          onChange={handleInputChange}
+                          required
+                          className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-customBlue focus:border-transparent outline-none transition-all"
+                          placeholder="What's this about?"
+                        />
+                      </div>
+                    </div>
+                    <div>
+                      <label
+                        htmlFor="message"
+                        className="block text-sm font-medium mb-2"
+                      >
+                        Message *
+                      </label>
+                      <textarea
+                        id="message"
+                        name="message"
+                        value={formData.message}
+                        onChange={handleInputChange}
+                        required
+                        rows={6}
+                        className="w-full px-4 py-3 bg-gray-800 border border-gray-700 rounded-lg focus:ring-2 focus:ring-customBlue focus:border-transparent outline-none transition-all resize-vertical"
+                        placeholder="Tell us how we can help you..."
+                      />
+                    </div>
+                    <button
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="w-full bg-customBlue hover:bg-customHoverBlue text-black py-3 px-6 rounded-lg font-semibold transition-all duration-300 hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {isSubmitting ? "Sending..." : "Send Message"}
+                    </button>
+                  </form>
+                </motion.div>
 
-//               <div id="email" className="flex items-center space-x-4">
-//                 <div className="bg-white p-3 rounded-full">
-//                   <FontAwesomeIcon
-//                     icon={faEnvelope}
-//                     className="w-6 h-6 text-gray-800"
-//                   />
-//                 </div>
-//                 <div>
-//                   <h3 className="text-lg font-semibold text-customBlue">
-//                     {t("details.email.label")}
-//                   </h3>
-//                   <p className="text-white">musclefitnessaddis@gmail.com</p>
-//                 </div>
-//               </div>
-//             </div>
-//           </div>
+                {/* Map and Social Media */}
+                <motion.div
+                  className="space-y-8"
+                  initial={{ opacity: 0, x: 50 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8 }}
+                  viewport={{ once: true }}
+                >
+                  {/* Map Placeholder */}
+                  <div className="bg-gray-900 rounded-xl overflow-hidden">
+                    <div className="h-64 bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
+                      <div className="text-center">
+                        <FaMapMarkerAlt className="text-4xl text-customBlue mb-4 mx-auto" />
+                        <p className="text-gray-400">Interactive Map</p>
+                        <p className="text-sm text-gray-500">
+                          Bole Road, Addis Ababa
+                        </p>
+                      </div>
+                    </div>
+                  </div>
 
-//           {/* Right Side - Contact Form */}
-//           <div
-//             id="feedback"
-//             className="bg-[#141416] text-gray-100 p-8 shadow-lg rounded-lg w-full md:w-1/3 border-[0.5px] border-customBlue"
-//           >
-//             <h3 className="text-3xl text-center font-semibold text-customBlue mb-6">
-//               {t("feedback_form.heading")}
-//             </h3>
-//             <form className="space-y-6" onSubmit={handleSubmit}>
-//               <input
-//                 type="text"
-//                 name="full_name" // Important for EmailJS form data mapping
-//                 className="w-full p-3 border-b-2 border-gray-500 bg-[#141416] text-white focus:outline-none focus:border-customBlue rounded-md"
-//                 placeholder={t("feedback_form.fields.full_name")}
-//                 required
-//               />
-//               <input
-//                 type="email"
-//                 name="email" // Important for EmailJS form data mapping
-//                 className="w-full p-3 border-b-2 border-gray-500 bg-[#141416] text-white focus:outline-none focus:border-customBlue rounded-md"
-//                 placeholder={t("feedback_form.fields.email")}
-//                 required
-//               />
-//               <textarea
-//                 name="message" // Important for EmailJS form data mapping
-//                 className="w-full p-3 border-b-2 border-gray-500 bg-[#141416] text-white focus:outline-none focus:border-customBlue resize-none rounded-md"
-//                 placeholder={t("feedback_form.fields.message")}
-//                 required
-//               />
-//               <button
-//                 type="submit"
-//                 className="hover:bg-customHoverBlue bg-customBlue text-white p-3 w-full rounded-md transition"
-//                 disabled={isSubmitting}
-//               >
-//                 {isSubmitting ? "Sending..." : t("feedback_form.submit_button")}
-//               </button>
-//             </form>
-//             {formStatus && (
-//               <p className="mt-4 text-center text-white">{formStatus}</p>
-//             )}
-//           </div>
-//         </div>
-//       </section>
-
-//       <Footer />
-//     </>
-//   );
-// };
-
-// export default Contact;
-
-import React from "react";
-
-const contact = () => {
-  return <div>contact</div>;
+                  {/* Social Media */}
+                  <div className="bg-gray-900 p-6 rounded-xl">
+                    <h3 className="text-xl font-bold mb-4">Follow Us</h3>
+                    <p className="text-gray-400 mb-6">
+                      Stay connected and get the latest updates
+                    </p>
+                    <div className="flex space-x-4">
+                      <a
+                        href="https://www.facebook.com/profile.php?id=61562896362190"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-gray-800 hover:bg-customBlue hover:text-black p-3 rounded-lg transition-all duration-300"
+                      >
+                        <FaFacebook className="text-xl" />
+                      </a>
+                      <a
+                        href="https://www.instagram.com/shapeup_gymandfitness/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-gray-800 hover:bg-customBlue hover:text-black p-3 rounded-lg transition-all duration-300"
+                      >
+                        <FaInstagram className="text-xl" />
+                      </a>
+                      <a
+                        href="https://www.tiktok.com/@.shape_up?is_from_webapp=1&sender_device=pc"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="bg-gray-800 hover:bg-customBlue hover:text-black p-3 rounded-lg transition-all duration-300"
+                      >
+                        <FaTiktok className="text-xl" />
+                      </a>
+                    </div>
+                  </div>
+                </motion.div>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+      <Footer />
+    </>
+  );
 };
 
-export default contact;
+export default ContactPage;
