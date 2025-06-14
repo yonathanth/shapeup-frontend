@@ -3,6 +3,14 @@ import { useState, useEffect } from "react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { useTranslations } from "next-intl";
 import axios from "axios";
+import {
+  User,
+  UserCheck,
+  Camera,
+  CheckCircle,
+  AlertCircle,
+  ArrowRight,
+} from "lucide-react";
 import WebcamCapture from "./components/PhotoUpload";
 import PhotoUploadModal from "./components/PhotoUploadModal";
 import TermsAndConditionsModal from "../components/TermsAndConditionsModal";
@@ -29,6 +37,7 @@ const Register = () => {
   const [step, setStep] = useState<number>(1); // 1 for info, 2 for package selection
   const [selectedCategory, setSelectedCategory] = useState<string>("Exercise");
   const [selectedPackage, setSelectedPackage] = useState<string | null>(null);
+  const [isPreselected, setIsPreselected] = useState<boolean>(false);
   const [isRegistering, setIsRegistering] = useState(false);
   const [isTermsChecked, setIsTermsChecked] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
@@ -94,6 +103,20 @@ const Register = () => {
       });
   }, []);
 
+  // Check for URL parameters and auto-select plan
+  useEffect(() => {
+    const planId = searchParams.get("planId");
+    const planName = searchParams.get("planName");
+    const planCategory = searchParams.get("planCategory");
+
+    if (planId && planName && planCategory) {
+      setSelectedPackage(planId);
+      setSelectedPackageName(planName);
+      setSelectedCategory(planCategory);
+      setIsPreselected(true);
+    }
+  }, [searchParams]);
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, files } = e.target;
     setFormData((prev) => ({
@@ -135,7 +158,12 @@ const Register = () => {
   const handleNextStep = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     if (validateStep1()) {
-      setStep(2);
+      if (isPreselected && selectedPackage) {
+        // Skip step 2 and proceed directly to registration
+        handleRegister(e);
+      } else {
+        setStep(2);
+      }
     }
   };
 
@@ -241,68 +269,128 @@ const Register = () => {
   }
 
   return (
-    <div className="bg-black">
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="flex flex-col w-11/12 max-w-4xl shadow-lg rounded-lg overflow-hidden bg-gray-800">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-black to-gray-900">
+      <div className="flex justify-center items-center min-h-screen py-8 px-4">
+        <div className="flex flex-col w-full max-w-4xl shadow-2xl rounded-2xl overflow-hidden bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700">
           {step === 1 ? (
             // Step 1: Personal Information
-            <div className="p-8">
-              <h2 className="text-2xl font-semibold text-center text-white mb-6">
-                Please fill out the form
-              </h2>
-              <form className="space-y-4">
-                <input
-                  name="fullName"
-                  value={formData.fullName}
-                  onChange={handleInputChange}
-                  type="text"
-                  className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800 text-gray-400"
-                  placeholder={t("fields.full_name")}
-                />
-                <input
-                  name="phoneNumber"
-                  value={formData.phoneNumber}
-                  onChange={handleInputChange}
-                  type="number"
-                  className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800 text-gray-400"
-                  placeholder={t("fields.phone_number")}
-                />
-                <input
-                  name="address"
-                  value={formData.address}
-                  onChange={handleInputChange}
-                  type="text"
-                  className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800 text-gray-400"
-                  placeholder={t("fields.address")}
-                />
-                {/* <input
-                  name="dob"
-                  value={formData.dob}
-                  onChange={handleInputChange}
-                  type="date"
-                  className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800 text-gray-400"
-                  placeholder={t("fields.birthdate")}
-                /> */}
-                <input
-                  name="emergencyContact"
-                  value={formData.emergencyContact}
-                  onChange={handleInputChange}
-                  type="tel"
-                  className="w-full p-3 border border-zinc-600 rounded-md focus:outline-none focus:ring-1 focus:ring-customBlue bg-gray-800 text-gray-400"
-                  placeholder={t("fields.emergency_number")}
-                />
+            <div className="p-8 md:p-12">
+              {/* Header with progress */}
+              <div className="text-center mb-8">
+                <div className="inline-block p-3 bg-customBlue/10 rounded-full mb-4">
+                  <div className="w-12 h-12 bg-customBlue rounded-full flex items-center justify-center">
+                    <User className="w-6 h-6 text-black" />
+                  </div>
+                </div>
+                <h2 className="text-3xl font-bold text-white mb-2">
+                  Personal Information
+                </h2>
+                <p className="text-gray-400">
+                  Tell us about yourself to get started
+                </p>
+
+                {/* Progress bar */}
+                <div className="flex justify-center mt-6 mb-4">
+                  <div className="flex items-center space-x-4">
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full bg-customBlue text-black text-sm font-semibold">
+                      1
+                    </div>
+                    <div className="h-1 w-12 bg-gray-600"></div>
+                    <div className="flex items-center justify-center w-8 h-8 rounded-full border-2 border-gray-600 text-gray-400 text-sm">
+                      2
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <form className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Full Name *
+                    </label>
+                    <input
+                      name="fullName"
+                      value={formData.fullName}
+                      onChange={handleInputChange}
+                      type="text"
+                      className="w-full p-4 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-customBlue focus:border-transparent bg-gray-700 text-white placeholder-gray-400 transition-all"
+                      placeholder="Enter your full name"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Phone Number *
+                    </label>
+                    <input
+                      name="phoneNumber"
+                      value={formData.phoneNumber}
+                      onChange={handleInputChange}
+                      type="number"
+                      className="w-full p-4 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-customBlue focus:border-transparent bg-gray-700 text-white placeholder-gray-400 transition-all"
+                      placeholder="Enter your phone number"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Address
+                    </label>
+                    <input
+                      name="address"
+                      value={formData.address}
+                      onChange={handleInputChange}
+                      type="text"
+                      className="w-full p-4 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-customBlue focus:border-transparent bg-gray-700 text-white placeholder-gray-400 transition-all"
+                      placeholder="Enter your address"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Emergency Contact
+                    </label>
+                    <input
+                      name="emergencyContact"
+                      value={formData.emergencyContact}
+                      onChange={handleInputChange}
+                      type="tel"
+                      className="w-full p-4 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-customBlue focus:border-transparent bg-gray-700 text-white placeholder-gray-400 transition-all"
+                      placeholder="Emergency contact number"
+                    />
+                  </div>
+                </div>
 
                 {/* Upload Photo Section */}
-                <div className="mb-4">
-                  <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      setIsModalOpen(true);
-                    }}
-                    className="p-3 bg-customBlue text-black rounded-lg"
-                  >
-                    Upload Photo
-                  </button>
+                <div className="space-y-4">
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Profile Photo *
+                  </label>
+                  <div className="flex items-center space-x-6">
+                    <button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setIsModalOpen(true);
+                      }}
+                      className="flex items-center space-x-2 px-6 py-3 bg-customBlue hover:bg-customHoverBlue text-black rounded-lg font-medium transition-all"
+                    >
+                      <Camera className="w-5 h-5" />
+                      <span>Upload Photo</span>
+                    </button>
+
+                    {photo && (
+                      <div className="relative">
+                        <img
+                          src={photo}
+                          alt="Profile preview"
+                          className="w-20 h-20 rounded-full object-cover border-2 border-customBlue"
+                        />
+                        <div className="absolute -top-2 -right-2 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center">
+                          <CheckCircle className="w-4 h-4 text-white" />
+                        </div>
+                      </div>
+                    )}
+                  </div>
 
                   <PhotoUploadModal
                     isOpen={isModalOpen}
@@ -324,54 +412,95 @@ const Register = () => {
                       className="hidden"
                     />
                   )}
-
-                  {photo && (
-                    <img
-                      src={photo}
-                      alt="Uploaded"
-                      className="mt-4 w-40 h-auto"
-                    />
-                  )}
                 </div>
 
-                <div className="space-y-2">
-                  <h3 className="text-gray-400">{t("fields.gender.label")}</h3>
-                  <div className="flex items-center space-x-4">
-                    <label className="flex items-center text-gray-400">
+                <div className="space-y-4">
+                  <label className="block text-sm font-medium text-gray-300 mb-2">
+                    Gender *
+                  </label>
+                  <div className="grid grid-cols-2 gap-4">
+                    <label
+                      className={`flex items-center justify-center p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                        formData.gender === "male"
+                          ? "border-customBlue bg-customBlue/10 text-customBlue"
+                          : "border-gray-600 text-gray-400 hover:border-gray-500"
+                      }`}
+                    >
                       <input
                         value="male"
                         onChange={handleInputChange}
                         type="radio"
                         name="gender"
-                        className="mr-2"
+                        className="sr-only"
                       />
-                      {t("fields.gender.options.male")}
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center">
+                          <User className="w-5 h-5" />
+                        </div>
+                        <span className="font-medium">Male</span>
+                      </div>
                     </label>
-                    <label className="flex items-center text-gray-400">
+                    <label
+                      className={`flex items-center justify-center p-4 border-2 rounded-lg cursor-pointer transition-all ${
+                        formData.gender === "female"
+                          ? "border-customBlue bg-customBlue/10 text-customBlue"
+                          : "border-gray-600 text-gray-400 hover:border-gray-500"
+                      }`}
+                    >
                       <input
                         value="female"
                         onChange={handleInputChange}
                         type="radio"
                         name="gender"
-                        className="mr-2"
+                        className="sr-only"
                       />
-                      {t("fields.gender.options.female")}
+                      <div className="flex items-center space-x-3">
+                        <div className="w-8 h-8 rounded-full bg-pink-500/20 flex items-center justify-center">
+                          <UserCheck className="w-5 h-5" />
+                        </div>
+                        <span className="font-medium">Female</span>
+                      </div>
                     </label>
                   </div>
                 </div>
 
-                {error && (
-                  <div className="mt-4 text-red-500 text-base text-center">
-                    {error}
+                {/* Show selected plan if preselected */}
+                {isPreselected && selectedPackageName && (
+                  <div className="p-4 bg-gradient-to-r from-green-900/20 to-green-800/20 border border-green-500/50 rounded-lg">
+                    <div className="flex items-center space-x-2 mb-2">
+                      <CheckCircle className="w-5 h-5 text-green-400" />
+                      <span className="text-green-400 text-sm font-semibold">
+                        Selected Plan
+                      </span>
+                    </div>
+                    <div className="text-white text-lg font-medium">
+                      {selectedPackageName}
+                    </div>
                   </div>
                 )}
 
-                <div className="mt-6">
+                {error && (
+                  <div className="p-4 bg-red-900/20 border border-red-500/50 rounded-lg">
+                    <div className="flex items-center space-x-2">
+                      <AlertCircle className="w-5 h-5 text-red-400" />
+                      <span className="text-red-400 text-sm font-medium">
+                        {error}
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                <div className="pt-6">
                   <button
                     onClick={handleNextStep}
-                    className="w-full p-3 font-semibold text-black rounded-lg bg-customBlue hover:bg-customHoverBlue hover:text-white"
+                    className="w-full py-4 px-6 font-semibold text-white rounded-lg bg-gradient-to-r from-customBlue via-blue-500 to-customBlue hover:from-customHoverBlue hover:via-blue-600 hover:to-customHoverBlue transform hover:scale-[1.02] transition-all duration-200 shadow-lg hover:shadow-customBlue/30 flex items-center justify-center space-x-2"
                   >
-                    Next
+                    <span>
+                      {isPreselected && selectedPackage
+                        ? "Complete Registration"
+                        : "Continue to Plan Selection"}
+                    </span>
+                    <ArrowRight className="w-5 h-5" />
                   </button>
                 </div>
               </form>

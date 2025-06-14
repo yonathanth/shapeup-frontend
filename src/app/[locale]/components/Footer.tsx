@@ -34,28 +34,28 @@ const Footer: React.FC = () => {
               className="sm:w-24 w-14 h-14 sm:h-24"
             ></Image>
           </div>
-          <div className="flex flex-wrap sm:justify-center md:justify-between gap-16 text-xs md:text-sm lg:text-sm">
+          <div className="grid grid-cols-3 gap-4 sm:gap-8 md:flex md:flex-wrap md:justify-between md:gap-16 text-xs md:text-sm lg:text-sm w-full md:w-auto">
             <div>
               <h2 className="font-bold">{t("support.title")}</h2>
               <ul className="mt-6 space-y-2">
                 <li className="cursor-pointer">
-                  <Link href="/Contact#address" className="hover:underline">
-                    {t("support.links.1")}
+                  <Link href="/#contact" className="hover:underline">
+                    Address
                   </Link>
                 </li>
                 <li className="cursor-pointer">
-                  <Link href="/Contact#phone" className="hover:underline">
-                    {t("support.links.2")}
+                  <Link href="/#contact" className="hover:underline">
+                    Phone
                   </Link>
                 </li>
                 <li className="cursor-pointer">
-                  <Link href="/Contact#email" className="hover:underline">
-                    {t("support.links.3")}
+                  <Link href="/#contact" className="hover:underline">
+                    Email
                   </Link>
                 </li>
                 <li className="cursor-pointer">
-                  <Link href="/Contact#feedback" className="hover:underline">
-                    {t("support.links.4")}
+                  <Link href="/#contact" className="hover:underline">
+                    Contact Us
                   </Link>
                 </li>
               </ul>
@@ -65,28 +65,22 @@ const Footer: React.FC = () => {
               <ul className="mt-6 space-y-2">
                 <li className="cursor-pointer">
                   <Link href="/about" className="hover:underline">
-                    {t("company.links.0")}
+                    About Us
                   </Link>
                 </li>
                 <li className="cursor-pointer">
-                  <Link
-                    href="/about#our-philosophy"
-                    className="hover:underline"
-                  >
-                    {t("company.links.1")}
+                  <Link href="/about#philosophy" className="hover:underline">
+                    Our Philosophy
                   </Link>
                 </li>
                 <li className="cursor-pointer">
-                  <Link
-                    href="/about#our-Facilities"
-                    className="hover:underline"
-                  >
-                    {t("company.links.2")}
+                  <Link href="/about#facilities" className="hover:underline">
+                    Our Facilities
                   </Link>
                 </li>
                 <li className="cursor-pointer">
-                  <Link href="/about#our-Team" className="hover:underline">
-                    {t("company.links.3")}
+                  <Link href="/about#team" className="hover:underline">
+                    Our Team
                   </Link>
                 </li>
               </ul>
@@ -96,7 +90,17 @@ const Footer: React.FC = () => {
               <ul className="mt-6 space-y-2">
                 <li className="cursor-pointer">
                   <Link href="/services" className="hover:underline">
-                    {t("explore.links.0")}
+                    Membership Plans
+                  </Link>
+                </li>
+                <li className="cursor-pointer">
+                  <Link href="/Register" className="hover:underline">
+                    Register Now
+                  </Link>
+                </li>
+                <li className="cursor-pointer">
+                  <Link href="/admin" className="hover:underline">
+                    Admin Portal
                   </Link>
                 </li>
               </ul>

@@ -11,7 +11,9 @@ import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import { Link } from "../../../i18n/routing";
 import { FaPhoneAlt, FaEnvelope } from "react-icons/fa";
+import { CheckCircle, Users, Target, Clock, Award, Heart } from "lucide-react";
 
 const AboutUsPage = () => {
   const [isJumping, setIsJumping] = useState(true);
@@ -88,7 +90,7 @@ const AboutUsPage = () => {
             </motion.p>
             <motion.div
               onClick={scrollToNextSection}
-              className="border-2 border-white/50 rounded-full p-3 cursor-pointer hover:border-[#F1AC17] transition-all"
+              className="border-2 border-white/50 rounded-full p-3 cursor-pointer hover:border-customBlue transition-all"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               animate={isJumping ? { y: [0, -15, 0] } : {}}
@@ -100,14 +102,14 @@ const AboutUsPage = () => {
             >
               <FontAwesomeIcon
                 icon={faArrowUp}
-                className="text-white text-xl rotate-180 hover:text-[#F1AC17] transition-colors"
+                className="text-white text-xl rotate-180 hover:text-customBlue transition-colors"
               />
             </motion.div>
           </div>
         </div>
 
         {/* About Section */}
-        <div ref={nextSectionRef} className="relative z-10 ">
+        <div ref={nextSectionRef} id="philosophy" className="relative z-10 ">
           <div className="bg-gray-950">
             <div className="text-white flex flex-col md:flex-row items-center px-6 justify-center gap-8 md:gap-16 py-16 md:py-24 mx-auto max-w-7xl">
               {/* Left Image */}
@@ -118,7 +120,7 @@ const AboutUsPage = () => {
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
               >
-                <div className="relative w-full max-w-[550px] overflow-hidden rounded-lg border border-gray-800 hover:border-[#F1AC17]/30 transition-all">
+                <div className="relative w-full max-w-[550px] overflow-hidden rounded-lg border border-gray-800 hover:border-customBlue/30 transition-all">
                   <Image
                     src={trainers}
                     alt="Professional trainers at our gym"
@@ -138,37 +140,83 @@ const AboutUsPage = () => {
                 transition={{ duration: 0.6 }}
                 viewport={{ once: true }}
               >
-                <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
-                  Welcome To Our <br />
-                  <span className="text-[#F1AC17]">Fitness Gym</span>
-                </h2>
-                <p className="text-base md:text-lg text-gray-400 mb-8 leading-relaxed">
-                  At ShapeUp, we're dedicated to helping you achieve your
-                  fitness goals with state-of-the-art facilities, expert
-                  trainers, and a supportive community. Our personalized
-                  approach ensures every member gets the attention they need to
-                  transform their health and wellness.
+                <div className="mb-6">
+                  <h2 className="text-sm font-semibold text-customBlue uppercase tracking-wider mb-3">
+                    Our Philosophy
+                  </h2>
+                  <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
+                    Transforming Lives Through <br />
+                    <span className="text-customBlue">Fitness Excellence</span>
+                  </h3>
+                </div>
+                <p className="text-base md:text-lg text-gray-300 mb-8 leading-relaxed">
+                  At ShapeUp Gym & Fitness, we believe fitness is more than just
+                  exercise—it's a lifestyle transformation. Located in the heart
+                  of Sarbet, Addis Ababa, we provide world-class facilities,
+                  expert guidance, and a supportive community to help you
+                  achieve your health and wellness goals.
                 </p>
-                <div className="flex justify-center md:justify-start">
-                  <button className="bg-[#F1AC17] hover:bg-[#7F5A0B] text-black font-medium px-8 py-3 rounded-lg transition-all duration-300 hover:scale-[1.02] shadow hover:shadow-[#F1AC17]/20">
-                    Join Us Now
-                  </button>
+                <div className="grid grid-cols-2 gap-4 mb-8">
+                  <div className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-customBlue mr-3" />
+                    <span className="text-gray-300">Expert Trainers</span>
+                  </div>
+                  <div className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-customBlue mr-3" />
+                    <span className="text-gray-300">Modern Equipment</span>
+                  </div>
+                  <div className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-customBlue mr-3" />
+                    <span className="text-gray-300">Flexible Hours</span>
+                  </div>
+                  <div className="flex items-center">
+                    <CheckCircle className="w-5 h-5 text-customBlue mr-3" />
+                    <span className="text-gray-300">Community Focus</span>
+                  </div>
                 </div>
               </motion.div>
             </div>
           </div>
 
           {/* Video Section */}
-          <div className="-mt-20 relative z-20 px-4 mb-20">
-            <div className="max-w-5xl mx-auto overflow-hidden rounded-xl shadow-lg border border-[#F1AC17]/20">
-              <iframe
-                className="w-full h-[400px] md:h-[500px] object-cover rounded-xl"
-                src="https://www.youtube.com/embed/veuUyWcIbNY?autoplay=1&mute=1&loop=1&playlist=veuUyWcIbNY"
-                title="YouTube video player"
-                frameBorder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-              ></iframe>
+          <div className="py-20 bg-gray-900">
+            <div className="max-w-6xl mx-auto px-6">
+              <motion.div
+                className="text-center mb-12"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+              >
+                <h2 className="text-sm font-semibold text-customBlue uppercase tracking-wider mb-4">
+                  See Us In Action
+                </h2>
+                <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                  Experience <span className="text-customBlue">ShapeUp</span>
+                </h3>
+                <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+                  Take a virtual tour of our state-of-the-art facilities and see
+                  what makes ShapeUp the premier fitness destination in Addis
+                  Ababa.
+                </p>
+              </motion.div>
+
+              <motion.div
+                className="relative overflow-hidden rounded-2xl shadow-2xl border border-customBlue/20"
+                initial={{ opacity: 0, scale: 0.95 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+              >
+                <iframe
+                  className="w-full h-[400px] md:h-[500px] lg:h-[600px]"
+                  src="https://www.youtube.com/embed/veuUyWcIbNY?autoplay=0&mute=0&loop=1&playlist=veuUyWcIbNY&controls=1"
+                  title="ShapeUp Gym & Fitness - Virtual Tour"
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                ></iframe>
+              </motion.div>
             </div>
           </div>
 
@@ -200,31 +248,66 @@ const AboutUsPage = () => {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 viewport={{ once: true }}
               >
-                <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
-                  Where Fitness Meets Community
-                </h2>
-                <p className="text-lg md:text-xl text-gray-400 mb-8 leading-relaxed">
-                  Our gym isn't just about workouts - it's about building
-                  relationships and achieving goals together. We've created a
-                  space where everyone feels welcome and supported.
+                <div className="mb-6">
+                  <h2 className="text-sm font-semibold text-customBlue uppercase tracking-wider mb-3">
+                    Our Community
+                  </h2>
+                  <h3 className="text-3xl md:text-4xl font-bold mb-6 text-white">
+                    Where Fitness Meets{" "}
+                    <span className="text-customBlue">Community</span>
+                  </h3>
+                </div>
+                <p className="text-lg text-gray-300 mb-8 leading-relaxed">
+                  Join a community that celebrates every milestone, supports
+                  every challenge, and believes in your potential. At ShapeUp,
+                  you're not just a member—you're family.
                 </p>
-                <div className="grid text-center items-center grid-cols-1 md:grid-cols-2 gap-4">
+
+                {/* Stats Section */}
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-customBlue mb-2">
+                      500+
+                    </div>
+                    <div className="text-sm text-gray-400">Active Members</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-customBlue mb-2">
+                      9+
+                    </div>
+                    <div className="text-sm text-gray-400">
+                      Training Programs
+                    </div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-customBlue mb-2">
+                      15+
+                    </div>
+                    <div className="text-sm text-gray-400">Expert Trainers</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-3xl font-bold text-customBlue mb-2">
+                      18hrs
+                    </div>
+                    <div className="text-sm text-gray-400">Daily Operation</div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[
-                    "Personalized coaching",
-                    "Nutrition plans",
-                    "Strength training",
-                    "Flexible hours",
-                    "Group workouts",
-                    "Wellness programs",
+                    { icon: Users, text: "Personalized coaching" },
+                    { icon: Target, text: "Goal-oriented training" },
+                    { icon: Heart, text: "Nutrition guidance" },
+                    { icon: Clock, text: "Flexible scheduling" },
+                    { icon: Award, text: "Group fitness classes" },
+                    { icon: CheckCircle, text: "Wellness programs" },
                   ].map((item, index) => (
                     <div
                       key={index}
-                      className="flex text-center justify-center items-center"
+                      className="flex items-center p-3 bg-gray-800/50 rounded-lg hover:bg-gray-800 transition-all"
                     >
-                      <span className="mr-3 text-center text-[#F1AC17] text-xl">
-                        →
-                      </span>
-                      <span className="text-center text-gray-200">{item}</span>
+                      <item.icon className="w-5 h-5 text-customBlue mr-3" />
+                      <span className="text-gray-200">{item.text}</span>
                     </div>
                   ))}
                 </div>
@@ -233,38 +316,50 @@ const AboutUsPage = () => {
           </div>
 
           {/* Vision Section */}
-          <div className="py-12 md:py-24 text-center bg-gray-950">
-            <motion.h2
-              className="text-3xl md:text-5xl font-bold mb-12 md:mb-20 text-white"
+          <div
+            id="facilities"
+            className="py-12 md:py-24 text-center bg-gray-950"
+          >
+            <motion.div
+              className="text-center mb-16"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              Our Vision
-            </motion.h2>
+              <h2 className="text-sm font-semibold text-customBlue uppercase tracking-wider mb-4">
+                What We Offer
+              </h2>
+              <h3 className="text-3xl md:text-5xl font-bold mb-6 text-white">
+                World-Class <span className="text-customBlue">Facilities</span>
+              </h3>
+              <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+                Experience fitness like never before with our comprehensive
+                range of services and state-of-the-art equipment.
+              </p>
+            </motion.div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 px-6 max-w-6xl mx-auto">
               {[
                 {
-                  title: "Personal Training Programs",
+                  title: "Strength & CrossFit Training",
                   content:
-                    "Tailored workouts designed specifically for your goals and fitness level.",
+                    "Build muscle and endurance with our comprehensive strength and functional fitness programs.",
                 },
                 {
-                  title: "Group Classes",
+                  title: "Martial Arts Classes",
                   content:
-                    "Energetic, instructor-led sessions that build strength and community.",
+                    "Learn Kickboxing and Muay Thai with expert instructors in a supportive environment.",
                 },
                 {
-                  title: "Nutrition Coaching",
+                  title: "Sports Courts & Recovery",
                   content:
-                    "Science-based plans to fuel your body for optimal performance.",
+                    "Professional futsal and basketball courts plus steam bath and ice bath facilities.",
                 },
                 {
-                  title: "24/7 Access",
+                  title: "Juice Bar & Women's Section",
                   content:
-                    "Flexible scheduling with round-the-clock gym availability.",
+                    "Fresh healthy drinks and dedicated women-only training space for comfort and privacy.",
                 },
               ].map((card, index) => (
                 <motion.div
@@ -276,9 +371,9 @@ const AboutUsPage = () => {
                   viewport={{ once: true }}
                 >
                   <div className="flex flex-col items-center text-center">
-                    <div className="w-12 h-12 mb-4 rounded-full bg-[#F1AC17]/10 group-hover:bg-[#F1AC17]/20 flex items-center justify-center transition-all">
+                    <div className="w-12 h-12 mb-4 rounded-full bg-customBlue/10 group-hover:bg-customBlue/20 flex items-center justify-center transition-all">
                       <svg
-                        className="w-5 h-5 text-[#F1AC17]"
+                        className="w-5 h-5 text-customBlue"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -302,7 +397,10 @@ const AboutUsPage = () => {
           </div>
 
           {/* Team Section */}
-          <div className="px-6 sm:px-8 py-10 md:py-20 w-full flex flex-col items-center bg-gray-950">
+          <div
+            id="team"
+            className="px-6 sm:px-8 py-10 md:py-20 w-full flex flex-col items-center bg-gray-950"
+          >
             <motion.div
               className="text-center mb-16"
               initial={{ opacity: 0 }}
@@ -310,11 +408,15 @@ const AboutUsPage = () => {
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-xl font-bold text-[#F1AC17] mb-3">
-                The Team
+              <h2 className="text-sm font-semibold text-customBlue uppercase tracking-wider mb-4">
+                Meet Our Team
               </h2>
-              <p className="text-2xl sm:text-3xl font-medium text-white">
-                Our Professional Trainers
+              <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                Expert <span className="text-customBlue">Trainers</span>
+              </h3>
+              <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+                Our certified professionals are here to guide, motivate, and
+                help you achieve your fitness goals safely and effectively.
               </p>
             </motion.div>
 
@@ -329,7 +431,7 @@ const AboutUsPage = () => {
                     transition={{ duration: 0.5, delay: index * 0.1 }}
                     viewport={{ once: true }}
                   >
-                    <div className="w-32 h-32 md:w-52 md:h-52 mx-auto mb-6 relative overflow-hidden rounded-lg border border-gray-800 hover:border-[#F1AC17]/30 transition-all">
+                    <div className="w-32 h-32 md:w-52 md:h-52 mx-auto mb-6 relative overflow-hidden rounded-lg border border-gray-800 hover:border-customBlue/30 transition-all">
                       <Image
                         src={member.image}
                         alt={member.name}
@@ -340,7 +442,7 @@ const AboutUsPage = () => {
                     <h3 className="text-lg font-medium mb-2 text-white">
                       {member.name}
                     </h3>
-                    <div className="flex hover:text-[#7F5A0B] transition-colors cursor-pointer justify-center space-x-4 text-[#F1AC17]">
+                    <div className="flex hover:text-customHoverBlue transition-colors cursor-pointer justify-center space-x-4 text-customBlue">
                       <FaPhoneAlt />
                       <FaEnvelope />
                     </div>
@@ -350,30 +452,36 @@ const AboutUsPage = () => {
             </div>
           </div>
 
-          {/* Explore Section */}
-          <div className="relative py-20 md:py-28 px-6 text-center bg-gray-950">
-            <div className="absolute inset-0 bg-[url('/explore-bg.jpg')] bg-cover bg-center opacity-10 -z-10"></div>
+          {/* Call to Action Section */}
+          <div className="relative py-20 md:py-28 px-6 text-center bg-gradient-to-r from-gray-900 to-gray-950">
+            <div className="absolute inset-0 bg-black/20"></div>
             <motion.div
-              className="max-w-3xl mx-auto"
+              className="max-w-4xl mx-auto relative z-10"
               initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white">
-                Explore Our Gym
+              <h2 className="text-sm font-semibold text-customBlue uppercase tracking-wider mb-4">
+                Ready to Transform?
               </h2>
-              <p className="text-xl text-[#F1AC17] mb-8">
-                Elevate Your Journey
+              <h3 className="text-3xl md:text-5xl font-bold mb-6 text-white">
+                Your Fitness Journey <br />
+                <span className="text-customBlue">Starts Today</span>
+              </h3>
+              <p className="text-lg md:text-xl text-gray-300 mb-10 leading-relaxed max-w-2xl mx-auto">
+                Join hundreds of members who have already transformed their
+                lives at ShapeUp. Take the first step towards a healthier,
+                stronger you.
               </p>
-              <p className="text-base md:text-lg text-gray-400 mb-10 leading-relaxed">
-                Discover state-of-the-art equipment, expert trainers, and a
-                community that will push you to new heights. Your transformation
-                starts here.
-              </p>
-              <button className="bg-[#F1AC17] hover:bg-[#7F5A0B] text-black font-bold px-12 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-[#F1AC17]/30">
-                Schedule a Tour
-              </button>
+
+              <div className="flex justify-center">
+                <Link href="/Register">
+                  <button className="bg-customBlue hover:bg-customHoverBlue text-black font-bold px-10 py-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-customBlue/30 text-lg">
+                    Join ShapeUp Today
+                  </button>
+                </Link>
+              </div>
             </motion.div>
           </div>
         </div>

@@ -2,13 +2,15 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
-    <header className="w-full fixed top-4 left-0 z-50 sm:px-16 px-4">
-      <div className="mx-auto md:max-w px-6  py-3 sm:py-4 bg-transparent  shadow-md backdrop-blur-md text-white rounded-xl flex items-center justify-between">
+    <header className="w-full fixed top-4 left-0 z-50 sm:px-16 px-2">
+      <div className="mx-auto max-w-7xl px-8  py-3 sm:py-4 bg-white/20  shadow-md backdrop-blur-xl text-white rounded-xl flex items-center justify-between">
         {/* Left: Logo */}
         <div className="text-xl md:text-2xl font-bold hover:text-customBlue transition">
           <Link href="/">ShapeUp</Link>
@@ -16,30 +18,43 @@ const Header = () => {
 
         {/* Center: Navigation (hidden on small screens) */}
         <nav className="hidden md:flex gap-8 text-base font-medium">
-          <Link href="/en" className="hover:text-customBlue transition py-1">
+          <Link
+            href="/en"
+            className={`hover:text-customBlue transition py-1 ${
+              pathname === "/en" ? "text-customBlue" : ""
+            }`}
+          >
             Home
           </Link>
           <Link
             href="/en/about"
-            className="hover:text-customBlue transition py-1"
+            className={`hover:text-customBlue transition py-1 ${
+              pathname === "/en/about" ? "text-customBlue" : ""
+            }`}
           >
             About
           </Link>
           <Link
             href="/en/services"
-            className="hover:text-customBlue transition py-1"
+            className={`hover:text-customBlue transition py-1 ${
+              pathname === "/en/services" ? "text-customBlue" : ""
+            }`}
           >
-            Services
+            Packages
           </Link>
           <Link
             href="/en/faq"
-            className="hover:text-customBlue transition py-1"
+            className={`hover:text-customBlue transition py-1 ${
+              pathname === "/en/faq" ? "text-customBlue" : ""
+            }`}
           >
             FAQ
           </Link>
           <Link
             href="/en/Contact"
-            className="hover:text-customBlue transition py-1"
+            className={`hover:text-customBlue transition py-1 ${
+              pathname === "/en/Contact" ? "text-customBlue" : ""
+            }`}
           >
             Contact
           </Link>
@@ -53,7 +68,7 @@ const Header = () => {
             </button>
           </Link>
           <Link href="/en/Register">
-            <button className="px-6 py-2 text-base bg-white text-black rounded-lg hover:bg-customBlue transition font-medium">
+            <button className="px-6 py-2 text-base bg-customBlue text-black rounded-lg hover:bg-white transition font-medium">
               Register
             </button>
           </Link>
@@ -75,48 +90,58 @@ const Header = () => {
           <Link
             href="/en"
             onClick={() => setIsMenuOpen(false)}
-            className="hover:text-customBlue text-white text-center transition py-2"
+            className={`hover:text-customBlue text-center transition py-2 ${
+              pathname === "/en" ? "text-customBlue" : "text-white"
+            }`}
           >
             Home
           </Link>
           <Link
             href="/en/about"
             onClick={() => setIsMenuOpen(false)}
-            className="hover:text-customBlue text-white text-center transition py-2"
+            className={`hover:text-customBlue text-center transition py-2 ${
+              pathname === "/en/about" ? "text-customBlue" : "text-white"
+            }`}
           >
             About
           </Link>
           <Link
             href="/en/services"
             onClick={() => setIsMenuOpen(false)}
-            className="hover:text-customBlue text-white text-center transition py-2"
+            className={`hover:text-customBlue text-center transition py-2 ${
+              pathname === "/en/services" ? "text-customBlue" : "text-white"
+            }`}
           >
             Services
           </Link>
           <Link
             href="/en/faq"
             onClick={() => setIsMenuOpen(false)}
-            className="hover:text-customBlue text-center text-white transition py-2"
+            className={`hover:text-customBlue text-center transition py-2 ${
+              pathname === "/en/faq" ? "text-customBlue" : "text-white"
+            }`}
           >
             FAQ
           </Link>
           <Link
-            href="/en/contact"
+            href="/en/Contact"
             onClick={() => setIsMenuOpen(false)}
-            className="hover:text-customBlue text-white text-center transition py-2"
+            className={`hover:text-customBlue text-center transition py-2 ${
+              pathname === "/en/Contact" ? "text-customBlue" : "text-white"
+            }`}
           >
             Contact
           </Link>
           <div className="flex flex-col gap-3 mt-2">
             <Link
-              href="/en/login"
+              href="/en/Login"
               onClick={() => setIsMenuOpen(false)}
               className="hover:text-customBlue text-white text-center transition py-3 border-t border-white/20 pt-4"
             >
               Log In
             </Link>
             <Link
-              href="/en/signup"
+              href="/en/Register"
               onClick={() => setIsMenuOpen(false)}
               className="text-black bg-white text-center rounded-lg px-4 py-3 hover:bg-customBlue transition font-medium text-lg"
             >

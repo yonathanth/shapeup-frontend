@@ -217,7 +217,7 @@ const FAQPage = () => {
                 <span className="text-customBlue">Questions</span>
               </motion.h2>
               <motion.p
-                className="text-gray-400 text-lg max-w-2xl mx-auto mb-12"
+                className="text-gray-400 text-lg max-w-2xl mx-auto mb-4 sm:mb-12"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
@@ -233,7 +233,7 @@ const FAQPage = () => {
           <section className="pb-10 px-4 md:px-8 lg:px-16">
             <div className="max-w-4xl mx-auto">
               <motion.div
-                className="flex flex-wrap justify-center gap-4 mb-12"
+                className="flex flex-wrap justify-center gap-4 mb-4 sm:mb-12"
                 initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
@@ -335,13 +335,13 @@ const FAQPage = () => {
                 </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <a
-                    href="/Contact"
+                    href="/en/Contact"
                     className="bg-customBlue hover:bg-customHoverBlue text-black px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105"
                   >
                     Contact Us
                   </a>
                   <a
-                    href="/services"
+                    href="/en/services"
                     className="border-2 border-customBlue text-customBlue hover:bg-customBlue hover:text-black px-6 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105"
                   >
                     View Plans

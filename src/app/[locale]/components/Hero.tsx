@@ -47,6 +47,7 @@ const Hero = () => {
       ),
       bg: "bg-white",
       text: "text-black",
+      href: null,
     },
     {
       id: 2,
@@ -54,19 +55,17 @@ const Hero = () => {
         <>
           <p className="mb-4 text-sm md:text-base font-bold">
             From aerobics to strength training and futsal, we offer diverse
-            workouts—all with fresh-air energy!
+            services—all with fresh-air energy!
           </p>
           <hr className="border-white/50 my-2" />
           <p className="text-xs md:text-sm font-semibold flex items-center">
-            Explore Our Services{" "}
-            <Link href="/services" className="ml-1">
-              →
-            </Link>
+            Explore Our Services <span className="ml-1">→</span>
           </p>
         </>
       ),
       bg: "bg-[#303030]",
       text: "text-white",
+      href: "/en/services",
     },
     {
       id: 3,
@@ -77,10 +76,10 @@ const Hero = () => {
               Got Questions?
             </h2>
             <button
-              type="submit"
-              className="bg-black text-white p-1 md:p-2 rounded-full transition hover:scale-105"
+              type="button"
+              className="bg-black text-white p-1 md:p-2 rounded-full transition hover:scale-105 group"
             >
-              <FaArrowRight className="text-lg md:text-xl -rotate-45 scale-x-125" />
+              <FaArrowRight className="text-lg md:text-xl -rotate-45 scale-x-125 transform group-hover:rotate-[0deg] transition duration-300" />
             </button>
           </div>
           <p className="text-xs md:text-sm">
@@ -91,6 +90,7 @@ const Hero = () => {
       ),
       bg: "bg-customBlue",
       text: "text-black",
+      href: "/en/faq",
     },
   ];
 
@@ -179,14 +179,29 @@ const Hero = () => {
               and real results.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Link href="/join">
-                <button className="bg-customBlue hover:bg-customHoverBlue text-black px-6 py-3 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-md hover:shadow-lg font-medium">
-                  Register
-                </button>
-              </Link>
-              <Link href="/about">
-                <button className="bg-[#232323] hover:bg-[#333333] rounded-lg text-white px-6 py-3 transition-all duration-300 border border-white/10 hover:border-white/30 font-medium">
-                  More about ShapeUp
+              <Link href="/en/Register">
+                <button
+                  className="
+  bg-customBlue 
+  hover:bg-customHoverBlue 
+  text-black 
+  font-semibold 
+  px-8 py-3 
+  rounded-xl 
+  transition-all 
+  duration-200 
+  transform 
+  hover:scale-[1.03] 
+  shadow-md 
+  hover:shadow-xl 
+  focus:outline-none 
+  focus:ring-2 
+  focus:ring-white 
+  focus:ring-opacity-50
+  active:scale-95
+"
+                >
+                  Register Now
                 </button>
               </Link>
             </div>
@@ -197,20 +212,34 @@ const Hero = () => {
       {/* Bottom Cards Section - Positioned at bottom */}
       <div className="absolute bottom-0 left-0 right-0 z-10 w-full pb-6 md:pb-10 px-4 md:px-20">
         {/* Desktop View (3 columns) */}
-        <div className="hidden md:flex justify-between gap-6">
-          {cards.map((card) => (
-            <div
-              key={card.id}
-              className={`flex-1 ${card.bg} ${card.text} p-8 rounded-xl transition-all hover:scale-[1.02] shadow-lg`}
-            >
-              {card.content}
-            </div>
-          ))}
+        <div className="hidden lg:flex justify-between gap-6">
+          {cards.map((card) => {
+            if (card.href) {
+              return (
+                <Link
+                  key={card.id}
+                  href={card.href}
+                  className={`flex-1 ${card.bg} ${card.text} p-8 rounded-xl transition-all hover:scale-[1.02] shadow-lg group cursor-pointer`}
+                >
+                  {card.content}
+                </Link>
+              );
+            } else {
+              return (
+                <div
+                  key={card.id}
+                  className={`flex-1 ${card.bg} ${card.text} p-8 rounded-xl transition-all hover:scale-[1.02] shadow-lg group`}
+                >
+                  {card.content}
+                </div>
+              );
+            }
+          })}
         </div>
 
         {/* Mobile View - Infinite scroll */}
         <div
-          className="md:hidden w-full"
+          className="lg:hidden w-full"
           onMouseEnter={() => setIsHovering(true)}
           onMouseLeave={() => setIsHovering(false)}
         >
@@ -219,15 +248,30 @@ const Hero = () => {
             className="flex overflow-x-hidden snap-x snap-mandatory"
             style={{ scrollSnapType: "x mandatory" }}
           >
-            {extendedCards.map((card, index) => (
-              <div
-                key={`${card.id}-${index}`}
-                className={`flex-shrink-0 w-full ${card.bg} ${card.text} p-6 rounded-xl shadow-lg transition-transform duration-500 ease-in-out`}
-                style={{ scrollSnapAlign: "start" }}
-              >
-                {card.content}
-              </div>
-            ))}
+            {extendedCards.map((card, index) => {
+              if (card.href) {
+                return (
+                  <Link
+                    key={`${card.id}-${index}`}
+                    href={card.href}
+                    className={`flex-shrink-0 w-full ${card.bg} ${card.text} p-6 rounded-xl shadow-lg transition-transform duration-500 ease-in-out group cursor-pointer`}
+                    style={{ scrollSnapAlign: "start" }}
+                  >
+                    {card.content}
+                  </Link>
+                );
+              } else {
+                return (
+                  <div
+                    key={`${card.id}-${index}`}
+                    className={`flex-shrink-0 w-full ${card.bg} ${card.text} p-6 rounded-xl shadow-lg transition-transform duration-500 ease-in-out group`}
+                    style={{ scrollSnapAlign: "start" }}
+                  >
+                    {card.content}
+                  </div>
+                );
+              }
+            })}
           </div>
 
           {/* Dots indicator for mobile */}

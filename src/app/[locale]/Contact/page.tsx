@@ -3,15 +3,8 @@ import React, { useRef, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  FaPhone,
-  FaEnvelope,
-  FaMapMarkerAlt,
-  FaClock,
-  FaFacebook,
-  FaInstagram,
-  FaTiktok,
-} from "react-icons/fa";
+import { FaFacebook, FaInstagram, FaTiktok } from "react-icons/fa";
+import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import heroImage from "../../../../assets/images/about.jpeg";
@@ -78,28 +71,28 @@ const ContactPage = () => {
 
   const contactInfo = [
     {
-      icon: FaPhone,
+      icon: Phone,
       title: "Phone",
-      details: ["+251 911 123 456", "+251 922 654 321"],
+      details: ["Main: 0944221314", "Support: 0941668383"],
       color: "text-customBlue",
     },
     {
-      icon: FaEnvelope,
+      icon: Mail,
       title: "Email",
-      details: ["info@shapeupgym.com", "support@shapeupgym.com"],
+      details: ["shapeup162@gmail.com"],
       color: "text-customBlue",
     },
     {
-      icon: FaMapMarkerAlt,
+      icon: MapPin,
       title: "Address",
-      details: ["Bole Road, Addis Ababa", "Near Bole Airport"],
+      details: ["Sarbet", "Addis Ababa, Ethiopia"],
       color: "text-customBlue",
     },
     {
-      icon: FaClock,
+      icon: Clock,
       title: "Hours",
       details: [
-        "Mon - Fri: 6:00 AM - 10:00 PM",
+        "Mon - Fri: 5:00 AM - 11:00 PM",
         "Sat - Sun: 7:00 AM - 9:00 PM",
       ],
       color: "text-customBlue",
@@ -332,17 +325,18 @@ const ContactPage = () => {
                   transition={{ duration: 0.8 }}
                   viewport={{ once: true }}
                 >
-                  {/* Map Placeholder */}
-                  <div className="bg-gray-900 rounded-xl overflow-hidden">
-                    <div className="h-64 bg-gradient-to-br from-gray-800 to-gray-900 flex items-center justify-center">
-                      <div className="text-center">
-                        <FaMapMarkerAlt className="text-4xl text-customBlue mb-4 mx-auto" />
-                        <p className="text-gray-400">Interactive Map</p>
-                        <p className="text-sm text-gray-500">
-                          Bole Road, Addis Ababa
-                        </p>
-                      </div>
-                    </div>
+                  {/* Google Maps */}
+                  <div className="rounded-xl overflow-hidden h-[400px] border border-gray-700">
+                    <iframe
+                      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d116734.48539100694!2d38.658202651863945!3d9.000052085683395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b8569a11086b7%3A0xea63b40c40e6be97!2sShape%20Up%20Gym%20%26%20Fitness!5e0!3m2!1sen!2set!4v1749879020552!5m2!1sen!2set"
+                      width="100%"
+                      height="100%"
+                      style={{ border: 0 }}
+                      allowFullScreen
+                      loading="lazy"
+                      referrerPolicy="no-referrer-when-downgrade"
+                      className="grayscale-[50%] hover:grayscale-0 transition-all duration-500"
+                    ></iframe>
                   </div>
 
                   {/* Social Media */}

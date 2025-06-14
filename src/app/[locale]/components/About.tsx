@@ -1,15 +1,27 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   FaArrowLeft,
   FaArrowRight,
-  FaPhoneAlt,
-  FaEnvelope,
-  FaMapMarkerAlt,
   FaWeight,
   FaRulerVertical,
 } from "react-icons/fa";
+import {
+  Dumbbell,
+  Zap,
+  Activity,
+  Users,
+  UserCheck,
+  Trophy,
+  Coffee,
+  Waves,
+  Target,
+  Phone,
+  Mail,
+  MapPin,
+} from "lucide-react";
 import { motion } from "framer-motion";
 
 const FitnessComponent = () => {
@@ -166,9 +178,11 @@ const FitnessComponent = () => {
               wellness.
             </p>
             <div className="flex justify-center md:justify-start">
-              <button className="bg-customBlue hover:bg-customHoverBlue text-black font-medium px-8 py-3 rounded-lg transition-all duration-300 hover:scale-[1.02] shadow hover:shadow-customBlue/20">
-                Join Us Now
-              </button>
+              <Link href="/en/Register">
+                <button className="bg-customBlue hover:bg-customHoverBlue text-black font-medium px-8 py-3 rounded-lg transition-all duration-300 hover:scale-[1.02] shadow hover:shadow-customBlue/20">
+                  Join Us Now
+                </button>
+              </Link>
             </div>
           </motion.div>
         </div>
@@ -186,23 +200,59 @@ const FitnessComponent = () => {
           Explore Our <span className="text-customBlue">Offerings</span>
         </motion.h2>
 
-        <div className="max-w-4xl mx-auto space-y-8">
-          <ServiceItem
-            title="Body Building"
-            imageSrc="/photo.png"
-            description="Transform your physique with our specialized body building programs designed for all levels."
+        <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <ServiceCard
+            title="Strength Training"
+            description="Build muscle and increase power with our comprehensive strength training programs."
+            icon={Dumbbell}
           />
 
-          <ServiceItem
-            title="Aerobics"
-            imageSrc="/photo.png"
-            description="Boost your cardiovascular health with our high-energy aerobics classes."
+          <ServiceCard
+            title="Kickbox Training"
+            description="High-intensity kickboxing classes that combine cardio and self-defense techniques."
+            icon={Zap}
           />
 
-          <ServiceItem
-            title="Futsal"
-            imageSrc="/photo.png"
-            description="Enjoy competitive futsal matches in our professional indoor courts."
+          <ServiceCard
+            title="CrossFit Training"
+            description="Functional fitness workouts that challenge your entire body and build endurance."
+            icon={Activity}
+          />
+
+          <ServiceCard
+            title="Muay Thai Training"
+            description="Learn the art of eight limbs with our authentic Muay Thai training programs."
+            icon={Target}
+          />
+
+          <ServiceCard
+            title="Group Exercise"
+            description="Join energizing group classes designed to motivate and challenge you."
+            icon={Users}
+          />
+
+          <ServiceCard
+            title="Women's Only"
+            description="Dedicated training space and programs designed specifically for women."
+            icon={UserCheck}
+          />
+
+          <ServiceCard
+            title="Sports Courts"
+            description="Professional futsal and basketball courts for competitive play and training."
+            icon={Trophy}
+          />
+
+          <ServiceCard
+            title="Juice Bar"
+            description="Fresh, healthy smoothies and juices to fuel your workouts and recovery."
+            icon={Coffee}
+          />
+
+          <ServiceCard
+            title="Recovery Center"
+            description="Steam bath, ice bath, and massage services for optimal recovery and relaxation."
+            icon={Waves}
           />
         </div>
       </section>
@@ -454,7 +504,7 @@ const FitnessComponent = () => {
                     onClick={calculateBMI}
                     className="bg-customBlue hover:bg-customHoverBlue text-black font-medium px-6 py-3 rounded-lg flex-1 transition-all"
                   >
-                    Calculate BMI
+                    Calculate
                   </button>
                   <button
                     onClick={resetCalculator}
@@ -505,10 +555,11 @@ const FitnessComponent = () => {
                       ))}
                     </div>
                   </div>
-
-                  <button className="bg-customBlue hover:bg-customHoverBlue text-black font-medium w-full py-3 rounded-lg transition-all">
-                    Book Consultation
-                  </button>
+                  <Link href="/en/services">
+                    <button className="bg-customBlue hover:bg-customHoverBlue text-black font-medium w-full py-3 rounded-lg transition-all">
+                      Explore Our Services{" "}
+                    </button>
+                  </Link>
                 </>
               ) : (
                 <div className="text-center py-12">
@@ -548,7 +599,7 @@ const FitnessComponent = () => {
             journey
           </motion.p>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+          <div className="grid  grid-cols-1 lg:grid-cols-2 gap-12">
             <motion.div
               className="space-y-8"
               initial={{ opacity: 0, x: -30 }}
@@ -556,47 +607,41 @@ const FitnessComponent = () => {
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
             >
-              <div className="flex items-start">
-                <div className="bg-customBlue text-black p-3 rounded-full mr-4">
-                  <FaMapMarkerAlt className="text-xl" />
+              <div className="flex flex-col items-center text-center sm:flex-row sm:items-start sm:text-left">
+                <div className="bg-customBlue text-black p-3 rounded-full mb-4 sm:mb-0 sm:mr-4">
+                  <MapPin className="text-xl" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold mb-2">Our Location</h3>
                   <p className="text-gray-400">
-                    123 Fitness Avenue
+                    Sarbet
                     <br />
-                    Health District, City Center
-                    <br />
-                    Fitnessville, 10001
+                    Addis Ababa, Ethiopia
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-start">
-                <div className="bg-customBlue text-black p-3 rounded-full mr-4">
-                  <FaPhoneAlt className="text-xl" />
+              <div className="flex flex-col items-center text-center sm:flex-row sm:items-start sm:text-left">
+                <div className="bg-customBlue text-black p-3 rounded-full mb-4 sm:mb-0 sm:mr-4">
+                  <Phone className="text-xl" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold mb-2">Phone</h3>
                   <p className="text-gray-400">
-                    Main: (123) 456-7890
+                    Main: 0944221314
                     <br />
-                    Support: (123) 456-7891
+                    Support: 0941668383
                   </p>
                 </div>
               </div>
 
-              <div className="flex items-start">
-                <div className="bg-customBlue text-black p-3 rounded-full mr-4">
-                  <FaEnvelope className="text-xl" />
+              <div className="flex flex-col items-center text-center sm:flex-row sm:items-start sm:text-left">
+                <div className="bg-customBlue text-black p-3 rounded-full mb-4 sm:mb-0 sm:mr-4">
+                  <Mail className="text-xl" />
                 </div>
                 <div>
                   <h3 className="text-xl font-bold mb-2">Email</h3>
-                  <p className="text-gray-400">
-                    info@shapeupfitness.com
-                    <br />
-                    support@shapeupfitness.com
-                  </p>
+                  <p className="text-gray-400">shapeup162@gmail.com</p>
                 </div>
               </div>
 
@@ -623,7 +668,7 @@ const FitnessComponent = () => {
               viewport={{ once: true }}
             >
               <iframe
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3022.184133404639!2d-73.98757482352493!3d40.75802887138785!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c25855c6480299%3A0x55194ec5a1ae072e!2sTimes%20Square!5e0!3m2!1sen!2sus!4v1718223471554!5m2!1sen!2sus"
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d116734.48539100694!2d38.658202651863945!3d9.000052085683395!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x164b8569a11086b7%3A0xea63b40c40e6be97!2sShape%20Up%20Gym%20%26%20Fitness!5e0!3m2!1sen!2set!4v1749879020552!5m2!1sen!2set"
                 width="100%"
                 height="100%"
                 style={{ border: 0 }}
@@ -640,51 +685,35 @@ const FitnessComponent = () => {
   );
 };
 
-// Reusable Service Item Component
-interface ServiceItemProps {
+// Reusable Service Card Component
+interface ServiceCardProps {
   title: string;
-  imageSrc: string;
+  icon: React.ComponentType<any>;
   description: string;
 }
 
-const ServiceItem = ({ title, imageSrc, description }: ServiceItemProps) => {
+const ServiceCard = ({ title, icon: Icon, description }: ServiceCardProps) => {
   return (
-    <motion.div
-      className="group flex flex-col lg:flex-row items-center gap-6 p-6 hover:bg-gray-800 rounded-xl transition duration-300 border border-gray-700"
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4 }}
-      viewport={{ once: true }}
-    >
-      <div className="w-24 h-24 lg:w-32 lg:h-32 relative flex-shrink-0">
-        <Image
-          src={imageSrc}
-          alt={title}
-          fill
-          className="object-cover rounded-lg group-hover:scale-105 transition duration-300"
-        />
-      </div>
-
-      <div className="flex-1">
-        <div className="flex items-center justify-between mb-2">
-          <h3 className="text-xl lg:text-2xl font-bold">{title}</h3>
-          <div className="transform rotate-[15deg] group-hover:rotate-45 transition duration-300 text-customBlue">
-            <svg
-              width="28"
-              height="28"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            >
-              <path d="M5 19L19 5M9 5h10v10" />
-            </svg>
-          </div>
+    <Link href="/en/services" className="h-full">
+      <motion.div
+        className="group bg-gray-800 hover:bg-gray-750 p-6 rounded-xl transition-all duration-300 border border-gray-700 hover:border-customBlue/30 text-center cursor-pointer h-full flex flex-col"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+        viewport={{ once: true }}
+        whileHover={{ y: -5 }}
+      >
+        <div className="text-4xl text-customBlue mb-4 group-hover:scale-110 group-hover:text-white transition-all duration-300 flex justify-center">
+          <Icon />
         </div>
-        <div className="h-[1px] bg-gray-700 w-full mb-3"></div>
-        <p className="text-gray-300">{description}</p>
-      </div>
-    </motion.div>
+        <h3 className="text-lg font-bold mb-3 text-white group-hover:text-customBlue transition-colors duration-300">
+          {title}
+        </h3>
+        <p className="text-gray-400 text-sm leading-relaxed flex-grow">
+          {description}
+        </p>
+      </motion.div>
+    </Link>
   );
 };
 

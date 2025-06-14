@@ -2,14 +2,37 @@
 import React, { useRef, useEffect, useState } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
+import { faArrowUp, faCheck, faCrown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import servicesHeroImage from "../../../../assets/images/services_hero.jpg";
 
+interface ServicePlan {
+  id: string;
+  name: string;
+  period: number;
+  maxDays: number;
+  price: number;
+  category: string;
+  description: {
+    benefits: string[];
+  };
+  preferred: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface ApiResponse {
+  success: boolean;
+  data: ServicePlan[];
+}
+
 const ServicesPage = () => {
   const [isJumping, setIsJumping] = useState(true);
+  const [plans, setPlans] = useState<ServicePlan[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const nextSectionRef = useRef<HTMLDivElement | null>(null);
 
   const scrollToNextSection = () => {
@@ -32,62 +55,130 @@ const ServicesPage = () => {
     return () => clearTimeout(timeoutId);
   }, [isJumping]);
 
-  const plans = [
-    {
-      id: "basic",
-      name: "BASIC PLAN",
-      price: "ETB 19.99",
-      period: "month",
-      features: [
-        "Access to gym equipment",
-        "Basic workout plans",
-        "Locker room access",
-        "One guest pass per month",
-      ],
-      bgColor: "bg-gray-200",
-      textColor: "text-black",
-      buttonColor: "bg-customBlue",
-      buttonTextColor: "text-black",
-      checkIcon: "✓",
-      popular: false,
-    },
-    {
-      id: "pro",
-      name: "PRO PLAN",
-      price: "ETB 19.99",
-      period: "month",
-      features: [
-        "All Basic Plan features",
-        "Group fitness classes",
-        "Personal trainer consultation",
-        "Nutrition guidance",
-      ],
-      bgColor: "bg-customBlue",
-      textColor: "text-black",
-      buttonColor: "bg-black",
-      buttonTextColor: "text-white",
-      checkIcon: "//",
-      popular: true,
-    },
-    {
-      id: "elite",
-      name: "ELITE PLAN",
-      price: "ETB 19.99",
-      period: "month",
-      features: [
-        "All Pro Plan features",
-        "Unlimited personal training",
-        "Priority booking",
-        "Exclusive member events",
-      ],
-      bgColor: "bg-white",
-      textColor: "text-black",
-      buttonColor: "bg-customBlue",
-      buttonTextColor: "text-black",
-      checkIcon: "//",
-      popular: false,
-    },
-  ];
+  // Fetch plans from API
+  useEffect(() => {
+    const fetchPlans = async () => {
+      try {
+        const response = await fetch(
+          "https://api.shapeup.shalops.com/api/services"
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch plans");
+        }
+        const data: ApiResponse = await response.json();
+        if (data.success) {
+          setPlans(data.data);
+        } else {
+          throw new Error("API returned unsuccessful response");
+        }
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "An error occurred");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPlans();
+  }, []);
+
+  // Helper function to format plan name
+  const formatPlanName = (name: string) => {
+    return name
+      .replace(/\b\w/g, (l) => l.toUpperCase())
+      .replace(/\s+/g, " ")
+      .trim();
+  };
+
+  // Helper function to get period text
+  const getPeriodText = (period: number) => {
+    if (period === 30) return "month";
+    if (period === 90) return "3 months";
+    if (period === 180) return "6 months";
+    return `${period} days`;
+  };
+
+  // Helper function to get plan styling based on preferred status
+  const getPlanStyling = (plan: ServicePlan, index: number) => {
+    if (plan.preferred) {
+      return {
+        bgColor:
+          "bg-gradient-to-br from-amber-400 via-yellow-500 to-orange-500",
+        textColor: "text-black",
+        buttonColor: "bg-black",
+        buttonTextColor: "text-white",
+        scale: "transform scale-105",
+        shadow: "shadow-2xl shadow-amber-500/30",
+        border: "border-2 border-amber-400",
+        crownColor: "text-amber-600",
+        badgeColor: "bg-black text-amber-400",
+      };
+    }
+
+    // Alternate colors for non-preferred plans
+    const colorSchemes = [
+      {
+        bgColor: "bg-gradient-to-br from-gray-800 to-gray-900",
+        textColor: "text-white",
+        buttonColor: "bg-customBlue",
+        buttonTextColor: "text-black",
+        scale: "",
+        shadow: "shadow-lg shadow-gray-900/50",
+        border: "border border-gray-700",
+        crownColor: "",
+        badgeColor: "",
+      },
+      {
+        bgColor: "bg-gradient-to-br from-slate-100 to-white",
+        textColor: "text-black",
+        buttonColor: "bg-black",
+        buttonTextColor: "text-white",
+        scale: "",
+        shadow: "shadow-lg shadow-gray-300/50",
+        border: "border border-gray-200",
+        crownColor: "",
+        badgeColor: "",
+      },
+    ];
+
+    return colorSchemes[index % 2];
+  };
+
+  if (loading) {
+    return (
+      <>
+        <Header />
+        <div className="bg-black text-white min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-customBlue mx-auto mb-4"></div>
+            <p className="text-xl">Loading subscription plans...</p>
+          </div>
+        </div>
+        <Footer />
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <Header />
+        <div className="bg-black text-white min-h-screen flex items-center justify-center">
+          <div className="text-center">
+            <p className="text-xl text-red-400 mb-4">
+              Error loading plans: {error}
+            </p>
+            <button
+              onClick={() => window.location.reload()}
+              className="bg-customBlue text-black px-6 py-3 rounded-lg font-semibold hover:bg-blue-400 transition-colors"
+            >
+              Try Again
+            </button>
+          </div>
+        </div>
+        <Footer />
+      </>
+    );
+  }
 
   return (
     <>
@@ -108,7 +199,7 @@ const ServicesPage = () => {
               transition={{ duration: 0.8 }}
               className="text-4xl md:text-6xl font-bold text-white text-center mb-8"
             >
-              Our Services
+              Membership Plans
             </motion.h1>
             <motion.p
               initial={{ opacity: 0 }}
@@ -116,7 +207,8 @@ const ServicesPage = () => {
               transition={{ delay: 0.3, duration: 0.8 }}
               className="text-base md:text-xl text-white/90 max-w-xs md:max-w-2xl text-center mb-12"
             >
-              Choose the perfect plan that fits your fitness goals and lifestyle
+              Choose the perfect membership plan that fits your fitness goals
+              and lifestyle
             </motion.p>
             <motion.div
               onClick={scrollToNextSection}
@@ -152,7 +244,7 @@ const ServicesPage = () => {
               >
                 Perfect Plan for your
                 <br />
-                <span className="text-customBlue">fitness goals</span>
+                <span className="text-customBlue">fitness journey</span>
               </motion.h2>
               <motion.p
                 className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-16"
@@ -161,80 +253,127 @@ const ServicesPage = () => {
                 transition={{ duration: 0.8, delay: 0.2 }}
                 viewport={{ once: true }}
               >
-                Choose the membership plan that fits your lifestyle and fitness
-                objectives. Start your transformation journey today with our
-                expert guidance.
+                Join Shape Up Gym & Fitness with flexible membership options
+                designed for every fitness level and budget.
               </motion.p>
             </div>
           </section>
 
           {/* Pricing Plans Section */}
           <section className="pb-20 px-4 md:px-8 lg:px-16">
-            <div className="max-w-6xl mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-                {plans.map((plan, index) => (
-                  <motion.div
-                    key={plan.id}
-                    className={`
-                      ${plan.bgColor} ${plan.textColor} 
-                      rounded-2xl p-8 relative
-                      ${
-                        plan.popular
-                          ? "transform scale-105 shadow-2xl"
-                          : "shadow-lg"
-                      }
-                      transition-all duration-300 hover:scale-105
-                    `}
-                    initial={{ opacity: 0, y: 50 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.8, delay: index * 0.2 }}
-                    viewport={{ once: true }}
-                  >
-                    {plan.popular && (
-                      <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                        <span className="bg-black text-white px-4 py-2 rounded-full text-sm font-semibold">
-                          MOST POPULAR
-                        </span>
-                      </div>
-                    )}
-
-                    <div className="text-center mb-8">
-                      <h3 className="text-xl font-bold mb-4">{plan.name}</h3>
-                      <div className="mb-6">
-                        <span className="text-3xl font-bold">{plan.price}</span>
-                        <span className="text-sm ml-1">/ {plan.period}</span>
-                      </div>
-                    </div>
-
-                    <div className="space-y-4 mb-8">
-                      {plan.features.map((feature, featureIndex) => (
-                        <div
-                          key={featureIndex}
-                          className="flex items-start gap-3"
-                        >
-                          <span className="font-bold text-lg mt-1 flex-shrink-0">
-                            {plan.checkIcon}
-                          </span>
-                          <span className="text-sm leading-relaxed">
-                            {feature}
+            <div className="max-w-7xl mx-auto">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                {plans.map((plan, index) => {
+                  const styling = getPlanStyling(plan, index);
+                  return (
+                    <motion.div
+                      key={plan.id}
+                      className={`
+                        ${styling.bgColor} ${styling.textColor} ${styling.border}
+                        rounded-2xl p-6 relative ${styling.scale} ${styling.shadow}
+                        transition-all duration-300 hover:scale-105 hover:shadow-xl
+                        flex flex-col h-full
+                      `}
+                      initial={{ opacity: 0, y: 50 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.6, delay: index * 0.1 }}
+                      viewport={{ once: true }}
+                    >
+                      {plan.preferred && (
+                        <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                          <span
+                            className={`${styling.badgeColor} px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 shadow-lg`}
+                          >
+                            <FontAwesomeIcon
+                              icon={faCrown}
+                              className={
+                                styling.crownColor || "text-yellow-400"
+                              }
+                            />
+                            RECOMMENDED
                           </span>
                         </div>
-                      ))}
-                    </div>
+                      )}
 
-                    <Link href="/Register">
-                      <button
-                        className={`
-                          w-full ${plan.buttonColor} ${plan.buttonTextColor} 
-                          py-3 px-6 rounded-lg font-semibold text-sm
-                          transition-all duration-300 hover:scale-105 hover:shadow-lg
-                        `}
-                      >
-                        Join Now
-                      </button>
-                    </Link>
-                  </motion.div>
-                ))}
+                      <div className="text-center mb-6">
+                        <h3 className="text-lg font-bold mb-3 leading-tight">
+                          {formatPlanName(plan.name)}
+                        </h3>
+                        <div className="mb-4">
+                          <span className="text-3xl font-bold">
+                            ETB {plan.price.toLocaleString()}
+                          </span>
+                          <span className="text-sm ml-1 opacity-75">
+                            / {getPeriodText(plan.period)}
+                          </span>
+                        </div>
+                        <div className="text-xs opacity-75">
+                          Category: {plan.category}
+                        </div>
+                      </div>
+
+                      <div className="flex-grow">
+                        {plan.description.benefits &&
+                          plan.description.benefits.length > 0 &&
+                          plan.description.benefits[0] !== "" && (
+                            <div className="space-y-3 mb-6">
+                              {plan.description.benefits.map(
+                                (benefit, benefitIndex) =>
+                                  benefit &&
+                                  benefit.trim() !== "" && (
+                                    <div
+                                      key={benefitIndex}
+                                      className="flex items-start gap-3"
+                                    >
+                                      <FontAwesomeIcon
+                                        icon={faCheck}
+                                        className={`text-sm mt-1 flex-shrink-0 ${
+                                          plan.preferred
+                                            ? "text-yellow-400"
+                                            : "text-green-400"
+                                        }`}
+                                      />
+                                      <span className="text-sm leading-relaxed">
+                                        {benefit}
+                                      </span>
+                                    </div>
+                                  )
+                              )}
+                            </div>
+                          )}
+                      </div>
+
+                      <div className="mt-auto">
+                        <Link
+                          href={`/en/Register?planId=${
+                            plan.id
+                          }&planName=${encodeURIComponent(
+                            plan.name
+                          )}&planPrice=${
+                            plan.price
+                          }&planCategory=${encodeURIComponent(plan.category)}`}
+                        >
+                          <button
+                            className={`
+                              w-full ${styling.buttonColor} ${
+                              styling.buttonTextColor
+                            } 
+                              py-3 px-6 rounded-lg font-semibold text-sm
+                              transition-all duration-300 hover:scale-105 hover:shadow-lg
+                              ${
+                                plan.preferred
+                                  ? "hover:bg-gray-800"
+                                  : "hover:opacity-90"
+                              }
+                            `}
+                          >
+                            Choose Plan
+                          </button>
+                        </Link>
+                      </div>
+                    </motion.div>
+                  );
+                })}
               </div>
             </div>
           </section>
@@ -249,13 +388,13 @@ const ServicesPage = () => {
                 viewport={{ once: true }}
               >
                 <p className="text-gray-400 text-lg mb-8 max-w-2xl mx-auto">
-                  Ready to transform your life? Join thousands of members who
-                  have achieved their fitness goals with our comprehensive
-                  training programs and supportive community.
+                  Ready to start your fitness journey? Join Shape Up Gym &
+                  Fitness in Sarbet, Addis Ababa and experience world-class
+                  facilities with expert trainers.
                 </p>
-                <Link href="/Register">
+                <Link href="/en/Register">
                   <button className="border-2 border-customBlue text-customBlue hover:bg-customBlue hover:text-black px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105">
-                    Join Us Now!
+                    Start Your Journey Today!
                   </button>
                 </Link>
               </motion.div>
