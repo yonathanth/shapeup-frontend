@@ -434,9 +434,6 @@ const Register = () => {
                         className="sr-only"
                       />
                       <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 rounded-full bg-blue-500/20 flex items-center justify-center">
-                          <User className="w-5 h-5" />
-                        </div>
                         <span className="font-medium">Male</span>
                       </div>
                     </label>
@@ -455,9 +452,6 @@ const Register = () => {
                         className="sr-only"
                       />
                       <div className="flex items-center space-x-3">
-                        <div className="w-8 h-8 rounded-full bg-pink-500/20 flex items-center justify-center">
-                          <UserCheck className="w-5 h-5" />
-                        </div>
                         <span className="font-medium">Female</span>
                       </div>
                     </label>
@@ -493,12 +487,12 @@ const Register = () => {
                 <div className="pt-6">
                   <button
                     onClick={handleNextStep}
-                    className="w-full py-4 px-6 font-semibold text-white rounded-lg bg-gradient-to-r from-customBlue via-blue-500 to-customBlue hover:from-customHoverBlue hover:via-blue-600 hover:to-customHoverBlue transform hover:scale-[1.02] transition-all duration-200 shadow-lg hover:shadow-customBlue/30 flex items-center justify-center space-x-2"
+                    className="w-full py-4 px-6 font-semibold hover:text-white rounded-lg bg-customBlue text-black hover:bg-customHoverBlue flex items-center justify-center space-x-2"
                   >
                     <span>
                       {isPreselected && selectedPackage
                         ? "Complete Registration"
-                        : "Continue to Plan Selection"}
+                        : "Continue"}
                     </span>
                     <ArrowRight className="w-5 h-5" />
                   </button>

@@ -13,8 +13,15 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Link } from "../../../i18n/routing";
 import { FaPhoneAlt, FaEnvelope } from "react-icons/fa";
-import { CheckCircle, Users, Target, Clock, Award, Heart } from "lucide-react";
-
+import {
+  UserRoundCog,
+  Goal,
+  CheckCircle,
+  UtensilsCrossed,
+  CalendarClock,
+  UsersRound,
+  HeartPulse,
+} from "lucide-react";
 const AboutUsPage = () => {
   const [isJumping, setIsJumping] = useState(true);
   const nextSectionRef = useRef<HTMLDivElement | null>(null);
@@ -295,12 +302,12 @@ const AboutUsPage = () => {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {[
-                    { icon: Users, text: "Personalized coaching" },
-                    { icon: Target, text: "Goal-oriented training" },
-                    { icon: Heart, text: "Nutrition guidance" },
-                    { icon: Clock, text: "Flexible scheduling" },
-                    { icon: Award, text: "Group fitness classes" },
-                    { icon: CheckCircle, text: "Wellness programs" },
+                    { icon: UserRoundCog, text: "Personalized coaching" }, // Better for personal coaching
+                    { icon: Goal, text: "Goal-oriented training" }, // More direct goal representation
+                    { icon: UtensilsCrossed, text: "Nutrition guidance" }, // Better food/nutrition icon
+                    { icon: CalendarClock, text: "Flexible scheduling" }, // Better for scheduling
+                    { icon: UsersRound, text: "Group fitness classes" }, // Better for group activities
+                    { icon: HeartPulse, text: "Wellness programs" }, // Better for wellness concept
                   ].map((item, index) => (
                     <div
                       key={index}

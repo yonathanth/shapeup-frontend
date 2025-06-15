@@ -42,6 +42,8 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ setActiveNav }) => {
       { name: "Financial Report", path: "/en/admin/financial-report" },
       { name: "Services", path: "/en/admin/services" },
       { name: "Requests", path: "/en/admin/subscription-request" },
+      { name: "Messages", path: "/en/admin/messages" },
+      { name: "User Analytics", path: "/en/admin/user-analytics" },
     ],
     moderator: [
       { name: "Dashboard", path: "/en/admin" },
@@ -62,6 +64,8 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ setActiveNav }) => {
       { name: "Financial Report", path: "/en/admin/financial-report" },
       { name: "Services", path: "/en/admin/services" },
       { name: "Requests", path: "/en/admin/subscription-request" },
+      { name: "Messages", path: "/en/admin/messages" },
+      { name: "User Analytics", path: "/en/admin/user-analytics" },
     ],
   };
 

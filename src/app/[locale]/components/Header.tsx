@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 
@@ -10,10 +11,19 @@ const Header = () => {
 
   return (
     <header className="w-full fixed top-4 left-0 z-50 sm:px-16 px-2">
-      <div className="mx-auto max-w-7xl px-8  py-3 sm:py-4 bg-white/20  shadow-md backdrop-blur-xl text-white rounded-xl flex items-center justify-between">
+      <div className="mx-auto max-w-7xl px-8  py-1 sm:py-2 bg-white/20  shadow-md backdrop-blur-xl text-white rounded-xl flex items-center justify-between">
         {/* Left: Logo */}
-        <div className="text-xl md:text-2xl font-bold hover:text-customBlue transition">
-          <Link href="/">ShapeUp</Link>
+        <div className="hover:opacity-80 transition-opacity">
+          <Link href="/">
+            <Image
+              src="/shapeup-logo 1.svg"
+              alt="ShapeUp"
+              width={40}
+              height={40}
+              className="w-10 h-10 sm:w-16 sm:h-16  object-contain"
+              priority
+            />
+          </Link>
         </div>
 
         {/* Center: Navigation (hidden on small screens) */}

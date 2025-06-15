@@ -284,12 +284,6 @@ const ServicesPage = () => {
                           <span
                             className={`${styling.badgeColor} px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 shadow-lg`}
                           >
-                            <FontAwesomeIcon
-                              icon={faCrown}
-                              className={
-                                styling.crownColor || "text-yellow-400"
-                              }
-                            />
                             RECOMMENDED
                           </span>
                         </div>

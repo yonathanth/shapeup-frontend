@@ -29,13 +29,13 @@ export default function Home() {
   return (
     <body>
       <main>
-        {/* <Header />
+        <Header />
 
         <Hero />
         <About />
-        <Footer /> */}
+        <Footer />
 
-        <Login />
+        {/* <Login /> */}
       </main>
     </body>
   );

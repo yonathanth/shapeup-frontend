@@ -75,16 +75,10 @@ export default function UserLayout({
   const [error, setError] = useState<string | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const getUserDetails = useCallback(async () => {
-    const token = localStorage.getItem("token");
     try {
       const res = await fetch(
         `${NEXT_PUBLIC_API_BASE_URL}/api/members/${userId}`,
-        {
-          cache: "no-store",
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { cache: "no-store" }
       );
       if (!res.ok) {
         if (res.status === 404) {
@@ -155,11 +149,44 @@ export default function UserLayout({
 
   return (
     <div className="flex h-screen font-jost">
-      <div className="flex-1 flex flex-col">
-        {/* Header */}
-        <UserHeader activeNav={activeNav} user={user} />
-        {/* Main content */}
+      {/* Sidebar (Fixed) */}
+      <div
+        className={`${
+          sidebarOpen ? "fixed" : "hidden"
+        } fixed top-0 left-0 h-full bg-black lg:relative lg:flex lg:h-auto z-20`}
+      >
+        <UserSidebar setActiveNav={setActiveNav} />
+      </div>
+      {/* Overlay Background for Sidebar (when open) */}
+      {sidebarOpen && (
+        <div
+          className="fixed inset-0 bg-black opacity-50 z-10 lg:hidden font-jost"
+          onClick={() => setSidebarOpen(false)}
+        ></div>
+      )}
+      {/* Mobile Sidebar & Header */}
+      <div className="flex-1 flex flex-col lg:hidden">
+        <div className="flex flex-row justify-between">
+          {/* Burger Icon for Mobile */}
+          <button
+            className="lg:hidden p-4 z-10"
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+          >
+            <FontAwesomeIcon icon={faBars} className="text-white text-2xl" />
+          </button>
+
+          <UserHeader activeNav={activeNav} user={user} />
+        </div>
+        {/* Main content that scrolls if needed */}
         <main className="flex-1 bg-black overflow-auto">{children}</main>
+      </div>
+      {/* Desktop Layout */}
+      <div className="hidden lg:flex flex-1 flex-col">
+        {/* Desktop Header */}
+        <UserHeader activeNav={activeNav} user={user} />
+
+        {/* Main content that scrolls if needed */}
+        <main className="flex-1 bg-black p-6 overflow-auto">{children}</main>
       </div>
     </div>
   );

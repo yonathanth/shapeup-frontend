@@ -8,6 +8,8 @@ import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import heroImage from "../../../../assets/images/about.jpeg";
+const NEXT_PUBLIC_API_BASE_URL =
+  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5003";
 
 const ContactPage = () => {
   const [isJumping, setIsJumping] = useState(true);
@@ -19,6 +21,7 @@ const ContactPage = () => {
     message: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formStatus, setFormStatus] = useState("");
   const nextSectionRef = useRef<HTMLDivElement | null>(null);
 
   const scrollToNextSection = () => {
@@ -54,47 +57,63 @@ const ContactPage = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setFormStatus("");
 
-    // Simulate form submission
-    setTimeout(() => {
-      alert("Thank you for your message! We will get back to you soon.");
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        subject: "",
-        message: "",
+    try {
+      const response = await fetch(`${NEXT_PUBLIC_API_BASE_URL}/api/contact`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
       });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setFormStatus("success");
+        setFormData({
+          name: "",
+          email: "",
+          phone: "",
+          subject: "",
+          message: "",
+        });
+      } else {
+        setFormStatus("error");
+        console.error("Error:", data.error);
+      }
+    } catch (error) {
+      console.error("Network error:", error);
+      setFormStatus("error");
+    } finally {
       setIsSubmitting(false);
-    }, 1500);
+    }
   };
 
   const contactInfo = [
     {
+      icon: MapPin,
+      title: "Our Location",
+      details: ["Sarbet", "Addis Ababa, Ethiopia"],
+      color: "text-customBlue",
+    },
+    {
       icon: Phone,
-      title: "Phone",
+      title: "Phone Numbers",
       details: ["Main: 0944221314", "Support: 0941668383"],
       color: "text-customBlue",
     },
     {
       icon: Mail,
-      title: "Email",
+      title: "Email Address",
       details: ["shapeup162@gmail.com"],
       color: "text-customBlue",
     },
     {
-      icon: MapPin,
-      title: "Address",
-      details: ["Sarbet", "Addis Ababa, Ethiopia"],
-      color: "text-customBlue",
-    },
-    {
       icon: Clock,
-      title: "Hours",
-      details: [
-        "Mon - Fri: 5:00 AM - 11:00 PM",
-        "Sat - Sun: 7:00 AM - 9:00 PM",
-      ],
+      title: "Operating Hours",
+      details: ["Mon-Fri: 5:00 AM - 11:00 PM", "Sat-Sun: 7:00 AM - 9:00 PM"],
       color: "text-customBlue",
     },
   ];
@@ -105,7 +124,7 @@ const ContactPage = () => {
       <div className="bg-black text-white scroll-container relative">
         {/* Hero Section */}
         <div
-          className="relative w-full h-screen bg-fixed bg-center bg-cover"
+          className="min-h-screen flex items-center justify-center relative bg-cover bg-center bg-fixed"
           style={{
             backgroundImage: `url(${heroImage.src})`,
             backgroundAttachment: "fixed",
@@ -307,6 +326,30 @@ const ContactPage = () => {
                         placeholder="Tell us how we can help you..."
                       />
                     </div>
+
+                    {/* Status Messages */}
+                    {formStatus === "success" && (
+                      <div className="bg-green-900/50 border border-green-500 text-green-300 px-4 py-3 rounded-lg">
+                        <p className="font-medium">
+                          ✅ Message sent successfully!
+                        </p>
+                        <p className="text-sm">
+                          Thank you for contacting us. We'll get back to you
+                          soon.
+                        </p>
+                      </div>
+                    )}
+
+                    {formStatus === "error" && (
+                      <div className="bg-red-900/50 border border-red-500 text-red-300 px-4 py-3 rounded-lg">
+                        <p className="font-medium">❌ Failed to send message</p>
+                        <p className="text-sm">
+                          Something went wrong. Please try again or contact us
+                          directly.
+                        </p>
+                      </div>
+                    )}
+
                     <button
                       type="submit"
                       disabled={isSubmitting}
@@ -339,11 +382,12 @@ const ContactPage = () => {
                     ></iframe>
                   </div>
 
-                  {/* Social Media */}
+                  {/* Social Media Links */}
                   <div className="bg-gray-900 p-6 rounded-xl">
-                    <h3 className="text-xl font-bold mb-4">Follow Us</h3>
+                    <h4 className="text-xl font-bold mb-4">Follow Us</h4>
                     <p className="text-gray-400 mb-6">
-                      Stay connected and get the latest updates
+                      Stay connected with us on social media for the latest
+                      updates, fitness tips, and community highlights.
                     </p>
                     <div className="flex space-x-4">
                       <a

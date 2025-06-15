@@ -21,6 +21,11 @@ import {
   Phone,
   Mail,
   MapPin,
+  Footprints,
+  Shield,
+  UserCircle,
+  GlassWater,
+  Sprout,
 } from "lucide-react";
 import { motion } from "framer-motion";
 
@@ -189,6 +194,7 @@ const FitnessComponent = () => {
       </div>
 
       {/* Services Section */}
+      {/* Services Section */}
       <section className="px-6 lg:px-40 py-10 lg:py-20 bg-gray-900">
         <motion.h2
           className="text-3xl lg:text-4xl font-bold mb-12 lg:mb-20 text-center"
@@ -204,59 +210,58 @@ const FitnessComponent = () => {
           <ServiceCard
             title="Strength Training"
             description="Build muscle and increase power with our comprehensive strength training programs."
-            icon={Dumbbell}
+            icon={Dumbbell} // Keeping dumbbell as it's actually quite appropriate
           />
 
           <ServiceCard
             title="Kickbox Training"
             description="High-intensity kickboxing classes that combine cardio and self-defense techniques."
-            icon={Zap}
+            icon={Footprints} // Available in lucide-react
           />
 
           <ServiceCard
             title="CrossFit Training"
             description="Functional fitness workouts that challenge your entire body and build endurance."
-            icon={Activity}
+            icon={Activity} // Keeping activity as it represents varied movements
           />
 
           <ServiceCard
             title="Muay Thai Training"
             description="Learn the art of eight limbs with our authentic Muay Thai training programs."
-            icon={Target}
+            icon={Shield} // Represents defense/protection aspect of martial arts
           />
 
           <ServiceCard
             title="Group Exercise"
             description="Join energizing group classes designed to motivate and challenge you."
-            icon={Users}
+            icon={Users} // Keeping users as it's clear enough
           />
 
           <ServiceCard
             title="Women's Only"
             description="Dedicated training space and programs designed specifically for women."
-            icon={UserCheck}
+            icon={UserCircle} // Using circle as neutral alternative
           />
 
           <ServiceCard
             title="Sports Courts"
             description="Professional futsal and basketball courts for competitive play and training."
-            icon={Trophy}
+            icon={Trophy} // Represents competitive sports
           />
 
           <ServiceCard
             title="Juice Bar"
             description="Fresh, healthy smoothies and juices to fuel your workouts and recovery."
-            icon={Coffee}
+            icon={GlassWater} // Available in lucide-react
           />
 
           <ServiceCard
             title="Recovery Center"
             description="Steam bath, ice bath, and massage services for optimal recovery and relaxation."
-            icon={Waves}
+            icon={Sprout} // Represents renewal/recovery
           />
         </div>
       </section>
-
       {/* Testimonials Carousel - Responsive Version */}
       <div className="px-4 py-12 lg:py-20 bg-gray-950">
         <motion.div
