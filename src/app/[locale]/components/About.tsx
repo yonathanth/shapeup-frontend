@@ -154,7 +154,7 @@ const FitnessComponent = () => {
           >
             <div className="relative w-full max-w-[550px] overflow-hidden rounded-lg border border-gray-800 hover:border-customBlue/30 transition-all">
               <Image
-                src="/photo.png"
+                src="/trainers.jpg"
                 alt="Professional trainers at our gym"
                 width={600}
                 height={500}
