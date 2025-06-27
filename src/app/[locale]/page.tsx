@@ -10,7 +10,7 @@ import Login from "./Login/page";
 import About from "./components/About";
 
 export const metadata: Metadata = {
-  title: "ShapeUp Sport Zone - Premium Fitness Center in Addis Ababa, Ethiopia",
+  title: "ShapeUp Sport Zone - Fitness Center in Addis Ababa, Ethiopia",
   description:
     "Transform your fitness journey at ShapeUp Sport Zone - Addis Ababa's premier fitness destination. World-class equipment, expert trainers, CrossFit, Muay Thai, kickboxing, sports courts, recovery facilities, and nutrition guidance in Sarbet, Addis Ababa.",
   openGraph: {
