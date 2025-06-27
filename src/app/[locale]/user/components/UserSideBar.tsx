@@ -31,7 +31,7 @@ const UserSidebar: React.FC<UserSidebarProps> = ({ setActiveNav }) => {
     () => [
       { name: "Dashboard", icon: "faTableCells", path: "/en/user" },
       { name: "Plan", icon: "faPersonRunning", path: "/en/user/Plans" },
-      { name: "My plans", icon: "faCalendarCheck", path: "/en/user/my-plan" },
+      // { name: "My plans", icon: "faCalendarCheck", path: "/en/user/my-plan" },
       { name: "Profile", icon: "faUser", path: "/en/user/profile" },
     ],
     []

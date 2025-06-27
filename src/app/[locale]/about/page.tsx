@@ -416,7 +416,7 @@ const AboutUsPage = () => {
                   viewport={{ once: true }}
                 >
                   <Image
-                    src={philosophy}
+                    src="/strength.jpg"
                     alt="Strength Training Equipment"
                     fill
                     className="object-cover hover:scale-105 transition-transform duration-700"
@@ -441,7 +441,7 @@ const AboutUsPage = () => {
                   viewport={{ once: true }}
                 >
                   <Image
-                    src={community}
+                    src="/group.png"
                     alt="Group Training Classes"
                     fill
                     className="object-cover hover:scale-105 transition-transform duration-700"
@@ -463,7 +463,7 @@ const AboutUsPage = () => {
                   viewport={{ once: true }}
                 >
                   <Image
-                    src={trainers}
+                    src={community}
                     alt="Sports Courts"
                     fill
                     className="object-cover hover:scale-105 transition-transform duration-700"

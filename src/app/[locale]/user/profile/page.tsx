@@ -173,233 +173,302 @@ const Page = () => {
   }
 
   if (isPageLoading) return <LoadingPage />;
+
   return (
-    <div className="flex flex-col lg:flex-row bg-black text-white h-auto">
-      {/* Personal Info */}
-      <div className="w-full lg:w-1/3 space-y-3 pr-0 sm:pr-4 flex flex-col">
-        {/* Profile Card */}
-        <div className="bg-[#111111] rounded-lg flex justify-between items-center">
-          <div className="flex items-center p-4 space-x-4">
-            <Image
-              src={
-                `${NEXT_PUBLIC_API_BASE_URL}${memberDetails.profileImageUrl} ` ||
-                ""
-              }
-              alt="Profile"
-              width={64}
-              height={64}
-              className=" rounded-full object-cover"
-            />
-            <div>
-              <FormattedName fullName={memberDetails?.fullName || ""} />{" "}
-            </div>
-          </div>
-          <div
-            className="mt-2 lg:mt-4 flex flex-col justify-between gap-2 lg:gap-5 p-2 pr-3 items-end"
-            onClick={() => downloadMemberId(memberDetails!)}
-          >
-            <Image
-              src={memberDetails?.barcode || ""}
-              alt="barcode"
-              width={64}
-              height={24}
-              className="h-6 w-12 lg:w-16 bg-white"
-            />
-            <span className="text-customBlue">M</span>
-          </div>
-        </div>
-
-        {/* Address and Contact Info */}
-        <div className="bg-[#111111] p-4 lg:p-6 rounded-lg flex flex-col flex-grow">
-          <div className="flex-grow space-y-2 lg:space-y-4">
-            {[
-              { label: "Phone number:", value: memberDetails?.phoneNumber },
-              { label: "Email Address:", value: memberDetails?.email || "N/A" }, // Fallback for null
-              { label: "Address:", value: memberDetails?.address },
-              {
-                label: "DOB:",
-                value: memberDetails?.dob
-                  ? new Date(memberDetails?.dob).toLocaleDateString()
-                  : "N/A",
-              }, // Format date
-              {
-                label: "Emergency Contact:",
-                value: memberDetails?.emergencyContact,
-              },
-            ].map((item, index) => (
-              <div key={index} className="flex justify-between">
-                <span className="text-[#6a6a6a] text-xs lg:text-sm">
-                  {item.label}
-                </span>
-                <p className="text-xs lg:text-sm">{item.value}</p>
+    <div className="min-h-screen bg-black p-2 sm:p-4 lg:p-6">
+      <div className="max-w-7xl mx-auto space-y-4 sm:space-y-6">
+        {/* Profile Header */}
+        <div className="bg-gradient-to-r from-[#151515] to-[#252525] p-4 sm:p-6 rounded-xl shadow-2xl">
+          <div className="flex flex-col sm:flex-row gap-4 sm:gap-6">
+            <div className="flex items-center gap-4">
+              <div className="relative">
+                <Image
+                  src={
+                    `${NEXT_PUBLIC_API_BASE_URL}${memberDetails.profileImageUrl}` ||
+                    ""
+                  }
+                  alt="Profile"
+                  width={80}
+                  height={80}
+                  className="rounded-full object-cover w-16 h-16 sm:w-20 sm:h-20"
+                />
               </div>
-            ))}
-          </div>
-          <button
-            onClick={() => setShowEditForm(true)}
-            className="text-xs mt-3 bg-customBlue text-black py-1 px-4 rounded-full self-start"
-          >
-            Edit profile
-          </button>
-          {showEditForm && (
-            <EditProfileModal
-              setShowModal={setShowEditForm}
-              fetchData={fetchMemberDetails}
-              member={memberDetails}
-            />
-          )}
-        </div>
-      </div>
-
-      {/* Health Info */}
-      <div className="w-full lg:w-2/3 bg-[#111111] rounded-lg p-4 lg:p-6 space-y-4 flex-grow mt-5 sm:mt-0">
-        {/* Membership Info */}
-        <div className="bg-[#1b1b1b] px-3 py-2 border border-[#18282d] rounded-lg flex flex-wrap sm:flex-row sm:justify-between sm:items-center flex-col gap-3">
-          {[
-            {
-              label: "Membership Type",
-              value: memberDetails?.service?.name || "N/A",
-            },
-            {
-              label: "Days left",
-              value: `${memberDetails?.daysLeft || 0} Days`,
-            },
-            {
-              label: "Member Since",
-              value: new Date(
-                memberDetails?.firstRegisteredAt || "0000-00-00"
-              ).toLocaleDateString(),
-            },
-            {
-              label: "Total Attendance",
-              value: `${memberDetails?.totalAttendance || 0} Days`,
-            },
-            {
-              label: "Weight",
-              value: memberDetails?.weight
-                ? `${memberDetails?.weight} kg`
-                : "N/A",
-            },
-            {
-              label: "Height",
-              value: memberDetails?.height
-                ? `${memberDetails?.height} cm`
-                : "N/A",
-            },
-            {
-              label: "BMI",
-              value: memberDetails.bmis.at(-1)
-                ? `${memberDetails.bmis.at(-1)!.value} kg/m²`
-                : "N/A",
-            },
-          ].map((item, index) => (
-            <div key={index} className="text-center flex flex-col items-center">
-              <p className="text-customBlue font-bold">{item.value}</p>
-              <p className="text-xs text-white">{item.label}</p>
+              <div className="flex-1">
+                <FormattedName fullName={memberDetails?.fullName || ""} />
+                <p className="text-gray-400 text-sm mt-1">
+                  Member since{" "}
+                  {new Date(
+                    memberDetails?.firstRegisteredAt || ""
+                  ).toLocaleDateString()}
+                </p>
+              </div>
             </div>
-          ))}
+
+            <div className="flex items-center gap-4 sm:gap-6">
+              <div className="text-center">
+                <div className="text-2xl font-bold text-customBlue">
+                  {memberDetails?.daysLeft || 0}
+                </div>
+                <div className="text-xs text-gray-400">Days Left</div>
+              </div>
+
+              <div className="text-center">
+                <div className="text-2xl font-bold text-customBlue">
+                  {memberDetails?.totalAttendance || 0}
+                </div>
+                <div className="text-xs text-gray-400">Attendance</div>
+              </div>
+
+              <div className="flex flex-col items-center">
+                <Image
+                  src={memberDetails?.barcode || ""}
+                  alt="barcode"
+                  width={64}
+                  height={24}
+                  className="h-6 w-16 bg-white rounded"
+                />
+                <span className="text-customBlue text-xs mt-1">Member ID</span>
+              </div>
+            </div>
+          </div>
         </div>
 
-        {/* Health Info */}
-        <div className="flex flex-col p-8 lg:flex-row lg:justify-between items-start lg:items-center">
-          <h3 className="text-xl lg:text-3xl font-bold mb-4 lg:mb-0">
-            Health Info.
-          </h3>
-          <div className="text-xs lg:text-sm space-y-2 w-full">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-6">
+          {/* Contact Information */}
+          <div className="bg-[#151515] p-4 sm:p-6 rounded-xl">
+            <div className="flex items-center justify-between mb-4">
+              <h2 className="text-lg sm:text-xl font-semibold text-white">
+                Contact Information
+              </h2>
+              <button
+                onClick={() => setShowEditForm(true)}
+                className="bg-customBlue text-black px-4 py-2 rounded-lg text-sm font-medium hover:bg-customHoverBlue transition-colors"
+              >
+                Edit Profile
+              </button>
+            </div>
+
+            <div className="space-y-4">
+              {[
+                { label: "Phone Number", value: memberDetails?.phoneNumber },
+                {
+                  label: "Email Address",
+                  value: memberDetails?.email || "N/A",
+                },
+                { label: "Address", value: memberDetails?.address || "N/A" },
+                {
+                  label: "Date of Birth",
+                  value: memberDetails?.dob
+                    ? new Date(memberDetails?.dob).toLocaleDateString()
+                    : "N/A",
+                },
+                {
+                  label: "Emergency Contact",
+                  value: memberDetails?.emergencyContact || "N/A",
+                },
+              ].map((item, index) => (
+                <div key={index} className="flex justify-between items-start">
+                  <span className="text-gray-400 text-sm">{item.label}</span>
+                  <span className="text-white text-sm text-right max-w-[60%] break-words">
+                    {item.value}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Physical Stats */}
+          <div className="bg-[#151515] p-4 sm:p-6 rounded-xl">
+            <h2 className="text-lg sm:text-xl font-semibold text-white mb-4">
+              Physical Stats
+            </h2>
+
+            <div className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div className="text-center bg-[#1C1C1C] p-4 rounded-lg">
+                  <div className="text-xl font-bold text-customBlue">
+                    {memberDetails?.weight
+                      ? `${memberDetails.weight} kg`
+                      : "N/A"}
+                  </div>
+                  <div className="text-xs text-gray-400">Weight</div>
+                </div>
+                <div className="text-center bg-[#1C1C1C] p-4 rounded-lg">
+                  <div className="text-xl font-bold text-customBlue">
+                    {memberDetails?.height
+                      ? `${memberDetails.height} cm`
+                      : "N/A"}
+                  </div>
+                  <div className="text-xs text-gray-400">Height</div>
+                </div>
+              </div>
+
+              <div className="text-center bg-[#1C1C1C] p-4 rounded-lg">
+                <div className="text-xl font-bold text-customBlue">
+                  {memberDetails.bmis.at(-1)
+                    ? `${memberDetails.bmis.at(-1)!.value} kg/m²`
+                    : "N/A"}
+                </div>
+                <div className="text-xs text-gray-400">Current BMI</div>
+              </div>
+
+              <div className="space-y-3">
+                <div className="flex justify-between">
+                  <span className="text-gray-400 text-sm">Fitness Level</span>
+                  <span className="text-customBlue text-sm">
+                    {memberDetails.level || "N/A"}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400 text-sm">Fitness Goal</span>
+                  <span className="text-customBlue text-sm">
+                    {memberDetails.goal || "N/A"}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Membership Details */}
+          <div className="bg-[#151515] p-4 sm:p-6 rounded-xl">
+            <h2 className="text-lg sm:text-xl font-semibold text-white mb-4">
+              Membership Details
+            </h2>
+
+            <div className="space-y-4">
+              <div className="bg-[#1C1C1C] p-4 rounded-lg">
+                <div className="text-center">
+                  <div className="text-lg font-bold text-customBlue">
+                    {memberDetails?.service?.name || "N/A"}
+                  </div>
+                  <div className="text-xs text-gray-400">Membership Type</div>
+                </div>
+              </div>
+
+              <div className="space-y-3">
+                <div className="flex justify-between">
+                  <span className="text-gray-400 text-sm">Status</span>
+                  <span
+                    className={`text-sm font-medium ${
+                      memberDetails?.status === "active"
+                        ? "text-green-400"
+                        : "text-red-400"
+                    }`}
+                  >
+                    {memberDetails?.status
+                      ? memberDetails.status.charAt(0).toUpperCase() +
+                        memberDetails.status.slice(1)
+                      : "N/A"}
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400 text-sm">Days Remaining</span>
+                  <span className="text-customBlue text-sm">
+                    {memberDetails?.daysLeft || 0} days
+                  </span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-gray-400 text-sm">
+                    Total Attendance
+                  </span>
+                  <span className="text-customBlue text-sm">
+                    {memberDetails?.totalAttendance || 0} visits
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Health Information */}
+        <div className="bg-[#151515] p-4 sm:p-6 rounded-xl">
+          <h2 className="text-lg sm:text-xl font-semibold text-white mb-6">
+            Health Information
+          </h2>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
               {
                 label: "Exercise Restrictions",
                 value: memberDetails?.healthCondition?.exerciseRestriction
                   ? "Yes"
                   : "No",
+                status: memberDetails?.healthCondition?.exerciseRestriction,
               },
               {
                 label: "Pain During Exercise",
                 value: memberDetails?.healthCondition?.painDuringExercise
                   ? "Yes"
                   : "No",
+                status: memberDetails?.healthCondition?.painDuringExercise,
               },
               {
                 label: "Dizziness or Fainting",
                 value: memberDetails?.healthCondition?.dizzinessOrFainting
                   ? "Yes"
                   : "No",
+                status: memberDetails?.healthCondition?.dizzinessOrFainting,
               },
               {
                 label: "Bone or Joint Disease",
                 value: memberDetails?.healthCondition?.boneOrJointDisease
                   ? "Yes"
                   : "No",
+                status: memberDetails?.healthCondition?.boneOrJointDisease,
               },
               {
                 label: "Heart/Hypertension Meds",
                 value: memberDetails?.healthCondition?.heartHypertensionMeds
                   ? "Yes"
                   : "No",
-              },
-              {
-                label: "Chronic Diseases",
-                value:
-                  memberDetails?.healthCondition?.chronicDiseases || "None",
-              },
-              {
-                label: "Additional Remarks",
-                value:
-                  memberDetails?.healthCondition?.additionalRemarks || "None",
+                status: memberDetails?.healthCondition?.heartHypertensionMeds,
               },
             ].map((item, index) => (
-              <div key={index} className="flex justify-between">
-                <span className="text-white">{item.label}</span>
-                <p className="text-customBlue">{item.value}</p>
+              <div key={index} className="bg-[#1C1C1C] p-4 rounded-lg">
+                <div className="text-xs text-gray-400 mb-1">{item.label}</div>
+                <div
+                  className={`font-medium ${
+                    item.status ? "text-red-400" : "text-green-400"
+                  }`}
+                >
+                  {item.value}
+                </div>
               </div>
             ))}
-          </div>
-        </div>
 
-        {/* Status */}
-        <div className="mt-10 rounded-lg flex flex-col py-2 px-8 lg:flex-row lg:justify-between items-start lg:items-center">
-          <h3 className="text-3xl mb-2 font-bold">Status</h3>
-          <div className="text-sm font-light w-full lg:ml-20">
-            <div className="flex justify-between">
-              <span className="text-white">Level</span>
-              <p className="text-customBlue ">{memberDetails.level || "N/A"}</p>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-white">Goal</span>
-              <p className="text-customBlue"> {memberDetails.goal || "N/A"}</p>
-            </div>
-          </div>
-        </div>
+            {memberDetails?.healthCondition?.chronicDiseases && (
+              <div className="bg-[#1C1C1C] p-4 rounded-lg md:col-span-2 lg:col-span-3">
+                <div className="text-xs text-gray-400 mb-1">
+                  Chronic Diseases
+                </div>
+                <div className="text-white text-sm">
+                  {memberDetails.healthCondition.chronicDiseases || "None"}
+                </div>
+              </div>
+            )}
 
-        {/* BMI Chart */}
-        <div className="m-4 lg:m-6 p-4 lg:p-6 rounded-lg border border-[#18282d] bg-[#1b1b1b]">
-          <h3 className="text-xs lg:text-sm">BMI</h3>
-          <div className="mt-4">
-            <ResponsiveContainer width="100%" height={60}>
-              <LineChart
-                data={memberDetails.bmis || []}
-                width={970}
-                height={60}
-              >
-                <CartesianGrid
-                  stroke="#333"
-                  strokeDasharray="4 4"
-                  strokeOpacity={0.3}
-                />
-                <Tooltip
-                  contentStyle={{
-                    backgroundColor: "#121212",
-                    border: "1px solid #333",
-                    borderRadius: "8px",
-                  }}
-                  itemStyle={{ color: "#00bfff", fontSize: "12px" }}
-                />
-                <Line type="monotone" dataKey="value" stroke="#00bfff" />
-              </LineChart>
-            </ResponsiveContainer>
+            {memberDetails?.healthCondition?.additionalRemarks && (
+              <div className="bg-[#1C1C1C] p-4 rounded-lg md:col-span-2 lg:col-span-3">
+                <div className="text-xs text-gray-400 mb-1">
+                  Additional Remarks
+                </div>
+                <div className="text-white text-sm">
+                  {memberDetails.healthCondition.additionalRemarks || "None"}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
+
+      {/* Edit Profile Modal */}
+      {showEditForm && (
+        <EditProfileModal
+          setShowModal={setShowEditForm}
+          fetchData={fetchMemberDetails}
+          member={memberDetails}
+        />
+      )}
     </div>
   );
 };

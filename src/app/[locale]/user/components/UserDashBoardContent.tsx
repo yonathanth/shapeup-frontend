@@ -143,8 +143,9 @@ const Dashboard: React.FC<UserDashboardProps> = ({ userId }) => {
 
   const fetchTodayExercises = useCallback(async () => {
     try {
-      const res = await fetch(
-        `${NEXT_PUBLIC_API_BASE_URL}/api/members/${userId}/workouts`,
+      // Fetch all available exercises to show random recommendations
+      const exercisesRes = await fetch(
+        `${NEXT_PUBLIC_API_BASE_URL}/api/exercises`,
         {
           method: "GET",
           headers: getAuthHeaders(),
@@ -152,46 +153,37 @@ const Dashboard: React.FC<UserDashboardProps> = ({ userId }) => {
         }
       );
 
-      if (!res.ok) {
-        if (res.status === 401) {
-          throw new Error("Authentication failed. Please login again.");
-        }
-        throw new Error(`Failed to fetch today's exercises: ${res.statusText}`);
+      if (!exercisesRes.ok) {
+        throw new Error(
+          `Failed to fetch exercises: ${exercisesRes.statusText}`
+        );
       }
 
-      const data = await res.json();
-      const workouts: WorkoutPlanType[] = data?.data || [];
-      const allExercises = workouts.flatMap(
-        (workout) => workout.exercises || []
-      );
+      const exercisesData = await exercisesRes.json();
+      const allExercises = exercisesData?.data?.exercises || [];
 
       if (allExercises.length > 0) {
-        // Get fixed daily exercises based on current date
-        const today = new Date();
-        const dayOfYear = Math.floor(
-          (today.getTime() - new Date(today.getFullYear(), 0, 0).getTime()) /
-            (1000 * 60 * 60 * 24)
-        );
-        const startIndex = (dayOfYear * 5) % allExercises.length;
+        // Get 5 random exercises for today's recommendations
+        const shuffled = [...allExercises].sort(() => 0.5 - Math.random());
+        const randomExercises = shuffled.slice(0, 5);
 
-        const dailyExercises = [];
-        for (let i = 0; i < 5; i++) {
-          dailyExercises.push(
-            allExercises[(startIndex + i) % allExercises.length].name
-          );
-        }
-        setTodayExercises(dailyExercises);
+        const exerciseNames = randomExercises.map((exercise) => exercise.name);
+        setTodayExercises(exerciseNames);
       } else {
         setTodayExercises([]);
       }
     } catch (err) {
-      const errorMessage =
-        err instanceof Error ? err.message : "An unknown error occurred";
-      setError(errorMessage);
       console.error("Error fetching exercises:", err);
-      setTodayExercises([]);
+      // Fallback to some default exercise names if API fails
+      setTodayExercises([
+        "Push-ups",
+        "Squats",
+        "Plank",
+        "Jumping Jacks",
+        "Burpees",
+      ]);
     }
-  }, [userId]);
+  }, []);
 
   useEffect(() => {
     const loadData = async () => {
@@ -306,7 +298,12 @@ const Dashboard: React.FC<UserDashboardProps> = ({ userId }) => {
               icon={faDumbbell}
               className="text-2xl text-customBlue"
             />
-            <h3 className="text-xl font-bold">Today&apos;s Exercises</h3>
+            <div>
+              <h3 className="text-xl font-bold">Recommended Exercises</h3>
+              <p className="text-xs text-gray-400 mt-1">
+                Random daily recommendations
+              </p>
+            </div>
           </div>
 
           {todayExercises.length > 0 ? (
@@ -330,7 +327,18 @@ const Dashboard: React.FC<UserDashboardProps> = ({ userId }) => {
                 icon={faDumbbell}
                 className="text-4xl text-gray-600 mb-4"
               />
-              <p className="text-gray-400">No exercises scheduled for today</p>
+              <p className="text-gray-400 mb-4">
+                No exercise recommendations available
+              </p>
+              <p className="text-gray-500 text-sm mb-4">
+                Try refreshing to get new random exercise suggestions
+              </p>
+              <button
+                onClick={fetchTodayExercises}
+                className="bg-customBlue text-black px-4 py-2 rounded-lg text-sm font-medium hover:bg-customHoverBlue transition-colors"
+              >
+                Refresh Exercises
+              </button>
             </div>
           )}
         </section>

@@ -14,6 +14,7 @@ interface ServiceType {
   period: string;
   maxDays: string;
   details: string;
+  gender?: string;
 }
 type TabName =
   | "Body Building"
@@ -143,17 +144,30 @@ const EditServiceModal: React.FC<EditServiceModalProps> = ({
           placeholder="Details"
         />
 
-        <select
-          name="category"
-          value={editedService.category}
-          onChange={handleChange}
-          className="w-full mb-4 bg-[#1d1d1d] rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue text-sm font-extralight text-gray-300"
-        >
-          <option>Body Building</option>
-          <option>Exercise</option>
-          <option>Group Fitness</option>
-          <option>Personal Training</option>
-        </select>
+        <div className="flex gap-2 mb-4">
+          <select
+            name="category"
+            value={editedService.category}
+            onChange={handleChange}
+            className="flex-1 bg-[#1d1d1d] rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue text-sm font-extralight text-gray-300"
+          >
+            <option>Body Building</option>
+            <option>Exercise</option>
+            <option>Group Fitness</option>
+            <option>Personal Training</option>
+          </select>
+
+          <select
+            name="gender"
+            value={editedService.gender || "unisex"}
+            onChange={handleChange}
+            className="flex-1 bg-[#1d1d1d] rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue text-sm font-extralight text-gray-300"
+          >
+            <option value="unisex">Unisex</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+          </select>
+        </div>
 
         <div className="flex items-center gap-2 mb-4">
           <input

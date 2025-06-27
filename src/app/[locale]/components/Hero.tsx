@@ -2,7 +2,11 @@
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa";
 import Image from "next/image";
+// import card from "/fifteen.png";
 import heroImage from "@/assets/heroImages/six.jpg";
+// import card2 from "@/assets/heroImages/sixteen.png";
+// import card3 from "@/assets/heroImages/seventeen.png";
+
 import { useEffect, useRef, useState } from "react";
 
 const Hero = () => {
@@ -19,13 +23,13 @@ const Hero = () => {
         <>
           <div className="flex items-center mb-4 gap-4">
             <div className="flex -space-x-2">
-              {[1, 2, 3].map((i) => (
+              {["/fifteen.png", "/sixteen.png", "/seventeen.png"].map((i) => (
                 <div
                   key={i}
                   className="w-10 h-10 md:w-16 md:h-16 rounded-full border-2 border-white"
                 >
                   <Image
-                    src={heroImage}
+                    src={i}
                     alt={`user${i}`}
                     width={64}
                     height={64}
@@ -185,8 +189,10 @@ const Hero = () => {
   bg-customBlue 
   hover:bg-customHoverBlue 
   text-black 
+  text-sm md:text-base
   font-semibold 
-  px-8 py-3 
+  px-5 py-2 
+  md:px-8 md:py-3
   rounded-xl 
   transition-all 
   duration-200 

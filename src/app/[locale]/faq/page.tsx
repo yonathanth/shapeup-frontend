@@ -65,21 +65,21 @@ const FAQPage = () => {
       category: "membership",
       question: "What membership plans do you offer?",
       answer:
-        "We offer three main membership plans: Basic Plan (ETB 19.99/month) with access to gym equipment and basic workout plans, Pro Plan (ETB 19.99/month) which includes group fitness classes and personal trainer consultations, and Elite Plan (ETB 19.99/month) featuring unlimited personal training and priority booking.",
+        "We offer Basic Plans for periods of month upto a year  with access to gym equipment, futsal, steam bath, and with-personnal training packages  which include  personal trainer consultations. checkout the services page for more details",
     },
-    {
-      id: 2,
-      category: "membership",
-      question: "Can I cancel my membership anytime?",
-      answer:
-        "Yes, you can cancel your membership with a 30-day notice. We require written notice either in person at our facility or via email. There are no cancellation fees for monthly memberships.",
-    },
+    // {
+    //   id: 2,
+    //   category: "membership",
+    //   question: "Can I cancel my membership anytime?",
+    //   answer:
+    //     "Yes, you can cancel your membership with a 30-day notice. We require written notice either in person at our facility or via email. There are no cancellation fees for monthly memberships.",
+    // },
     {
       id: 3,
       category: "membership",
-      question: "Do you offer family discounts?",
+      question: "Do you offer discounts for women?",
       answer:
-        "Yes! We offer family packages with up to 20% discount for families with 3 or more members. Contact our membership team for detailed pricing and eligibility requirements.",
+        "Yes! We offer women packages with up to 15% discounts. checkout the services page for more details",
     },
     {
       id: 4,
@@ -100,49 +100,48 @@ const FAQPage = () => {
       category: "training",
       question: "What is included in personal training sessions?",
       answer:
-        "Personal training sessions include fitness assessment, customized workout plans, proper form instruction, progress tracking, and nutrition guidance. Sessions are typically 60 minutes and can be scheduled based on your availability.",
+        "Personal training sessions include fitness assessment, customized workout plans, proper form instruction, progress tracking, and nutrition guidance.",
     },
     {
       id: 7,
       category: "facilities",
       question: "What are your operating hours?",
       answer:
-        "We are open Monday through Friday from 6:00 AM to 10:00 PM, and weekends (Saturday and Sunday) from 7:00 AM to 9:00 PM. We also offer 24/7 access for Elite members.",
+        "We are open Monday through saturday from 5:00 AM to 9:00 PM, and and Sundays from 5:00 AM to 1:00 PM. We also offer 24/7 access for Elite members.",
     },
     {
       id: 8,
       category: "facilities",
       question: "Do you provide locker rooms and showers?",
       answer:
-        "Yes, we have fully equipped locker rooms with showers, changing areas, and complimentary towels. All lockers are secured and available for day-use or long-term rental.",
+        "Yes, we have fully equipped locker rooms with showers and changing areas. All lockers are secured and available for day-use.",
     },
-    {
-      id: 9,
-      category: "facilities",
-      question: "Is parking available?",
-      answer:
-        "Yes, we provide free parking for all members. We have a secure parking area with CCTV surveillance located directly adjacent to our facility.",
-    },
-    {
-      id: 10,
-      category: "general",
-      question: "Do I need to bring my own equipment?",
-      answer:
-        "No, we provide all necessary equipment including weights, cardio machines, mats, and small accessories. You only need to bring a water bottle, towel, and workout clothes.",
-    },
-    {
-      id: 11,
-      category: "general",
-      question: "Do you offer nutrition counseling?",
-      answer:
-        "Yes, our Pro and Elite plans include nutrition guidance. We also have certified nutritionists available for specialized meal planning and dietary consultations at additional cost.",
-    },
+    // {
+    //   id: 9,
+    //   category: "facilities",
+    //   question: "Is parking available?",
+    //   answer:
+    //     "Yes, we provide free parking for all members. We have a secure parking area with CCTV surveillance located directly adjacent to our facility.",
+    // },
+    // {
+    //   id: 10,
+    //   category: "general",
+    //   question: "Do I need to bring my own equipment?",
+    //   answer:
+    //     "No, we provide all necessary equipment including weights, cardio machines, mats, and small accessories. You only need to bring a water bottle, towel, and workout clothes.",
+    // },
+    // {
+    //   id: 11,
+    //   category: "general",
+    //   question: "Do you offer nutrition counseling?",
+    //   answer:
+    //     "Yes, our Pro and Elite plans include nutrition guidance. We also have certified nutritionists available for specialized meal planning and dietary consultations at additional cost.",
+    // },
     {
       id: 12,
       category: "general",
       question: "Can I freeze my membership temporarily?",
-      answer:
-        "Yes, you can freeze your membership for up to 3 months per year for medical reasons or extended travel. A freeze fee of ETB 5.00 per month applies to maintain your membership rate.",
+      answer: "Yes, you can freeze your membership.",
     },
   ];
 

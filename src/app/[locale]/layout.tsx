@@ -24,7 +24,7 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: "ShapeUp Sport Zone - Premium Fitness Center in Addis Ababa",
+    default: "ShapeUp Sport Zone - Fitness Center in Addis Ababa",
     template: "%s | ShapeUp Sport Zone",
   },
   description:
@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   referrer: "origin-when-cross-origin",
   keywords: [
     "ShapeUp Sport Zone",
-    "premium gym Addis Ababa",
+    "gym in Addis Ababa",
     "fitness center Ethiopia",
     "CrossFit Addis Ababa",
     "Muay Thai training",

@@ -16,6 +16,7 @@ interface ServiceType {
   };
   preferred: boolean;
   category: TabName;
+  gender?: string;
 }
 
 type TabName =
@@ -44,6 +45,7 @@ const Services: React.FC = () => {
     maxDays: "",
     price: "",
     category: "Exercise",
+    gender: "unisex",
     details: "",
     isPremium: false,
   });
@@ -93,8 +95,16 @@ const Services: React.FC = () => {
 
   const handleAddService = async () => {
     setIsLoading(true);
-    const { name, period, maxDays, price, category, details, isPremium } =
-      formData;
+    const {
+      name,
+      period,
+      maxDays,
+      price,
+      category,
+      gender,
+      details,
+      isPremium,
+    } = formData;
 
     // Prepare payload
     const newService = {
@@ -103,6 +113,7 @@ const Services: React.FC = () => {
       maxDays: parseInt(maxDays),
       price: parseFloat(price),
       category,
+      gender,
       description: {
         benefits: details.split(",").map((benefit) => benefit.trim()), // Assume comma-separated benefits
       },
@@ -145,6 +156,7 @@ const Services: React.FC = () => {
         maxDays: "",
         price: "",
         category: "Exercise",
+        gender: "unisex",
         details: "",
         isPremium: false,
       });
@@ -292,18 +304,35 @@ const Services: React.FC = () => {
           type="text"
           className="w-full bg-[#121212] text-sm font-extralight text-white rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
         />
-        <h2 className="text-sm font-extralight">Category</h2>
-        <select
-          name="category"
-          value={formData.category}
-          onChange={handleInputChange}
-          className="w-full bg-[#121212] text-sm font-extralight text-gray-300 rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
-        >
-          <option>Exercise</option>
-          <option>Body Building</option>
-          <option>Group Fitness</option>
-          <option>Personal Training</option>
-        </select>
+        <div className="flex flex-col sm:flex-row gap-2">
+          <div className="flex-1">
+            <h2 className="text-sm font-extralight mb-3">Category</h2>
+            <select
+              name="category"
+              value={formData.category}
+              onChange={handleInputChange}
+              className="w-full bg-[#121212] text-sm font-extralight text-gray-300 rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
+            >
+              <option>Exercise</option>
+              <option>Body Building</option>
+              <option>Group Fitness</option>
+              <option>Personal Training</option>
+            </select>
+          </div>
+          <div className="flex-1">
+            <h2 className="text-sm font-extralight mb-3">Gender</h2>
+            <select
+              name="gender"
+              value={formData.gender}
+              onChange={handleInputChange}
+              className="w-full bg-[#121212] text-sm font-extralight text-gray-300 rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
+            >
+              <option value="unisex">Unisex</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+            </select>
+          </div>
+        </div>
         <h2 className="text-sm font-extralight">Details</h2>
         <input
           name="details"

@@ -1,7 +1,19 @@
 "use client";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClock, faPlay } from "@fortawesome/free-solid-svg-icons";
+import {
+  faClock,
+  faPlay,
+  faTimes,
+  faChevronLeft,
+  faChevronRight,
+  faCalendarDays,
+  faDumbbell,
+  faFire,
+  faTarget,
+  faExpandAlt,
+  faCompress,
+} from "@fortawesome/free-solid-svg-icons";
 import Image from "next/image";
 import LoadingPage from "@/src/app/[locale]/user/loading";
 import { useSearchParams } from "next/navigation";
@@ -55,12 +67,17 @@ export default function WorkoutPlan({
   const [error, setError] = useState<string | null>(null);
   const videoRef = useRef<HTMLDivElement | null>(null);
   const [selectedDay, setSelectedDay] = useState<string | null>(null);
+  const [selectedWeek, setSelectedWeek] = useState<number>(0);
+  const [selectedMonth, setSelectedMonth] = useState<number>(0);
   const playerRef = useRef<any>(null);
   const [isYouTubeLoaderReady, setIsYouTubeLoaderReady] = useState(false);
-  const [isModalOpen, setModalOpen] = useState(false);
+  const [isVideoModalOpen, setVideoModalOpen] = useState(false);
+  const [isScheduleModalOpen, setScheduleModalOpen] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const [doesWorkoutExist, setDoesWorkoutExist] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const token = localStorage.getItem("token");
+
   const doesWorkoutExistForUser = useCallback(
     async (workoutId: string, userId: string) => {
       try {
@@ -105,11 +122,9 @@ export default function WorkoutPlan({
       }
     );
     if (!res.ok) {
-      // const data = await res.json()
       throw new Error(`Failed to select plan ${res.statusText}`);
     }
     setDoesWorkoutExist(true);
-    // const data = await res.json()
   };
 
   const getWorkoutPlan = async (id: string) => {
@@ -155,17 +170,16 @@ export default function WorkoutPlan({
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true); // Keep loading state true until both tasks are done
-
+      setIsLoading(true);
       try {
-        await getWorkoutPlan(params.workoutPlanId); // Fetch workout plan
+        await getWorkoutPlan(params.workoutPlanId);
         if (userId) {
-          await doesWorkoutExistForUser(params.workoutPlanId, userId); // Check if workout exists
+          await doesWorkoutExistForUser(params.workoutPlanId, userId);
         }
       } catch (error) {
         console.error("Error during initialization:", error);
       } finally {
-        setIsLoading(false); // Set loading to false once everything is done
+        setIsLoading(false);
       }
     };
     fetchData();
@@ -185,15 +199,15 @@ export default function WorkoutPlan({
         events: {
           onReady: (event: any) => {
             event.target.playVideo();
-            setIsPlaying(true); // Start playing
+            setIsPlaying(true);
           },
           onStateChange: (event: any) => {
             //@ts-ignore
             if (event.data === window.YT.PlayerState.ENDED) {
-              setIsPlaying(false); // Video ended
+              setIsPlaying(false);
               //@ts-ignore
             } else if (event.data === window.YT.PlayerState.PLAYING) {
-              setIsPlaying(true); // Video playing
+              setIsPlaying(true);
             }
           },
         },
@@ -206,7 +220,7 @@ export default function WorkoutPlan({
       playerRef.current.destroy();
       playerRef.current = null;
     }
-    setIsPlaying(false); // Reset to thumbnail view
+    setIsPlaying(false);
     setExercise(exercise || null);
   };
 
@@ -220,20 +234,49 @@ export default function WorkoutPlan({
     }
   };
 
-  // const  handlePlayVideo = () => {
-  //   // @ts-ignore
-  //   if (isYouTubeLoaderReady && window.YT && videoRef.current && exercise?.videoUrl) {
-  //     // @ts-ignore
-  //     new window.YT.Player(videoRef.current, {
-  //       videoId: exercise.videoUrl,
-  //       events: {
-  //         onReady: (event: any) => {
-  //           event.target.playVideo();
-  //         },
-  //       },
-  //     });
-  //   }
-  // };
+  const getCurrentDayExercises = () => {
+    if (!selectedDay || !plan) return [];
+
+    const [monthIndex, weekIndex, dayIndex] = selectedDay
+      .split("-")
+      .map(Number);
+    const startIndex =
+      (monthIndex * 4 * plan.daysPerWeek +
+        weekIndex * plan.daysPerWeek +
+        dayIndex) *
+      5;
+
+    return Array.from({ length: 5 }).map((_, idx) => {
+      const exerciseIndex = (startIndex + idx) % plan.exercises.length;
+      return plan.exercises[exerciseIndex];
+    });
+  };
+
+  const navigateWeek = (direction: "prev" | "next") => {
+    if (!plan) return;
+
+    const totalWeeks = Math.ceil(plan.duration / 4) * 4;
+    if (direction === "prev" && selectedWeek > 0) {
+      setSelectedWeek(selectedWeek - 1);
+      setSelectedDay(null);
+    } else if (direction === "next" && selectedWeek < totalWeeks - 1) {
+      setSelectedWeek(selectedWeek + 1);
+      setSelectedDay(null);
+    }
+  };
+
+  const getDifficultyColor = (difficulty: string) => {
+    switch (difficulty.toLowerCase()) {
+      case "beginner":
+        return "text-green-400";
+      case "intermediate":
+        return "text-yellow-400";
+      case "advanced":
+        return "text-red-400";
+      default:
+        return "text-gray-400";
+    }
+  };
 
   if (isLoading) {
     return <LoadingPage />;
@@ -241,12 +284,12 @@ export default function WorkoutPlan({
 
   if (error) {
     return (
-      <div className="text-white bg-zinc-900 p-10 rounded-lg m-20">
-        <div className="text-4xl font-bold text-red-500">Error</div>
-        <div className="text-md">{error}</div>
-        <div className="mt-5">
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="text-white bg-zinc-900 p-6 rounded-lg max-w-md w-full text-center">
+          <div className="text-2xl font-bold text-red-500 mb-4">Error</div>
+          <div className="text-sm mb-4">{error}</div>
           <button
-            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition-colors"
             onClick={() => getWorkoutPlan(params.workoutPlanId)}
           >
             Retry
@@ -258,219 +301,419 @@ export default function WorkoutPlan({
 
   if (!plan) {
     return (
-      <div className="text-white bg-zinc-900 p-10 rounded-lg m-20">
-        <div className="text-4xl font-bold">Workout Plan Not Found</div>
+      <div className="min-h-screen flex items-center justify-center p-4">
+        <div className="text-white bg-zinc-900 p-6 rounded-lg text-center">
+          <div className="text-2xl font-bold">Workout Plan Not Found</div>
+        </div>
       </div>
     );
   }
 
+  const currentExercises = getCurrentDayExercises();
+
   return (
-    <div className="flex flex-col p-1  md:p-3">
-      <div className="bg-[#151515] p-4 rounded-lg shadow-lg flex flex-row justify-between text-white space-y-2">
-        <div className="flex flex-col justify-between">
-          <div>
-            <h2 className="text-sm md:text-lg font-semibold">{plan.name}</h2>
-            <p className="text-[11px] md:text-xs font-extralight">
-              {plan.difficulty}
-            </p>
-            <p className="text-[11px] md:text-xs font-extralight">
-              {plan.mainGoal}
-            </p>
-          </div>
-          <div className="flex flex-col gap-y-10">
-            <div className="flex items-center pt-2 space-x-2 mt-auto">
-              <FontAwesomeIcon icon={faClock} className="text-customBlue" />
-              <span className="text-sm font-extralight">
-                {plan.duration} weeks
-              </span>
-            </div>
-            {!doesWorkoutExist ? (
+    <div className="min-h-screen bg-black p-2 sm:p-4 lg:p-6">
+      <div className="max-w-7xl mx-auto space-y-4 sm:space-y-6">
+        {/* Plan Header */}
+        <div className="bg-gradient-to-r from-[#151515] to-[#252525] p-4 sm:p-6 rounded-xl shadow-2xl">
+          <div className="flex flex-col lg:flex-row gap-4 lg:gap-6">
+            <div className="flex-1 space-y-3">
+              <div>
+                <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold text-white mb-2">
+                  {plan.name}
+                </h1>
+                <div className="flex flex-wrap gap-3 text-xs sm:text-sm">
+                  <span
+                    className={`px-3 py-1 rounded-full bg-gray-800 ${getDifficultyColor(
+                      plan.difficulty
+                    )} font-medium`}
+                  >
+                    {plan.difficulty}
+                  </span>
+                  <span className="px-3 py-1 rounded-full bg-gray-800 text-blue-400 font-medium">
+                    <FontAwesomeIcon icon={faTarget} className="mr-1" />
+                    {plan.mainGoal}
+                  </span>
+                  <span className="px-3 py-1 rounded-full bg-gray-800 text-purple-400 font-medium">
+                    <FontAwesomeIcon icon={faDumbbell} className="mr-1" />
+                    {plan.workoutType}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap gap-4 text-sm text-gray-300">
+                <div className="flex items-center gap-2">
+                  <FontAwesomeIcon icon={faClock} className="text-customBlue" />
+                  <span>{plan.duration} weeks</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <FontAwesomeIcon
+                    icon={faCalendarDays}
+                    className="text-customBlue"
+                  />
+                  <span>{plan.daysPerWeek} days/week</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <FontAwesomeIcon icon={faFire} className="text-customBlue" />
+                  <span>{plan.exercises.length} exercises</span>
+                </div>
+              </div>
+
+              {/* {!doesWorkoutExist && (
               <button
-                className=" bg-customBlue text-black px-8 py-2 rounded-lg shadow-lg hover:bg-customHoverBlue"
+                  className="bg-customBlue text-black px-6 py-3 rounded-lg font-semibold hover:bg-customHoverBlue transition-colors mt-4"
                 onClick={async () => {
                   await selectPlan(plan.id);
                 }}
               >
-                Select Plan
-              </button>
+                  Add to My Plans
+                </button>
+              )} */}
+            </div>
+
+            <div className="w-full lg:w-48 h-32 sm:h-40 lg:h-48 relative">
+              <Image
+                src={`${NEXT_PUBLIC_API_BASE_URL}/uploads/workouts/${plan.slug}`}
+                fill
+                quality={90}
+                alt={plan.name}
+                className="rounded-lg object-cover"
+              />
+            </div>
+          </div>
+        </div>
+
+        {/* Week Navigation */}
+        <div className="bg-[#151515] p-4 rounded-xl">
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-lg sm:text-xl font-semibold text-white">
+              Training Schedule
+            </h2>
+            <button
+              className="lg:hidden bg-customBlue text-black px-4 py-2 rounded-lg text-sm font-medium"
+              onClick={() => setScheduleModalOpen(true)}
+            >
+              View Full Schedule
+            </button>
+          </div>
+
+          <div className="flex items-center justify-between mb-4">
+            <button
+              onClick={() => navigateWeek("prev")}
+              disabled={selectedWeek === 0}
+              className="p-2 rounded-lg bg-gray-800 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors"
+            >
+              <FontAwesomeIcon icon={faChevronLeft} />
+            </button>
+
+            <h3 className="text-white font-medium">
+              Week {selectedWeek + 1} of {Math.ceil(plan.duration / 4) * 4}
+            </h3>
+
+            <button
+              onClick={() => navigateWeek("next")}
+              disabled={selectedWeek >= Math.ceil(plan.duration / 4) * 4 - 1}
+              className="p-2 rounded-lg bg-gray-800 text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-700 transition-colors"
+            >
+              <FontAwesomeIcon icon={faChevronRight} />
+            </button>
+          </div>
+
+          {/* Days of the week */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-2">
+            {Array.from({ length: plan.daysPerWeek }).map((_, dayIndex) => {
+              const dayId = `${Math.floor(selectedWeek / 4)}-${
+                selectedWeek % 4
+              }-${dayIndex}`;
+              const isSelected = selectedDay === dayId;
+
+              return (
+                <button
+                  key={dayIndex}
+                  onClick={() => setSelectedDay(dayId)}
+                  className={`p-3 rounded-lg text-center transition-all duration-200 ${
+                    isSelected
+                      ? "bg-customBlue text-black font-semibold transform scale-105"
+                      : "bg-[#1C1C1C] text-white hover:bg-[#333333]"
+                  }`}
+                >
+                  <div className="text-xs opacity-75">Day</div>
+                  <div className="text-lg font-bold">{dayIndex + 1}</div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Main Content */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+          {/* Exercises List */}
+          <div className="bg-[#151515] p-4 sm:p-6 rounded-xl">
+            <h3 className="text-lg sm:text-xl font-semibold text-white mb-4">
+              {selectedDay
+                ? `Day ${Number(selectedDay.split("-")[2]) + 1} Exercises`
+                : "Select a day to view exercises"}
+            </h3>
+
+            {selectedDay && currentExercises.length > 0 ? (
+              <div className="space-y-3">
+                {currentExercises.map((ex, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => handleExerciseClick(ex)}
+                    className={`w-full p-4 rounded-lg transition-all duration-200 ${
+                      exercise?.id === ex.id
+                        ? "bg-customBlue text-black"
+                        : "bg-[#1C1C1C] text-white hover:bg-[#333333]"
+                    }`}
+                  >
+                    <div className="flex items-center justify-between">
+                      <div className="text-left flex-1">
+                        <div className="font-medium text-sm sm:text-base">
+                          {ex.name}
+                        </div>
+                        <div className="text-xs opacity-75 mt-1">
+                          {ex.sets} sets × {ex.reps} reps | {ex.focusArea}
+                        </div>
+                      </div>
+                      <FontAwesomeIcon
+                        icon={faPlay}
+                        className={`ml-3 ${
+                          exercise?.id === ex.id
+                            ? "text-black"
+                            : "text-customBlue"
+                        }`}
+                      />
+                    </div>
+                  </button>
+                ))}
+              </div>
             ) : (
-              <div className="text-sm">Added to Your Plans!</div>
+              <div className="text-center py-8 text-gray-400">
+                <FontAwesomeIcon
+                  icon={faCalendarDays}
+                  size="2x"
+                  className="mb-3"
+                />
+                <p>Select a day from the schedule above to view exercises</p>
+              </div>
+            )}
+          </div>
+
+          {/* Video/Exercise Display */}
+          <div className="bg-[#151515] p-4 sm:p-6 rounded-xl">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg sm:text-xl font-semibold text-white">
+                {exercise ? exercise.name : "Exercise Preview"}
+              </h3>
+              {exercise && (
+                <button
+                  onClick={() => setVideoModalOpen(true)}
+                  className="p-2 rounded-lg bg-gray-800 text-white hover:bg-gray-700 transition-colors lg:hidden"
+                >
+                  <FontAwesomeIcon icon={faExpandAlt} />
+                </button>
+              )}
+            </div>
+
+            <div className="aspect-video bg-[#1C1C1C] rounded-lg relative overflow-hidden">
+              {exercise ? (
+                <>
+                  {!isPlaying && (
+                    <>
+                      <Image
+                        src={`${NEXT_PUBLIC_API_BASE_URL}/uploads/exercises/${exercise.slug}`}
+                        alt={exercise.name}
+                        fill
+                        quality={90}
+                        className="object-cover"
+                      />
+                      <button
+                        className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30 hover:bg-opacity-20 transition-colors"
+                        onClick={handlePlayVideo}
+                      >
+                        <div className="bg-white bg-opacity-20 rounded-full p-4 hover:bg-opacity-30 transition-colors">
+                          <FontAwesomeIcon
+                            icon={faPlay}
+                            size="2x"
+                            className="text-white ml-1"
+                          />
+                        </div>
+                      </button>
+                    </>
+                  )}
+                  <div
+                    ref={videoRef}
+                    className="absolute inset-0 w-full h-full"
+                  />
+                </>
+              ) : (
+                <div className="flex items-center justify-center h-full text-gray-400">
+                  <div className="text-center">
+                    <FontAwesomeIcon
+                      icon={faDumbbell}
+                      size="3x"
+                      className="mb-4"
+                    />
+                    <p>Select an exercise to view details</p>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Exercise Details */}
+            {exercise && (
+              <div className="mt-4 space-y-3">
+                <div className="bg-[#1C1C1C] p-4 rounded-lg">
+                  <h4 className="text-white font-medium mb-2">
+                    Exercise Details
+                  </h4>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-sm">
+                    <div className="text-center">
+                      <div className="text-customBlue font-semibold">
+                        {exercise.sets}
+                      </div>
+                      <div className="text-gray-400">Sets</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-customBlue font-semibold">
+                        {exercise.reps}
+                      </div>
+                      <div className="text-gray-400">Reps</div>
+                    </div>
+                    <div className="text-center">
+                      <div className="text-customBlue font-semibold">
+                        {exercise.duration}s
+                      </div>
+                      <div className="text-gray-400">Duration</div>
+                    </div>
+                  </div>
+                  <div className="mt-3 pt-3 border-t border-gray-700">
+                    <div className="text-xs text-gray-400 mb-1">Focus Area</div>
+                    <div className="text-white">{exercise.focusArea}</div>
+                  </div>
+                  {exercise.description && (
+                    <div className="mt-3 pt-3 border-t border-gray-700">
+                      <div className="text-xs text-gray-400 mb-1">
+                        Description
+                      </div>
+                      <div className="text-white text-sm">
+                        {exercise.description}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
             )}
           </div>
         </div>
-        <Image
-          src={`${NEXT_PUBLIC_API_BASE_URL}/uploads/workouts/${
-            plan ? plan.slug : ""
-          }`}
-          height={500}
-          width={500}
-          quality={90}
-          alt={plan ? plan.name : ""}
-          className="rounded-lg h-20 sm:w-36 sm:h-40"
-        />
       </div>
 
-      <div className="bg-[#151515] p-4 rounded-lg shadow-lg text-white mt-4 flex flex-col md:flex-row md:space-x-4 space-y-4 md:space-y-0">
-        <div className="">
-          <h3 className="text-sm font-semibold mb-3">Schedule</h3>
-          <div className="bg-[#1C1C1C] p-3 rounded-lg h-96 overflow-y-auto">
-            <ul className="text-xs space-y-2">
-              {Array.from({ length: Math.ceil(plan.duration / 4) }).map(
-                (_, monthIndex) => (
-                  <li
-                    className="cursor-pointer hover:bg-[#333333] p-2 rounded-md"
-                    key={monthIndex}
-                  >
-                    Month {monthIndex + 1}
-                    <ul className="pl-4 mt-2">
-                      {Array.from({ length: 4 }).map((_, weekIndex) => (
-                        <li
-                          className="cursor-pointer hover:bg-[#444444] p-2 rounded-md"
-                          key={weekIndex}
-                        >
-                          Week {weekIndex + 1}
-                          <ul className="pl-4 mt-2 flex flex-col">
-                            {Array.from({ length: plan.daysPerWeek }).map(
-                              (_, dayIndex) => {
-                                const uniqueDayIndex = `${monthIndex}-${weekIndex}-${dayIndex}`; // Unique identifier
-                                return (
-                                  <button
-                                    key={dayIndex}
-                                    className="cursor-pointer hover:bg-[#555555] p-2 rounded-md"
-                                    onClick={() => {
-                                      setSelectedDay(uniqueDayIndex);
-                                      setModalOpen(false);
-                                    }}
-                                  >
-                                    <li className="">
-                                      <div>Day {dayIndex + 1}</div>
-                                    </li>
-                                  </button>
-                                );
-                              }
-                            )}
-                          </ul>
-                        </li>
-                      ))}
-                    </ul>
-                  </li>
-                )
-              )}
-            </ul>
-          </div>
-        </div>
-
-        <div className="md:w-1/3 flex flex-col space-y-3">
-          <h3 className="text-sm font-semibold">
-            Week {selectedDay ? Number(selectedDay[2]) + 1 : ""} Day{" "}
-            {selectedDay ? Number(selectedDay[4]) + 1 : ""} Exercises
-          </h3>
-          {selectedDay !== null ? (
-            (() => {
-              const [monthIndex, weekIndex, dayIndex] = selectedDay
-                .split("-")
-                .map(Number);
-
-              // Calculate starting index for the exercises
-              const startIndex =
-                (monthIndex * 4 * plan.daysPerWeek +
-                  weekIndex * plan.daysPerWeek +
-                  dayIndex) *
-                5;
-
-              // Display exactly 5 exercises for the selected day
-              return Array.from({ length: 5 }).map((_, idx) => {
-                const exerciseIndex =
-                  (startIndex + idx) % plan.exercises.length;
-                const exercise = plan.exercises[exerciseIndex];
-                return (
-                  <button
-                    key={idx} // Unique key for each exercise
-                    className="flex justify-between items-center bg-[#1C1C1C] p-3 rounded-lg hover:bg-[#333333]"
-                    onClick={() => handleExerciseClick(exercise)} // Set the currently selected exercise
-                  >
-                    <span className="text-sm">{exercise.name}</span>
-                    <FontAwesomeIcon
-                      icon={faPlay}
-                      className="text-customBlue"
-                    />
-                  </button>
-                );
-              });
-            })()
-          ) : (
-            <div className="text-gray-400 text-sm">
-              Select a day to view exercises.
+      {/* Video Modal for Mobile */}
+      {isVideoModalOpen && exercise && (
+        <div className="fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center z-50 p-4">
+          <div className="w-full max-w-4xl">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-white text-lg font-semibold">
+                {exercise.name}
+              </h3>
+              <button
+                onClick={() => setVideoModalOpen(false)}
+                className="text-white hover:text-gray-300 p-2"
+              >
+                <FontAwesomeIcon icon={faTimes} size="lg" />
+              </button>
             </div>
-          )}
-        </div>
-
-        <div className="md:block md:w-1/2 bg-[#1C1C1C] p-3 rounded-lg">
-          <div className="w-full h-full relative">
-            {exercise && !isPlaying && (
-              <>
-                <div className="h-full w-full relative">
-                  <Image
-                    src={`${NEXT_PUBLIC_API_BASE_URL}/uploads/exercises/${
-                      exercise ? exercise.slug : ""
-                    }`}
-                    alt={exercise ? exercise.name : ""}
-                    fill
-                    quality={90}
-                    className="rounded-lg"
-                  />
-                </div>
-                <button
-                  className="absolute inset-0 flex items-center justify-center rounded-lg z-10"
-                  onClick={handlePlayVideo}
-                >
+            <div className="aspect-video bg-[#1C1C1C] rounded-lg relative overflow-hidden">
+              <Image
+                src={`${NEXT_PUBLIC_API_BASE_URL}/uploads/exercises/${exercise.slug}`}
+                alt={exercise.name}
+                fill
+                quality={90}
+                className="object-cover"
+              />
+              <button
+                className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-30"
+                onClick={handlePlayVideo}
+              >
+                <div className="bg-white bg-opacity-20 rounded-full p-6">
                   <FontAwesomeIcon
                     icon={faPlay}
                     size="3x"
-                    className="text-white"
+                    className="text-white ml-1"
                   />
-                </button>
-              </>
-            )}
-            <div
-              ref={videoRef}
-              className="absolute inset-0 w-full h-full rounded-lg"
-            />
+                </div>
+              </button>
+            </div>
           </div>
         </div>
-      </div>
+      )}
 
-      {/*<>*/}
-      {/*  <div className="text-xl">{exercise?.name}</div>*/}
-      {/*  <div className="text-md">{exercise?.description}</div>*/}
-      {/*  <button*/}
-      {/*    onClick={handlePlayVideo}*/}
-      {/*    className="mt-3 bg-blue-500 text-white px-4 py-2 rounded-lg"*/}
-      {/*  >*/}
-      {/*    Play Video*/}
-      {/*  </button>*/}
-      {/*  <div ref={videoRef} style={{marginTop: "20px"}}/>*/}
-      {/*</>*/}
-      {/* Modal for Small Screens */}
-
-      {isModalOpen && (
-        <div className="fixed  inset-0 bg-black bg-opacity-80 flex justify-center items-center z-50">
-          <div className="bg-[#1C1C1C] p-4 rounded-lg  text-white">
-            <button
-              className="absolute top-2 right-4 text-gray-300 hover:text-white"
-              onClick={() => setModalOpen(false)}
-            >
-              ✕
-            </button>
-            <div className="h-full w-full relative">
-              <Image
-                src={`${NEXT_PUBLIC_API_BASE_URL}/uploads/exercises/${
-                  exercise ? exercise.slug : ""
-                }`}
-                alt={exercise ? exercise.name : ""}
-                fill
-                className="rounded-lg"
-              />
+      {/* Schedule Modal for Mobile */}
+      {isScheduleModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-95 flex items-center justify-center z-50 p-4">
+          <div className="bg-[#151515] rounded-xl p-6 w-full max-w-md max-h-[80vh] overflow-hidden">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-white text-lg font-semibold">
+                Full Schedule
+              </h3>
+              <button
+                onClick={() => setScheduleModalOpen(false)}
+                className="text-white hover:text-gray-300 p-2"
+              >
+                <FontAwesomeIcon icon={faTimes} size="lg" />
+              </button>
+            </div>
+            <div className="bg-[#1C1C1C] p-4 rounded-lg h-96 overflow-y-auto">
+              <ul className="text-sm space-y-2">
+                {Array.from({ length: Math.ceil(plan.duration / 4) }).map(
+                  (_, monthIndex) => (
+                    <li
+                      key={monthIndex}
+                      className="border-b border-gray-700 pb-2"
+                    >
+                      <div className="font-medium text-white mb-2">
+                        Month {monthIndex + 1}
+                      </div>
+                      <ul className="pl-4 space-y-1">
+                        {Array.from({ length: 4 }).map((_, weekIndex) => (
+                          <li
+                            key={weekIndex}
+                            className="border-b border-gray-800 pb-1"
+                          >
+                            <div className="text-gray-300 mb-1">
+                              Week {weekIndex + 1}
+                            </div>
+                            <ul className="pl-4 grid grid-cols-3 gap-1">
+                              {Array.from({ length: plan.daysPerWeek }).map(
+                                (_, dayIndex) => {
+                                  const dayId = `${monthIndex}-${weekIndex}-${dayIndex}`;
+                                  return (
+                                    <button
+                                      key={dayIndex}
+                                      className={`p-2 rounded text-xs transition-colors ${
+                                        selectedDay === dayId
+                                          ? "bg-customBlue text-black"
+                                          : "bg-gray-700 text-white hover:bg-gray-600"
+                                      }`}
+                                      onClick={() => {
+                                        setSelectedDay(dayId);
+                                        setScheduleModalOpen(false);
+                                      }}
+                                    >
+                                      Day {dayIndex + 1}
+                                    </button>
+                                  );
+                                }
+                              )}
+                            </ul>
+                          </li>
+                        ))}
+                      </ul>
+                    </li>
+                  )
+                )}
+              </ul>
             </div>
           </div>
         </div>

@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import servicesHeroImage from "../../../../assets/heroImages/twelve.jpg";
+const NEXT_PUBLIC_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 interface ServicePlan {
   id: string;
@@ -15,6 +16,7 @@ interface ServicePlan {
   maxDays: number;
   price: number;
   category: string;
+  gender?: string;
   description: {
     benefits: string[];
   };
@@ -31,8 +33,11 @@ interface ApiResponse {
 const ServicesPage = () => {
   const [isJumping, setIsJumping] = useState(true);
   const [plans, setPlans] = useState<ServicePlan[]>([]);
+  const [filteredPlans, setFilteredPlans] = useState<ServicePlan[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [selectedCategory, setSelectedCategory] = useState("All");
+  const [selectedGender, setSelectedGender] = useState("All");
   const nextSectionRef = useRef<HTMLDivElement | null>(null);
 
   const scrollToNextSection = () => {
@@ -60,7 +65,7 @@ const ServicesPage = () => {
     const fetchPlans = async () => {
       try {
         const response = await fetch(
-          "https://api.shapeup.shalops.com/api/services"
+          `${NEXT_PUBLIC_API_BASE_URL}/api/services`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch plans");
@@ -68,6 +73,7 @@ const ServicesPage = () => {
         const data: ApiResponse = await response.json();
         if (data.success) {
           setPlans(data.data);
+          setFilteredPlans(data.data);
         } else {
           throw new Error("API returned unsuccessful response");
         }
@@ -80,6 +86,38 @@ const ServicesPage = () => {
 
     fetchPlans();
   }, []);
+
+  // Filter plans based on category and gender
+  useEffect(() => {
+    let filtered = plans;
+
+    if (selectedCategory !== "All") {
+      filtered = filtered.filter(
+        (plan) => plan.category.toLowerCase() === selectedCategory.toLowerCase()
+      );
+    }
+
+    if (selectedGender !== "All") {
+      filtered = filtered.filter(
+        (plan) =>
+          (plan.gender || "unisex").toLowerCase() ===
+          selectedGender.toLowerCase()
+      );
+    }
+
+    setFilteredPlans(filtered);
+  }, [plans, selectedCategory, selectedGender]);
+
+  // Get unique categories and genders for filter options
+  const getUniqueCategories = () => {
+    const categories = plans.map((plan) => plan.category);
+    return ["All", ...Array.from(new Set(categories))];
+  };
+
+  const getUniqueGenders = () => {
+    const genders = plans.map((plan) => plan.gender || "unisex");
+    return ["All", ...Array.from(new Set(genders))];
+  };
 
   // Helper function to format plan name
   const formatPlanName = (name: string) => {
@@ -259,99 +297,230 @@ const ServicesPage = () => {
             </div>
           </section>
 
+          {/* Filter Section */}
+          <section className="pb-10 px-4 md:px-8 lg:px-16">
+            <div className="max-w-6xl mx-auto">
+              {/* Simple and subtle filter bar */}
+              <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-8 py-6 border-b border-gray-800">
+                {/* Filter Label */}
+                <div className="flex items-center gap-2">
+                  <span className="text-gray-400 text-sm font-medium">
+                    Filter by:
+                  </span>
+                </div>
+
+                {/* Filter Controls */}
+                <div className="flex flex-col sm:flex-row gap-4">
+                  {/* Category Filter */}
+                  <div className="relative">
+                    <select
+                      value={selectedCategory}
+                      onChange={(e) => setSelectedCategory(e.target.value)}
+                      className="
+                        appearance-none bg-transparent border border-gray-700 
+                        text-white text-sm rounded-lg px-4 py-2 pr-8
+                        focus:outline-none focus:border-customBlue focus:ring-1 focus:ring-customBlue
+                        transition-all duration-200 hover:border-gray-600
+                        cursor-pointer min-w-[120px]
+                      "
+                    >
+                      {getUniqueCategories().map((category) => (
+                        <option
+                          key={category}
+                          value={category}
+                          className="bg-gray-800 text-white"
+                        >
+                          {category}
+                        </option>
+                      ))}
+                    </select>
+                    <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                      <svg
+                        className="w-4 h-4 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+
+                  {/* Gender Filter */}
+                  <div className="relative">
+                    <select
+                      value={selectedGender}
+                      onChange={(e) => setSelectedGender(e.target.value)}
+                      className="
+                        appearance-none bg-transparent border border-gray-700 
+                        text-white text-sm rounded-lg px-4 py-2 pr-8
+                        focus:outline-none focus:border-customBlue focus:ring-1 focus:ring-customBlue
+                        transition-all duration-200 hover:border-gray-600
+                        cursor-pointer min-w-[120px]
+                      "
+                    >
+                      {getUniqueGenders().map((gender) => (
+                        <option
+                          key={gender}
+                          value={gender}
+                          className="bg-gray-800 text-white"
+                        >
+                          {gender.charAt(0).toUpperCase() + gender.slice(1)}
+                        </option>
+                      ))}
+                    </select>
+                    <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                      <svg
+                        className="w-4 h-4 text-gray-400"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M19 9l-7 7-7-7"
+                        />
+                      </svg>
+                    </div>
+                  </div>
+
+                  {/* Clear Filters Button */}
+                  {(selectedCategory !== "All" || selectedGender !== "All") && (
+                    <button
+                      onClick={() => {
+                        setSelectedCategory("All");
+                        setSelectedGender("All");
+                      }}
+                      className="
+                        text-gray-400 hover:text-white text-sm underline 
+                        underline-offset-4 decoration-1 hover:decoration-2
+                        transition-all duration-200 px-2 py-2
+                      "
+                    >
+                      Clear filters
+                    </button>
+                  )}
+                </div>
+
+                {/* Results Count */}
+                <div className="text-gray-500 text-xs">
+                  {filteredPlans.length} service
+                  {filteredPlans.length !== 1 ? "s" : ""}
+                </div>
+              </div>
+            </div>
+          </section>
+
           {/* Pricing Plans Section */}
           <section className="pb-20 px-4 md:px-8 lg:px-16">
             <div className="max-w-7xl mx-auto">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                {plans.map((plan, index) => {
-                  const styling = getPlanStyling(plan, index);
-                  return (
-                    <motion.div
-                      key={plan.id}
-                      className={`
+                {filteredPlans.length > 0 ? (
+                  filteredPlans.map((plan, index) => {
+                    const styling = getPlanStyling(plan, index);
+                    return (
+                      <motion.div
+                        key={plan.id}
+                        className={`
                         ${styling.bgColor} ${styling.textColor} ${styling.border}
                         rounded-2xl p-6 relative ${styling.scale} ${styling.shadow}
                         transition-all duration-300 hover:scale-105 hover:shadow-xl
                         flex flex-col h-full
                       `}
-                      initial={{ opacity: 0, y: 50 }}
-                      whileInView={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, delay: index * 0.1 }}
-                      viewport={{ once: true }}
-                    >
-                      {plan.preferred && (
-                        <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                          <span
-                            className={`${styling.badgeColor} px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 shadow-lg`}
+                        initial={{ opacity: 0, y: 50 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.6, delay: index * 0.1 }}
+                        viewport={{ once: true }}
+                      >
+                        {plan.preferred && (
+                          <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                            <span
+                              className={`${styling.badgeColor} px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 shadow-lg`}
+                            >
+                              RECOMMENDED
+                            </span>
+                          </div>
+                        )}
+
+                        <div className="text-center mb-6">
+                          <h3 className="text-lg font-bold mb-3 leading-tight">
+                            {formatPlanName(plan.name)}
+                          </h3>
+                          <div className="mb-4">
+                            <span className="text-3xl font-bold">
+                              ETB {plan.price.toLocaleString()}
+                            </span>
+                            <span className="text-sm ml-1 opacity-75">
+                              / {getPeriodText(plan.period)}
+                            </span>
+                          </div>
+                          <div className="text-xs opacity-75 space-x-4">
+                            <span>Category: {plan.category}</span>
+                            {plan.gender && plan.gender !== "unisex" && (
+                              <span>
+                                • Target:{" "}
+                                {plan.gender.charAt(0).toUpperCase() +
+                                  plan.gender.slice(1)}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+
+                        <div className="flex-grow">
+                          {plan.description.benefits &&
+                            plan.description.benefits.length > 0 &&
+                            plan.description.benefits[0] !== "" && (
+                              <div className="space-y-3 mb-6">
+                                {plan.description.benefits.map(
+                                  (benefit, benefitIndex) =>
+                                    benefit &&
+                                    benefit.trim() !== "" && (
+                                      <div
+                                        key={benefitIndex}
+                                        className="flex items-start gap-3"
+                                      >
+                                        <FontAwesomeIcon
+                                          icon={faCheck}
+                                          className={`text-sm mt-1 flex-shrink-0 ${
+                                            plan.preferred
+                                              ? "text-yellow-400"
+                                              : "text-green-400"
+                                          }`}
+                                        />
+                                        <span className="text-sm leading-relaxed">
+                                          {benefit}
+                                        </span>
+                                      </div>
+                                    )
+                                )}
+                              </div>
+                            )}
+                        </div>
+
+                        <div className="mt-auto">
+                          <Link
+                            href={`/en/Register?planId=${
+                              plan.id
+                            }&planName=${encodeURIComponent(
+                              plan.name
+                            )}&planPrice=${
+                              plan.price
+                            }&planCategory=${encodeURIComponent(
+                              plan.category
+                            )}`}
                           >
-                            RECOMMENDED
-                          </span>
-                        </div>
-                      )}
-
-                      <div className="text-center mb-6">
-                        <h3 className="text-lg font-bold mb-3 leading-tight">
-                          {formatPlanName(plan.name)}
-                        </h3>
-                        <div className="mb-4">
-                          <span className="text-3xl font-bold">
-                            ETB {plan.price.toLocaleString()}
-                          </span>
-                          <span className="text-sm ml-1 opacity-75">
-                            / {getPeriodText(plan.period)}
-                          </span>
-                        </div>
-                        <div className="text-xs opacity-75">
-                          Category: {plan.category}
-                        </div>
-                      </div>
-
-                      <div className="flex-grow">
-                        {plan.description.benefits &&
-                          plan.description.benefits.length > 0 &&
-                          plan.description.benefits[0] !== "" && (
-                            <div className="space-y-3 mb-6">
-                              {plan.description.benefits.map(
-                                (benefit, benefitIndex) =>
-                                  benefit &&
-                                  benefit.trim() !== "" && (
-                                    <div
-                                      key={benefitIndex}
-                                      className="flex items-start gap-3"
-                                    >
-                                      <FontAwesomeIcon
-                                        icon={faCheck}
-                                        className={`text-sm mt-1 flex-shrink-0 ${
-                                          plan.preferred
-                                            ? "text-yellow-400"
-                                            : "text-green-400"
-                                        }`}
-                                      />
-                                      <span className="text-sm leading-relaxed">
-                                        {benefit}
-                                      </span>
-                                    </div>
-                                  )
-                              )}
-                            </div>
-                          )}
-                      </div>
-
-                      <div className="mt-auto">
-                        <Link
-                          href={`/en/Register?planId=${
-                            plan.id
-                          }&planName=${encodeURIComponent(
-                            plan.name
-                          )}&planPrice=${
-                            plan.price
-                          }&planCategory=${encodeURIComponent(plan.category)}`}
-                        >
-                          <button
-                            className={`
+                            <button
+                              className={`
                               w-full ${styling.buttonColor} ${
-                              styling.buttonTextColor
-                            } 
+                                styling.buttonTextColor
+                              } 
                               py-3 px-6 rounded-lg font-semibold text-sm
                               transition-all duration-300 hover:scale-105 hover:shadow-lg
                               ${
@@ -360,14 +529,30 @@ const ServicesPage = () => {
                                   : "hover:opacity-90"
                               }
                             `}
-                          >
-                            Choose Plan
-                          </button>
-                        </Link>
-                      </div>
-                    </motion.div>
-                  );
-                })}
+                            >
+                              Choose Plan
+                            </button>
+                          </Link>
+                        </div>
+                      </motion.div>
+                    );
+                  })
+                ) : (
+                  <div className="col-span-full text-center py-12">
+                    <p className="text-gray-400 text-lg mb-4">
+                      No services found matching your criteria
+                    </p>
+                    <button
+                      onClick={() => {
+                        setSelectedCategory("All");
+                        setSelectedGender("All");
+                      }}
+                      className="bg-customBlue text-black px-6 py-2 rounded-lg hover:bg-blue-400 transition-colors"
+                    >
+                      Clear Filters
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </section>
