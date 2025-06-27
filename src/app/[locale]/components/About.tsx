@@ -70,12 +70,12 @@ const FitnessComponent = () => {
       title: "Bodybuilding Champion",
     },
     {
-      text: "The facilities are top-notch and the classes are challenging yet accessible. I look forward to every workout session!",
+      text: "The facilities are well-maintained and the classes are challenging yet accessible. I look forward to every workout session!",
       name: "Yonathan T.",
       title: "Fitness Enthusiast",
     },
     {
-      text: "Amazing transformation journey with professional guidance. The support system here is incredible and keeps me coming back!",
+      text: "Great fitness journey with supportive guidance. The community here is welcoming and keeps me coming back!",
       name: "Nardos A.",
       title: "Fitness Enthusiast",
     },
@@ -146,7 +146,7 @@ const FitnessComponent = () => {
             <div className="relative w-full max-w-[550px] overflow-hidden rounded-lg border border-gray-800 hover:border-customBlue/30 transition-all">
               <Image
                 src={heroImage}
-                alt="Professional trainers at our gym"
+                alt="Experienced trainers at our gym"
                 width={600}
                 height={500}
                 className="object-cover w-full h-auto md:h-[450px] transition-transform duration-500 hover:scale-[1.02]"
@@ -168,9 +168,9 @@ const FitnessComponent = () => {
             </h2>
             <p className="text-base md:text-lg text-gray-400 mb-8 leading-relaxed">
               At ShapeUp, we're dedicated to helping you achieve your fitness
-              goals with state-of-the-art facilities, expert trainers, and a
+              goals with quality facilities, experienced trainers, and a
               supportive community. Our personalized approach ensures every
-              member gets the attention they need to transform their health and
+              member gets the attention they need to improve their health and
               wellness.
             </p>
             <div className="flex justify-center md:justify-start">
@@ -200,7 +200,7 @@ const FitnessComponent = () => {
         <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <ServiceCard
             title="Strength Training"
-            description="Build muscle and increase power with our comprehensive strength training programs."
+            description="Build muscle and increase power with our strength training programs."
             icon={Dumbbell} // Keeping dumbbell as it's actually quite appropriate
           />
 

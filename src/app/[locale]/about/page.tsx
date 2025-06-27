@@ -133,21 +133,21 @@ const AboutUsPage = () => {
                     Our Philosophy
                   </h2>
                   <h3 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-6 leading-tight">
-                    Transforming Lives Through <br />
-                    <span className="text-customBlue">Fitness Excellence</span>
+                    Supporting Your Fitness <br />
+                    <span className="text-customBlue">Journey</span>
                   </h3>
                 </div>
                 <p className="text-base md:text-lg text-gray-300 mb-8 leading-relaxed">
                   At ShapeUp Gym & Fitness, we believe fitness is more than just
-                  exercise—it's a lifestyle transformation. Located in the heart
-                  of Sarbet, Addis Ababa, we provide world-class facilities,
-                  expert guidance, and a supportive community to help you
+                  exercise—it's a lifestyle improvement. Located in the heart of
+                  Sarbet, Addis Ababa, we provide quality facilities,
+                  experienced guidance, and a supportive community to help you
                   achieve your health and wellness goals.
                 </p>
                 <div className="grid grid-cols-2 gap-4 mb-8">
                   <div className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-customBlue mr-3" />
-                    <span className="text-gray-300">Expert Trainers</span>
+                    <span className="text-gray-300">Experienced Trainers</span>
                   </div>
                   <div className="flex items-center">
                     <CheckCircle className="w-5 h-5 text-customBlue mr-3" />
@@ -183,8 +183,8 @@ const AboutUsPage = () => {
                   Experience <span className="text-customBlue">ShapeUp</span>
                 </h3>
                 <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-                  Take a virtual tour of our state-of-the-art facilities and see
-                  what makes ShapeUp the premier fitness destination in Addis
+                  Take a virtual tour of our well-equipped facilities and see
+                  what makes ShapeUp a welcoming fitness destination in Addis
                   Ababa.
                 </p>
               </motion.div>
@@ -199,7 +199,7 @@ const AboutUsPage = () => {
                 <iframe
                   className="w-full h-[400px] md:h-[500px] lg:h-[600px]"
                   src="https://www.youtube.com/embed/e4fzvCCTJ90?autoplay=0&mute=0&loop=1&playlist=e4fzvCCTJ90&controls=1"
-                  title="ShapeUp Sport Zone - Premium Fitness Experience"
+                  title="ShapeUp Sport Zone - Quality Fitness Experience"
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
@@ -271,7 +271,9 @@ const AboutUsPage = () => {
                     <div className="text-3xl font-bold text-customBlue mb-2">
                       5+
                     </div>
-                    <div className="text-sm text-gray-400">Expert Trainers</div>
+                    <div className="text-sm text-gray-400">
+                      Experienced Trainers
+                    </div>
                   </div>
                   <div className="text-center">
                     <div className="text-3xl font-bold text-customBlue mb-2">
@@ -319,11 +321,11 @@ const AboutUsPage = () => {
                 What We Offer
               </h2>
               <h3 className="text-3xl md:text-5xl font-bold mb-6 text-white">
-                World-Class <span className="text-customBlue">Facilities</span>
+                Quality <span className="text-customBlue">Facilities</span>
               </h3>
               <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-                Experience fitness like never before with our comprehensive
-                range of services and state-of-the-art equipment.
+                Experience fitness with our comprehensive range of services and
+                reliable equipment.
               </p>
             </motion.div>
 
@@ -332,17 +334,17 @@ const AboutUsPage = () => {
                 {
                   title: "Strength & CrossFit Training",
                   content:
-                    "Build muscle and endurance with our comprehensive strength and functional fitness programs.",
+                    "Build muscle and endurance with our strength and functional fitness programs.",
                 },
                 {
                   title: "Martial Arts Classes",
                   content:
-                    "Learn Kickboxing and Muay Thai with expert instructors in a supportive environment.",
+                    "Learn Kickboxing and Muay Thai with experienced instructors in a supportive environment.",
                 },
                 {
                   title: "Sports Courts & Recovery",
                   content:
-                    "Professional futsal and basketball courts plus steam bath and ice bath facilities.",
+                    "Quality futsal and basketball courts plus steam bath and ice bath facilities.",
                 },
                 {
                   title: "Juice Bar & Women's Section",
@@ -402,8 +404,8 @@ const AboutUsPage = () => {
                   Facilities
                 </h3>
                 <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-                  Step inside our world-class facility and discover why ShapeUp
-                  is the premier fitness destination in Addis Ababa.
+                  Step inside our welcoming facility and discover why ShapeUp is
+                  a trusted fitness destination in Addis Ababa.
                 </p>
               </motion.div>
 
@@ -427,7 +429,7 @@ const AboutUsPage = () => {
                       Strength Training Zone
                     </h4>
                     <p className="text-gray-200">
-                      Premium weight equipment and free weights for all fitness
+                      Quality weight equipment and free weights for all fitness
                       levels
                     </p>
                   </div>
@@ -472,8 +474,7 @@ const AboutUsPage = () => {
                   <div className="absolute bottom-6 left-6 text-white">
                     <h4 className="text-xl font-bold mb-2">Sports Courts</h4>
                     <p className="text-gray-200">
-                      Professional futsal and basketball courts for competitive
-                      play
+                      Quality futsal and basketball courts for competitive play
                     </p>
                   </div>
                 </motion.div>

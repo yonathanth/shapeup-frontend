@@ -245,8 +245,8 @@ const ServicesPage = () => {
               transition={{ delay: 0.3, duration: 0.8 }}
               className="text-base md:text-xl text-white/90 max-w-xs md:max-w-2xl text-center mb-12"
             >
-              Choose the perfect membership plan that fits your fitness goals
-              and lifestyle
+              Choose a membership plan that fits your fitness goals and
+              lifestyle
             </motion.p>
             <motion.div
               onClick={scrollToNextSection}
@@ -280,7 +280,7 @@ const ServicesPage = () => {
                 transition={{ duration: 0.8 }}
                 viewport={{ once: true }}
               >
-                Perfect Plan for your
+                Right Plan for your
                 <br />
                 <span className="text-customBlue">fitness journey</span>
               </motion.h2>
@@ -568,8 +568,8 @@ const ServicesPage = () => {
               >
                 <p className="text-gray-400 text-lg mb-8 max-w-2xl mx-auto">
                   Ready to start your fitness journey? Join Shape Up Gym &
-                  Fitness in Sarbet, Addis Ababa and experience world-class
-                  facilities with expert trainers.
+                  Fitness in Sarbet, Addis Ababa and experience quality
+                  facilities with experienced trainers.
                 </p>
                 <Link href="/en/Register">
                   <button className="border-2 border-customBlue text-customBlue hover:bg-customBlue hover:text-black px-8 py-3 rounded-lg font-semibold transition-all duration-300 hover:scale-105">

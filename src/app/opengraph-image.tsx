@@ -3,7 +3,7 @@ import { ImageResponse } from "next/og";
 export const runtime = "edge";
 
 export const alt =
-  "ShapeUp Sport Zone - Premium Fitness Center in Addis Ababa, Ethiopia";
+  "ShapeUp Sport Zone - Fitness Center in Addis Ababa, Ethiopia";
 export const size = {
   width: 1200,
   height: 630,
@@ -77,7 +77,7 @@ export default async function Image() {
                 textAlign: "center",
               }}
             >
-              Premium Fitness Center • Addis Ababa
+              Fitness Center • Addis Ababa
             </div>
             <div
               style={{

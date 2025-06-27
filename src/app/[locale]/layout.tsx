@@ -28,7 +28,7 @@ export const metadata: Metadata = {
     template: "%s | ShapeUp Sport Zone",
   },
   description:
-    "ShapeUp Sport Zone is Addis Ababa's premier fitness destination offering world-class gym equipment, expert personal training, CrossFit, Muay Thai, kickboxing, sports courts, recovery facilities, and nutrition guidance. Transform your fitness journey with Ethiopia's most advanced training center.",
+    "ShapeUp Sport Zone is a dedicated fitness center in Sarbet, Addis Ababa offering quality gym equipment, personal training, CrossFit, Muay Thai, kickboxing, sports courts, recovery facilities, and nutrition guidance. Join our supportive community and work toward your fitness goals.",
   generator: "Next.js",
   applicationName: "ShapeUp Sport Zone",
   referrer: "origin-when-cross-origin",
@@ -47,7 +47,7 @@ export const metadata: Metadata = {
     "ice bath therapy",
     "juice bar gym",
     "women only fitness",
-    "professional gym equipment",
+    "quality gym equipment",
     "fitness transformation",
     "Sarbet gym",
     "Ethiopian fitness",
@@ -85,30 +85,29 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: baseUrl,
     siteName: "ShapeUp Sport Zone",
-    title:
-      "ShapeUp Sport Zone - Premium Fitness Center in Addis Ababa, Ethiopia",
+    title: "ShapeUp Sport Zone - Fitness Center in Addis Ababa, Ethiopia",
     description:
-      "Experience Ethiopia's most advanced fitness facility at ShapeUp Sport Zone. Located in Sarbet, Addis Ababa, we offer premium gym equipment, expert training in CrossFit, Muay Thai, kickboxing, professional sports courts, recovery facilities with steam & ice baths, and personalized nutrition guidance. Join 200+ active members on their transformation journey.",
+      "A welcoming fitness center in Sarbet, Addis Ababa. We offer quality gym equipment, experienced training in CrossFit, Muay Thai, kickboxing, sports courts, recovery facilities with steam & ice baths, and nutrition guidance. Join our growing community of fitness enthusiasts.",
     images: [
       {
         url: `${baseUrl}/Images/logo.png`,
         width: 1200,
         height: 630,
-        alt: "ShapeUp Sport Zone - Premium Fitness Center in Addis Ababa",
+        alt: "ShapeUp Sport Zone - Fitness Center in Addis Ababa",
       },
       {
         url: `${baseUrl}/assets/heroImages/four.jpg`,
         width: 1200,
         height: 630,
-        alt: "ShapeUp Sport Zone Gym Floor - State of the Art Equipment",
+        alt: "ShapeUp Sport Zone Gym Floor - Quality Equipment",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "ShapeUp Sport Zone - Premium Fitness Center in Addis Ababa",
+    title: "ShapeUp Sport Zone - Fitness Center in Addis Ababa",
     description:
-      "Transform your fitness at Ethiopia's premier training facility. Premium equipment, expert trainers, CrossFit, Muay Thai, sports courts & recovery facilities in Sarbet, Addis Ababa.",
+      "Work toward your fitness goals at our dedicated training facility. Quality equipment, experienced trainers, CrossFit, Muay Thai, sports courts & recovery facilities in Sarbet, Addis Ababa.",
     images: [`${baseUrl}/Images/logo.png`],
     creator: "@ShapeUpSportZone",
   },

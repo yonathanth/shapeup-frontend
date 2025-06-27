@@ -179,8 +179,8 @@ const Hero = () => {
               Shape Up Fitness Center
             </h1>
             <p className="text-sm md:text-base lg:text-lg mb-8 md:mb-10">
-              Achieve your fitness goals with expert guidance, flexible plans,
-              and real results.
+              Achieve your fitness goals with experienced guidance, flexible
+              plans, and real results.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/en/Register">
