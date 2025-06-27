@@ -2,17 +2,17 @@
 
 import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
-import aboutUsHero from "../../../../assets/images/about.jpeg";
+import aboutUsHero from "../../../../assets/heroImages/three.jpg";
 import ourPhilo from "../../../../assets/images/ourPhilosophy.jpg";
+import community from "../../../../assets/heroImages/ten.jpg";
 import trainers from "../../../../assets/images/trainers.jpg";
-import photo from "../../../../public/photo.png";
+import philosophy from "../../../../assets/heroImages/nine.jpg";
 import { motion } from "framer-motion";
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Link } from "../../../i18n/routing";
-import { FaPhoneAlt, FaEnvelope } from "react-icons/fa";
 import {
   UserRoundCog,
   Goal,
@@ -45,25 +45,6 @@ const AboutUsPage = () => {
     }
     return () => clearTimeout(timeoutId);
   }, [isJumping]);
-
-  const teamMembers = [
-    {
-      name: "Nardos Amakele",
-      image: photo,
-    },
-    {
-      name: "Samuel Tesfaye",
-      image: photo,
-    },
-    {
-      name: "Lidiya Gebru",
-      image: photo,
-    },
-    {
-      name: "Dawit Mekonnen",
-      image: photo,
-    },
-  ];
 
   return (
     <>
@@ -129,7 +110,7 @@ const AboutUsPage = () => {
               >
                 <div className="relative w-full max-w-[550px] overflow-hidden rounded-lg border border-gray-800 hover:border-customBlue/30 transition-all">
                   <Image
-                    src={trainers}
+                    src={philosophy}
                     alt="Professional trainers at our gym"
                     width={600}
                     height={500}
@@ -217,8 +198,8 @@ const AboutUsPage = () => {
               >
                 <iframe
                   className="w-full h-[400px] md:h-[500px] lg:h-[600px]"
-                  src="https://www.youtube.com/embed/veuUyWcIbNY?autoplay=0&mute=0&loop=1&playlist=veuUyWcIbNY&controls=1"
-                  title="ShapeUp Gym & Fitness - Virtual Tour"
+                  src="https://www.youtube.com/embed/e4fzvCCTJ90?autoplay=0&mute=0&loop=1&playlist=e4fzvCCTJ90&controls=1"
+                  title="ShapeUp Sport Zone - Premium Fitness Experience"
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
@@ -239,7 +220,7 @@ const AboutUsPage = () => {
                 viewport={{ once: true }}
               >
                 <Image
-                  src={trainers}
+                  src={community}
                   alt="Fitness community"
                   width={500}
                   height={300}
@@ -274,7 +255,7 @@ const AboutUsPage = () => {
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-8">
                   <div className="text-center">
                     <div className="text-3xl font-bold text-customBlue mb-2">
-                      500+
+                      200+
                     </div>
                     <div className="text-sm text-gray-400">Active Members</div>
                   </div>
@@ -288,15 +269,15 @@ const AboutUsPage = () => {
                   </div>
                   <div className="text-center">
                     <div className="text-3xl font-bold text-customBlue mb-2">
-                      15+
+                      5+
                     </div>
                     <div className="text-sm text-gray-400">Expert Trainers</div>
                   </div>
                   <div className="text-center">
                     <div className="text-3xl font-bold text-customBlue mb-2">
-                      18hrs
+                      16
                     </div>
-                    <div className="text-sm text-gray-400">Daily Operation</div>
+                    <div className="text-sm text-gray-400">Hours Operation</div>
                   </div>
                 </div>
 
@@ -403,58 +384,123 @@ const AboutUsPage = () => {
             </div>
           </div>
 
-          {/* Team Section */}
-          <div
-            id="team"
-            className="px-6 sm:px-8 py-10 md:py-20 w-full flex flex-col items-center bg-gray-950"
-          >
-            <motion.div
-              className="text-center mb-16"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.8 }}
-              viewport={{ once: true }}
-            >
-              <h2 className="text-sm font-semibold text-customBlue uppercase tracking-wider mb-4">
-                Meet Our Team
-              </h2>
-              <h3 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Expert <span className="text-customBlue">Trainers</span>
-              </h3>
-              <p className="text-lg text-gray-400 max-w-2xl mx-auto">
-                Our certified professionals are here to guide, motivate, and
-                help you achieve your fitness goals safely and effectively.
-              </p>
-            </motion.div>
+          {/* Gym Photo Showcase */}
+          <div className="py-16 md:py-20 bg-gray-900">
+            <div className="max-w-6xl mx-auto px-6">
+              <motion.div
+                className="text-center mb-12"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
+                viewport={{ once: true }}
+              >
+                <h2 className="text-sm font-semibold text-customBlue uppercase tracking-wider mb-4">
+                  Our Gym
+                </h2>
+                <h3 className="text-3xl md:text-4xl font-bold mb-6 text-white">
+                  Modern <span className="text-customBlue">Equipment</span> &
+                  Facilities
+                </h3>
+                <p className="text-lg text-gray-400 max-w-2xl mx-auto">
+                  Step inside our world-class facility and discover why ShapeUp
+                  is the premier fitness destination in Addis Ababa.
+                </p>
+              </motion.div>
 
-            <div className="w-full max-w-6xl mx-auto">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                {teamMembers.map((member, index) => (
-                  <motion.div
-                    key={index}
-                    className="text-center"
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
-                    viewport={{ once: true }}
-                  >
-                    <div className="w-32 h-32 md:w-52 md:h-52 mx-auto mb-6 relative overflow-hidden rounded-lg border border-gray-800 hover:border-customBlue/30 transition-all">
-                      <Image
-                        src={member.image}
-                        alt={member.name}
-                        fill
-                        className="object-cover transition-transform duration-500 hover:scale-105"
-                      />
-                    </div>
-                    <h3 className="text-lg font-medium mb-2 text-white">
-                      {member.name}
-                    </h3>
-                    <div className="flex hover:text-customHoverBlue transition-colors cursor-pointer justify-center space-x-4 text-customBlue">
-                      <FaPhoneAlt />
-                      <FaEnvelope />
-                    </div>
-                  </motion.div>
-                ))}
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <motion.div
+                  className="relative overflow-hidden rounded-2xl h-80"
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8 }}
+                  viewport={{ once: true }}
+                >
+                  <Image
+                    src={philosophy}
+                    alt="Strength Training Equipment"
+                    fill
+                    className="object-cover hover:scale-105 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <div className="absolute bottom-6 left-6 text-white">
+                    <h4 className="text-xl font-bold mb-2">
+                      Strength Training Zone
+                    </h4>
+                    <p className="text-gray-200">
+                      Premium weight equipment and free weights for all fitness
+                      levels
+                    </p>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  className="relative overflow-hidden rounded-2xl h-80"
+                  initial={{ opacity: 0, x: 30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8 }}
+                  viewport={{ once: true }}
+                >
+                  <Image
+                    src={community}
+                    alt="Group Training Classes"
+                    fill
+                    className="object-cover hover:scale-105 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <div className="absolute bottom-6 left-6 text-white">
+                    <h4 className="text-xl font-bold mb-2">Group Training</h4>
+                    <p className="text-gray-200">
+                      Dynamic classes including CrossFit, Kickbox, and Muay Thai
+                    </p>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  className="relative overflow-hidden rounded-2xl h-80"
+                  initial={{ opacity: 0, x: -30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                  viewport={{ once: true }}
+                >
+                  <Image
+                    src={trainers}
+                    alt="Sports Courts"
+                    fill
+                    className="object-cover hover:scale-105 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <div className="absolute bottom-6 left-6 text-white">
+                    <h4 className="text-xl font-bold mb-2">Sports Courts</h4>
+                    <p className="text-gray-200">
+                      Professional futsal and basketball courts for competitive
+                      play
+                    </p>
+                  </div>
+                </motion.div>
+
+                <motion.div
+                  className="relative overflow-hidden rounded-2xl h-80"
+                  initial={{ opacity: 0, x: 30 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.8, delay: 0.2 }}
+                  viewport={{ once: true }}
+                >
+                  <Image
+                    src={ourPhilo}
+                    alt="Recovery Center"
+                    fill
+                    className="object-cover hover:scale-105 transition-transform duration-700"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                  <div className="absolute bottom-6 left-6 text-white">
+                    <h4 className="text-xl font-bold mb-2">
+                      Recovery & Wellness
+                    </h4>
+                    <p className="text-gray-200">
+                      Steam bath, ice bath, and juice bar for complete recovery
+                    </p>
+                  </div>
+                </motion.div>
               </div>
             </div>
           </div>

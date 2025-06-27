@@ -9,7 +9,17 @@ export default function FAQLayout({ children }: FAQLayoutProps) {
 }
 
 export const metadata = {
-  title: "FAQ - ShapeUp Fitness Center",
+  title: "FAQ - ShapeUp Sport Zone | Frequently Asked Questions",
   description:
-    "Find answers to frequently asked questions about ShapeUp Fitness Center, memberships, training programs, and facilities.",
+    "Get answers to common questions about ShapeUp Sport Zone - Addis Ababa's premier fitness center. Learn about memberships, training programs, facilities, schedules, CrossFit classes, Muay Thai training, recovery services, and more.",
+  openGraph: {
+    title: "FAQ - ShapeUp Sport Zone Addis Ababa",
+    description:
+      "Get answers to common questions about ShapeUp Sport Zone - Ethiopia's premier fitness center in Sarbet, Addis Ababa. Membership info, programs, facilities and more.",
+  },
+  twitter: {
+    title: "FAQ - ShapeUp Sport Zone Addis Ababa",
+    description:
+      "Get answers to common questions about ShapeUp Sport Zone - Ethiopia's premier fitness center in Sarbet, Addis Ababa. Membership info, programs, facilities and more.",
+  },
 };

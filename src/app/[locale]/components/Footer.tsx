@@ -98,11 +98,6 @@ const Footer: React.FC = () => {
                     Register Now
                   </Link>
                 </li>
-                <li className="cursor-pointer">
-                  <Link href="/admin" className="hover:underline">
-                    Admin Portal
-                  </Link>
-                </li>
               </ul>
             </div>
           </div>

@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import heroImage from "@/assets/heroImages/four.jpg";
 import {
   FaArrowLeft,
   FaArrowRight,
@@ -64,24 +65,18 @@ const FitnessComponent = () => {
 
   const testimonials = [
     {
-      leftImg: "/Images/Manger.jpg",
-      rightImg: "/Images/Manger.jpg",
       text: "This gym transformed my life. The trainers are knowledgeable and the community keeps me motivated. I've never felt stronger!",
       name: "Hannah K.",
       title: "Bodybuilding Champion",
     },
     {
-      leftImg: "/Images/Manger.jpg",
-      rightImg: "/Images/Manger.jpg",
       text: "The facilities are top-notch and the classes are challenging yet accessible. I look forward to every workout session!",
-      name: "Michael T.",
+      name: "Yonathan T.",
       title: "Fitness Enthusiast",
     },
     {
-      leftImg: "/Images/Manger.jpg",
-      rightImg: "/Images/Manger.jpg",
-      text: "The facilities are top-notch and the classes are challenging yet accessible. I look forward to every workout session!",
-      name: "Michael T.",
+      text: "Amazing transformation journey with professional guidance. The support system here is incredible and keeps me coming back!",
+      name: "Nardos A.",
       title: "Fitness Enthusiast",
     },
   ];
@@ -111,20 +106,16 @@ const FitnessComponent = () => {
 
     if (bmiRounded < 18.5) {
       category = "Underweight";
-      services = ["Body Building", "Strength Training", "Nutrition Planning"];
+      services = ["Strength Training", "Group Exercise", "Juice Bar"];
     } else if (bmiRounded >= 18.5 && bmiRounded < 25) {
       category = "Normal Weight";
-      services = ["Aerobics", "Futsal", "Yoga", "Maintenance Programs"];
+      services = ["CrossFit Training", "Sports Courts", "Women's Only"];
     } else if (bmiRounded >= 25 && bmiRounded < 30) {
       category = "Overweight";
-      services = ["Cardio Training", "HIIT Classes", "Weight Management"];
+      services = ["Kickbox Training", "Muay Thai Training", "Recovery Center"];
     } else {
       category = "Obese";
-      services = [
-        "Personal Training",
-        "Medical Fitness",
-        "Nutrition Counseling",
-      ];
+      services = ["Strength Training", "Group Exercise", "Recovery Center"];
     }
 
     setBmiCategory(category);
@@ -154,7 +145,7 @@ const FitnessComponent = () => {
           >
             <div className="relative w-full max-w-[550px] overflow-hidden rounded-lg border border-gray-800 hover:border-customBlue/30 transition-all">
               <Image
-                src="/trainers.jpg"
+                src={heroImage}
                 alt="Professional trainers at our gym"
                 width={600}
                 height={500}
@@ -271,167 +262,86 @@ const FitnessComponent = () => {
           viewport={{ once: true }}
           className="max-w-6xl mx-auto"
         >
-          <h2 className="lg:hidden text-2xl md:text-3xl font-bold text-center mb-2">
+          <h2 className="text-3xl lg:text-4xl font-bold text-center mb-4">
             What Our Members Say
           </h2>
-          <h2 className="lg:hidden text-2xl md:text-3xl font-bold mb-8 md:mb-12 text-center">
+          <h2 className="text-xl lg:text-2xl font-bold mb-12 text-center text-gray-400">
             About Us
           </h2>
 
           <div className="relative">
-            {/* Mobile Layout (stacked) */}
-            <div className="lg:hidden">
+            {/* Unified Layout for all screen sizes */}
+            <div className="max-w-4xl mx-auto">
               <div className="flex flex-col items-center">
-                {/* Combined image for mobile */}
-                <div className="relative w-full max-w-xs h-64 mb-6">
-                  <div className="absolute inset-0 rounded-lg overflow-hidden">
-                    <Image
-                      src={testimonials[currentIndex].leftImg}
-                      alt="Member"
-                      fill
-                      className="object-cover"
-                    />
-                  </div>
-                </div>
-
                 {/* Testimonial content */}
-                <div className="text-center px-4">
-                  <h3 className="text-xl font-bold text-customBlue mb-2">
-                    {testimonials[currentIndex].name}
-                  </h3>
-                  <p className="text-gray-300 italic mb-3">
+                <motion.div
+                  className="text-center px-4 bg-gray-800 rounded-xl p-8 mb-8"
+                  key={`testimonial-${currentIndex}`}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5 }}
+                >
+                  <div className="mb-6">
+                    <svg
+                      className="w-8 h-8 text-customBlue mx-auto mb-4"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
+                      <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-10zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h4v10h-10z" />
+                    </svg>
+                  </div>
+                  <p className="text-gray-300 italic text-lg mb-6 leading-relaxed">
                     "{testimonials[currentIndex].text}"
                   </p>
-                  <p className="text-gray-400 text-sm">
-                    {testimonials[currentIndex].title}
-                  </p>
-                </div>
-              </div>
-
-              {/* Mobile arrows */}
-              <div className="flex justify-center mt-8 gap-4">
-                <button
-                  onClick={goPrev}
-                  disabled={!canGoPrev}
-                  className={`p-3 text-black text-lg rounded-full transition ${
-                    canGoPrev ? "bg-customBlue" : "bg-gray-600"
-                  }`}
-                >
-                  <FaArrowLeft className="text-xl" />
-                </button>
-                <button
-                  onClick={goNext}
-                  disabled={!canGoNext}
-                  className={`p-3 text-black text-lg rounded-full transition ${
-                    canGoNext ? "bg-customBlue" : "bg-gray-600"
-                  }`}
-                >
-                  <FaArrowRight className="text-xl" />
-                </button>
-              </div>
-            </div>
-
-            {/* Desktop Layout (side-by-side) */}
-            <div className="hidden lg:flex p-8 lg:p-20 bg-gray-950">
-              <motion.div
-                initial={{ opacity: 0 }}
-                whileInView={{ opacity: 1 }}
-                transition={{ duration: 0.8 }}
-                viewport={{ once: true }}
-                className="max-w-6xl mx-auto"
-              >
-                <h2 className="text-3xl font-bold text-center mb-4">
-                  What Our Members Say
-                </h2>
-                <h2 className="text-3xl font-bold mb-12 text-center">
-                  About Us
-                </h2>
-
-                <div className="flex items-center justify-center gap-4">
-                  {canGoPrev && (
-                    <motion.button
-                      onClick={goPrev}
-                      className="p-3 mr-4 lg:mr-16 text-black text-lg bg-customBlue rounded-full transition"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                    >
-                      <FaArrowLeft className="text-2xl font-extralight" />
-                    </motion.button>
-                  )}
-
-                  <div className="flex items-center">
-                    <motion.div
-                      className="relative mb-20 w-40 h-56 z-0"
-                      key={`left-${currentIndex}`}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      <Image
-                        src={testimonials[currentIndex].leftImg}
-                        alt="Member photo"
-                        fill
-                        className="object-cover rounded-l-lg"
-                      />
-                    </motion.div>
-
-                    <motion.div
-                      className="relative w-40 h-56 z-10 -ml-8 mr-20"
-                      key={`right-${currentIndex}`}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.5 }}
-                    >
-                      <Image
-                        src={testimonials[currentIndex].rightImg}
-                        alt="Member in action"
-                        fill
-                        className="object-cover rounded-r-lg border-l-2 border-white"
-                      />
-                    </motion.div>
-
-                    <motion.div
-                      className="ml-8 w-52 lg:w-64"
-                      key={`text-${currentIndex}`}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      transition={{ duration: 0.5, delay: 0.2 }}
-                    >
-                      <h2 className="text-2xl lg:text-3xl font-bold pb-4 text-customBlue">
-                        {testimonials[currentIndex].name}
-                      </h2>
-                      <p className="text-gray-300 italic mb-4">
-                        "{testimonials[currentIndex].text}"
-                      </p>
-                      <p className="text-gray-400 text-sm">
-                        {testimonials[currentIndex].title}
-                      </p>
-                    </motion.div>
+                  <div className="border-t border-gray-700 pt-4">
+                    <h3 className="text-xl font-bold text-customBlue mb-1">
+                      {testimonials[currentIndex].name}
+                    </h3>
+                    <p className="text-gray-400 text-sm">
+                      {testimonials[currentIndex].title}
+                    </p>
                   </div>
+                </motion.div>
 
-                  {canGoNext && (
-                    <motion.button
-                      onClick={goNext}
-                      className="p-3 ml-4 lg:ml-16 text-black text-lg bg-customBlue rounded-full transition"
-                      whileHover={{ scale: 1.1 }}
-                      whileTap={{ scale: 0.9 }}
-                    >
-                      <FaArrowRight className="text-2xl font-extralight" />
-                    </motion.button>
-                  )}
+                {/* Navigation arrows */}
+                <div className="flex justify-center gap-4">
+                  <button
+                    onClick={goPrev}
+                    disabled={!canGoPrev}
+                    className={`p-3 text-black text-lg rounded-full transition-all ${
+                      canGoPrev
+                        ? "bg-customBlue hover:bg-customHoverBlue"
+                        : "bg-gray-600 cursor-not-allowed"
+                    }`}
+                  >
+                    <FaArrowLeft className="text-xl" />
+                  </button>
+                  <button
+                    onClick={goNext}
+                    disabled={!canGoNext}
+                    className={`p-3 text-black text-lg rounded-full transition-all ${
+                      canGoNext
+                        ? "bg-customBlue hover:bg-customHoverBlue"
+                        : "bg-gray-600 cursor-not-allowed"
+                    }`}
+                  >
+                    <FaArrowRight className="text-xl" />
+                  </button>
                 </div>
-              </motion.div>
+              </div>
             </div>
           </div>
 
-          {/* Dots indicator for mobile */}
-          <div className="lg:hidden flex justify-center mt-6 gap-2">
+          {/* Dots indicator */}
+          <div className="flex justify-center mt-8 gap-2">
             {testimonials.map((_, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentIndex(index)}
-                className={`w-2 h-2 rounded-full transition ${
-                  currentIndex === index ? "bg-customBlue" : "bg-gray-600"
+                className={`w-3 h-3 rounded-full transition-all ${
+                  currentIndex === index
+                    ? "bg-customBlue"
+                    : "bg-gray-600 hover:bg-gray-500"
                 }`}
                 aria-label={`Go to testimonial ${index + 1}`}
               />
@@ -654,12 +564,12 @@ const FitnessComponent = () => {
                 <h3 className="text-xl font-bold mb-4">Operating Hours</h3>
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <div className="text-gray-400">Monday - Friday</div>
-                    <div className="font-medium">5:00 AM - 11:00 PM</div>
+                    <div className="text-gray-400">Monday - Saturday</div>
+                    <div className="font-medium">5:00 AM - 9:00 PM</div>
                   </div>
                   <div>
-                    <div className="text-gray-400">Saturday - Sunday</div>
-                    <div className="font-medium">7:00 AM - 9:00 PM</div>
+                    <div className="text-gray-400">Sundays </div>
+                    <div className="font-medium">7:00 AM - 1:00 PM</div>
                   </div>
                 </div>
               </div>

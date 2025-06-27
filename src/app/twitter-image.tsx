@@ -2,7 +2,8 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
-export const alt = "shape up fitness - Premier Fitness Center";
+export const alt =
+  "ShapeUp Sport Zone - Premium Fitness Center in Addis Ababa, Ethiopia";
 export const size = {
   width: 1200,
   height: 630,
@@ -21,7 +22,8 @@ export default async function Image() {
         <div
           style={{
             fontSize: 128,
-            background: "linear-gradient(to right, #000000, #121212)",
+            background:
+              "linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #121212 100%)",
             width: "100%",
             height: "100%",
             display: "flex",
@@ -63,7 +65,7 @@ export default async function Image() {
                   color: "#ffffff",
                 }}
               >
-                MF
+                SZ
               </div>
               <div
                 style={{
@@ -72,7 +74,7 @@ export default async function Image() {
                   color: "#ffffff",
                 }}
               >
-                shape up fitness
+                ShapeUp Sport Zone
               </div>
             </div>
             <div
@@ -84,7 +86,7 @@ export default async function Image() {
                 textAlign: "center",
               }}
             >
-              Premier Fitness Center in Addis
+              Premium Fitness Center • Addis Ababa, Ethiopia
             </div>
             <div
               style={{

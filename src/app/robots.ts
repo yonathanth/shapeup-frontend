@@ -1,19 +1,14 @@
 import { MetadataRoute } from "next";
 
 export default function robots(): MetadataRoute.Robots {
-  const locales = ["am", "en"]; // Your supported locales
-  const disallowedPaths = ["/user", "/admin"];
-
   return {
     rules: [
       {
         userAgent: "*",
-        allow: "/",
-        disallow: locales.flatMap((locale) =>
-          disallowedPaths.map((path) => `/${locale}${path}`)
-        ),
+        allow: ["/en/", "/favicon.ico", "/Images/", "/assets/"],
+        disallow: ["/am/", "/admin/", "/api/", "/user/", "/private/", "/*?*"],
       },
     ],
-    sitemap: "https://musclefitness.com/sitemap.xml",
+    sitemap: "https://shapeupsportzone.com/sitemap.xml",
   };
 }

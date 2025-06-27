@@ -1,18 +1,18 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Services | shape up fitness",
+  title: "Fitness Services - ShapeUp Sport Zone | Premium Training Programs",
   description:
-    "Explore our range of fitness services including personal training, group fitness, bodybuilding, and more at shape up fitness.",
+    "Discover premium fitness services at ShapeUp Sport Zone Addis Ababa: Strength Training, CrossFit, Muay Thai, Kickboxing, Group Exercise, Women's Only Section, Sports Courts, Recovery Center with Steam & Ice Baths, and Juice Bar. Expert trainers and world-class equipment.",
   openGraph: {
-    title: "Fitness Services | shape up fitness",
+    title: "Premium Fitness Services - ShapeUp Sport Zone Addis Ababa",
     description:
-      "From personalized training to group fitness classes, discover the right program for your fitness journey at shape up fitness.",
+      "Experience comprehensive fitness programs at Ethiopia's premier training facility. CrossFit, Muay Thai, Kickboxing, Strength Training, Sports Courts, Recovery Center, and more in Sarbet, Addis Ababa.",
   },
   twitter: {
-    title: "Fitness Services | shape up fitness",
+    title: "Premium Fitness Services - ShapeUp Sport Zone Addis Ababa",
     description:
-      "From personalized training to group fitness classes, discover the right program for your fitness journey at shape up fitness.",
+      "Experience comprehensive fitness programs at Ethiopia's premier training facility. CrossFit, Muay Thai, Kickboxing, Strength Training, Sports Courts, Recovery Center, and more in Sarbet, Addis Ababa.",
   },
 };
 

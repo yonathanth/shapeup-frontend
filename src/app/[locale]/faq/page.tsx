@@ -13,7 +13,7 @@ import {
 } from "react-icons/fa";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import heroImage from "../../../../assets/images/about.jpeg";
+import heroImage from "../../../../assets/heroImages/eight.jpg";
 
 interface FAQItem {
   id: number;

@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { FaArrowRight } from "react-icons/fa";
 import Image from "next/image";
-import heroImage from "@/assets/images/hero.jpeg";
+import heroImage from "@/assets/heroImages/six.jpg";
 import { useEffect, useRef, useState } from "react";
 
 const Hero = () => {

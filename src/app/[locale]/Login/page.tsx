@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import loginImage from "@/assets/images/hero.jpeg";
+import loginImage from "@/assets/heroImages/six.jpg";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";

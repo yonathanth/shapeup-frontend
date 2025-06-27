@@ -1,18 +1,18 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Contact Us | shape up fitness",
+  title: "Contact ShapeUp Sport Zone - Get in Touch | Sarbet, Addis Ababa",
   description:
-    "Get in touch with shape up fitness. Find our locations, contact information, and send us your feedback or inquiries.",
+    "Contact ShapeUp Sport Zone - Ethiopia's premier fitness center in Sarbet, Addis Ababa. Get membership information, class schedules, facility tours, and expert fitness consultation. Call 0944221314 or email shapeup162@gmail.com. Open 5AM-9PM Mon-Sat, 7AM-1PM Sunday.",
   openGraph: {
-    title: "Contact shape up fitness | Get in Touch With Our Team",
+    title: "Contact ShapeUp Sport Zone - Premium Fitness Center Addis Ababa",
     description:
-      "Reach out to our team for any questions about memberships, classes, or facilities. We're here to help you on your fitness journey.",
+      "Get in touch with ShapeUp Sport Zone for membership information, facility tours, and expert fitness consultation. Located in Sarbet, Addis Ababa. Professional team ready to help start your fitness transformation.",
   },
   twitter: {
-    title: "Contact shape up fitness | Get in Touch With Our Team",
+    title: "Contact ShapeUp Sport Zone - Premium Fitness Center Addis Ababa",
     description:
-      "Reach out to our team for any questions about memberships, classes, or facilities. We're here to help you on your fitness journey.",
+      "Get in touch with ShapeUp Sport Zone for membership information, facility tours, and expert fitness consultation. Located in Sarbet, Addis Ababa. Professional team ready to help start your fitness transformation.",
   },
 };
 

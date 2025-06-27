@@ -10,18 +10,18 @@ import Login from "./Login/page";
 import About from "./components/About";
 
 export const metadata: Metadata = {
-  title: "shape up fitness - Premier Fitness Center in Addis",
+  title: "ShapeUp Sport Zone - Premium Fitness Center in Addis Ababa, Ethiopia",
   description:
-    "Transform your body and life at shape up fitness. Professional trainers, state-of-the-art equipment, and personalized programs for all fitness levels.",
+    "Transform your fitness journey at ShapeUp Sport Zone - Addis Ababa's premier fitness destination. World-class equipment, expert trainers, CrossFit, Muay Thai, kickboxing, sports courts, recovery facilities, and nutrition guidance in Sarbet, Addis Ababa.",
   openGraph: {
-    title: "shape up fitness - Premium Gym & Fitness Center in Addis",
+    title: "ShapeUp Sport Zone - Premium Fitness Center in Addis Ababa",
     description:
-      "Join shape up fitness for personalized training programs, state-of-the-art equipment, and expert guidance to achieve your fitness goals.",
+      "Experience Ethiopia's most advanced fitness facility. Premium equipment, expert training, CrossFit, Muay Thai, recovery center, and more at ShapeUp Sport Zone in Sarbet, Addis Ababa.",
   },
   twitter: {
-    title: "shape up fitness - Premium Gym & Fitness Center in Addis",
+    title: "ShapeUp Sport Zone - Premium Fitness Center in Addis Ababa",
     description:
-      "Join shape up fitness for personalized training programs, state-of-the-art equipment, and expert guidance to achieve your fitness goals.",
+      "Experience Ethiopia's most advanced fitness facility. Premium equipment, expert training, CrossFit, Muay Thai, recovery center, and more at ShapeUp Sport Zone in Sarbet, Addis Ababa.",
   },
 };
 

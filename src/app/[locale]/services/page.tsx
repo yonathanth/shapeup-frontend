@@ -6,7 +6,7 @@ import { faArrowUp, faCheck, faCrown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import servicesHeroImage from "../../../../assets/images/services_hero.jpg";
+import servicesHeroImage from "../../../../assets/heroImages/twelve.jpg";
 
 interface ServicePlan {
   id: string;

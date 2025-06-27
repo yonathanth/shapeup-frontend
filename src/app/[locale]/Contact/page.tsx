@@ -7,7 +7,7 @@ import { FaFacebook, FaInstagram, FaTiktok } from "react-icons/fa";
 import { Phone, Mail, MapPin, Clock } from "lucide-react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import heroImage from "../../../../assets/images/about.jpeg";
+import heroImage from "../../../../assets/heroImages/nine.jpg";
 const NEXT_PUBLIC_API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5003";
 

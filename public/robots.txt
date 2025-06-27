@@ -1,6 +1,12 @@
-# Allow all crawlers
+# ShapeUp Sport Zone - Premium Fitness Center in Addis Ababa
+# Only allow crawling of English pages
 User-agent: *
-Allow: /
+Allow: /en/
+Disallow: /am/
+Disallow: /admin/
+Disallow: /api/
+Disallow: /*?*
+Disallow: /private/
 
 # Sitemap location
-Sitemap: https://musclefitness.com/sitemap.xml 
+Sitemap: https://shapeupsportzone.com/sitemap.xml 

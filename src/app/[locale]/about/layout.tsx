@@ -1,18 +1,18 @@
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "About Us | shape up fitness",
+  title: "About ShapeUp Sport Zone - Premium Fitness Center in Addis Ababa",
   description:
-    "Learn about shape up fitness's mission, values, and dedicated team helping members achieve their fitness goals in Addis.",
+    "Discover ShapeUp Sport Zone's story - Addis Ababa's premier fitness destination in Sarbet. Learn about our world-class facilities, expert trainers, advanced equipment, and commitment to transforming lives through fitness. From CrossFit and Muay Thai to recovery centers and nutrition guidance.",
   openGraph: {
-    title: "About shape up fitness | Premier Fitness Center in Addis",
+    title: "About ShapeUp Sport Zone - Premium Fitness Center in Addis Ababa",
     description:
-      "Discover our story, mission, and the team behind shape up fitness - dedicated to transforming lives through fitness and wellness.",
+      "Discover Ethiopia's most advanced fitness facility. Learn about our world-class equipment, expert trainers, and comprehensive programs including CrossFit, Muay Thai, sports courts, and recovery facilities in Sarbet, Addis Ababa.",
   },
   twitter: {
-    title: "About shape up fitness | Premier Fitness Center in Addis",
+    title: "About ShapeUp Sport Zone - Premium Fitness Center in Addis Ababa",
     description:
-      "Discover our story, mission, and the team behind shape up fitness - dedicated to transforming lives through fitness and wellness.",
+      "Discover Ethiopia's most advanced fitness facility. Learn about our world-class equipment, expert trainers, and comprehensive programs including CrossFit, Muay Thai, sports courts, and recovery facilities in Sarbet, Addis Ababa.",
   },
 };
 

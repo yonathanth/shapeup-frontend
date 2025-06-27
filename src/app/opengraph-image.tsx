@@ -2,7 +2,8 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
-export const alt = "shape up fitness - Premier Fitness Center";
+export const alt =
+  "ShapeUp Sport Zone - Premium Fitness Center in Addis Ababa, Ethiopia";
 export const size = {
   width: 1200,
   height: 630,
@@ -21,7 +22,8 @@ export default async function Image() {
         <div
           style={{
             fontSize: 128,
-            background: "linear-gradient(to right, #000000, #121212)",
+            background:
+              "linear-gradient(135deg, #000000 0%, #1a1a1a 50%, #121212 100%)",
             width: "100%",
             height: "100%",
             display: "flex",
@@ -29,8 +31,21 @@ export default async function Image() {
             alignItems: "center",
             justifyContent: "center",
             padding: 32,
+            position: "relative",
           }}
         >
+          {/* Background pattern */}
+          <div
+            style={{
+              position: "absolute",
+              width: "100%",
+              height: "100%",
+              opacity: 0.1,
+              background:
+                "radial-gradient(circle at 30% 50%, #4099ff 0%, transparent 50%)",
+            }}
+          />
+
           <div
             style={{
               display: "flex",
@@ -38,29 +53,31 @@ export default async function Image() {
               justifyContent: "center",
               alignItems: "center",
               textAlign: "center",
+              zIndex: 1,
             }}
           >
             <div
               style={{
-                fontSize: 64,
-                fontWeight: 600,
+                fontSize: 72,
+                fontWeight: 700,
                 color: "#ffffff",
-                marginBottom: 16,
+                marginBottom: 8,
                 textAlign: "center",
+                textShadow: "2px 2px 4px rgba(0,0,0,0.5)",
               }}
             >
-              shape up fitness
+              ShapeUp Sport Zone
             </div>
             <div
               style={{
-                fontSize: 32,
-                fontWeight: 400,
-                color: "#4099ff", // This is the customBlue color as referenced in the website
-                marginBottom: 32,
+                fontSize: 36,
+                fontWeight: 500,
+                color: "#4099ff", // CustomBlue color
+                marginBottom: 24,
                 textAlign: "center",
               }}
             >
-              Premier Fitness Center in Addis
+              Premium Fitness Center • Addis Ababa
             </div>
             <div
               style={{
@@ -68,11 +85,23 @@ export default async function Image() {
                 fontWeight: 400,
                 color: "#cccccc",
                 textAlign: "center",
-                maxWidth: 800,
+                maxWidth: 900,
+                lineHeight: 1.3,
               }}
             >
-              Transform your body and life with professional trainers and
-              state-of-the-art facilities
+              CrossFit • Muay Thai • Kickboxing • Recovery Center • Sports
+              Courts
+            </div>
+            <div
+              style={{
+                fontSize: 20,
+                fontWeight: 400,
+                color: "#888888",
+                textAlign: "center",
+                marginTop: 16,
+              }}
+            >
+              shapeupsportzone.com
             </div>
           </div>
         </div>
