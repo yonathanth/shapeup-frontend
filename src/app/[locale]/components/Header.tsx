@@ -11,7 +11,7 @@ const Header = () => {
 
   return (
     <header className="w-full fixed top-4 left-0 z-50 sm:px-16 px-2">
-      <div className="mx-auto max-w-7xl px-8  py-1 sm:py-2 bg-white/20  shadow-md backdrop-blur-xl text-white rounded-xl flex items-center justify-between">
+      <div className="mx-auto max-w-7xl px-8  py-1.5 sm:py-2 bg-white/20  shadow-md backdrop-blur-xl text-white rounded-xl flex items-center justify-between">
         {/* Left: Logo */}
         <div className="hover:opacity-80 transition-opacity">
           <Link href="/">

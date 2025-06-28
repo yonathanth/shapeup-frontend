@@ -6,6 +6,7 @@ import aboutUsHero from "../../../../assets/heroImages/three.jpg";
 import ourPhilo from "../../../../assets/images/ourPhilosophy.jpg";
 import community from "../../../../assets/heroImages/ten.jpg";
 import trainers from "../../../../assets/images/trainers.jpg";
+import servicesHeroImage from "../../../../assets/heroImages/twelve.jpg";
 import philosophy from "../../../../assets/heroImages/nine.jpg";
 import { motion } from "framer-motion";
 import { faArrowUp } from "@fortawesome/free-solid-svg-icons";
@@ -487,7 +488,7 @@ const AboutUsPage = () => {
                   viewport={{ once: true }}
                 >
                   <Image
-                    src={ourPhilo}
+                    src={servicesHeroImage}
                     alt="Recovery Center"
                     fill
                     className="object-cover hover:scale-105 transition-transform duration-700"
@@ -531,7 +532,7 @@ const AboutUsPage = () => {
 
               <div className="flex justify-center">
                 <Link href="/Register">
-                  <button className="bg-customBlue hover:bg-customHoverBlue text-black font-bold px-10 py-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-customBlue/30 text-lg">
+                  <button className="bg-customBlue hover:bg-customHoverBlue text-black font-bold px-5 sm:px-10 py-2 sm:py-4 rounded-lg transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-customBlue/30 sm:text-lg">
                     Join ShapeUp Today
                   </button>
                 </Link>

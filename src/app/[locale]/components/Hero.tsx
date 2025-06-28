@@ -175,12 +175,12 @@ const Hero = () => {
       >
         <div className="w-full px-6 md:px-20">
           <div className="max-w-2xl text-white">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 leading-tight">
-              Shape Up Fitness Center
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-3 leading-tight">
+              SHAPE UP SPORT ZONE{" "}
             </h1>
-            <p className="text-sm md:text-base lg:text-lg mb-8 md:mb-10">
-              Achieve your fitness goals with experienced guidance, flexible
-              plans, and real results.
+            <p className="text-sm md:text-base lg:text-lg mb-5 sm:mb-8 md:mb-10">
+              Your space for movement, strength, and recovery—tailored to your
+              pace
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link href="/en/Register">
