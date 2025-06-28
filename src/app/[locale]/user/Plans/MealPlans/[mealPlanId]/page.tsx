@@ -319,7 +319,7 @@ export default function PlanDetails({
                 </div>
               </div>
 
-              {!doesMealPlanExist && (
+              {/* {!doesMealPlanExist && (
                 <button
                   className="bg-customBlue text-black px-6 py-3 rounded-lg font-semibold hover:bg-customHoverBlue transition-colors mt-4"
                   onClick={async () => {
@@ -328,7 +328,7 @@ export default function PlanDetails({
                 >
                   Add to My Plans
                 </button>
-              )}
+              )} */}
             </div>
 
             <div className="w-full lg:w-48 h-32 sm:h-40 lg:h-48 relative">

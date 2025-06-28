@@ -195,7 +195,7 @@ const Page = () => {
               </div>
               <div className="flex-1">
                 <FormattedName fullName={memberDetails?.fullName || ""} />
-                <p className="text-gray-400 text-sm mt-1">
+                <p className="text-white text-sm mt-1">
                   Member since{" "}
                   {new Date(
                     memberDetails?.firstRegisteredAt || ""

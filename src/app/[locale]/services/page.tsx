@@ -271,7 +271,7 @@ const ServicesPage = () => {
         {/* Main Content Section */}
         <div ref={nextSectionRef} className="relative z-10 bg-black">
           {/* Pricing Plans Header */}
-          <section className="pt-20 pb-10 px-4 md:px-8 lg:px-16">
+          <section className="pt-20 pb-6 md:pb-10 px-4 md:px-8 lg:px-16">
             <div className="max-w-6xl mx-auto text-center">
               <motion.h2
                 className="text-4xl md:text-5xl font-bold mb-6 leading-tight"
@@ -285,7 +285,7 @@ const ServicesPage = () => {
                 <span className="text-customBlue">fitness journey</span>
               </motion.h2>
               <motion.p
-                className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-16"
+                className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-8 md:mb-16"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.2 }}
@@ -297,122 +297,54 @@ const ServicesPage = () => {
             </div>
           </section>
 
-          {/* Filter Section */}
-          <section className="pb-10 px-4 md:px-8 lg:px-16">
+          {/* Improved Filter Section */}
+          <section className="py-6 px-4 md:px-8 lg:px-16">
             <div className="max-w-6xl mx-auto">
-              {/* Simple and subtle filter bar */}
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-8 py-6 border-b border-gray-800">
-                {/* Filter Label */}
-                <div className="flex items-center gap-2">
-                  <span className="text-gray-400 text-sm font-medium">
-                    Filter by:
-                  </span>
-                </div>
-
-                {/* Filter Controls */}
-                <div className="flex flex-col sm:flex-row gap-4">
-                  {/* Category Filter */}
-                  <div className="relative">
-                    <select
-                      value={selectedCategory}
-                      onChange={(e) => setSelectedCategory(e.target.value)}
-                      className="
-                        appearance-none bg-transparent border border-gray-700 
-                        text-white text-sm rounded-lg px-4 py-2 pr-8
-                        focus:outline-none focus:border-customBlue focus:ring-1 focus:ring-customBlue
-                        transition-all duration-200 hover:border-gray-600
-                        cursor-pointer min-w-[120px]
-                      "
-                    >
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                {/* Filter controls - more subtle design */}
+                <div className="flex flex-col sm:flex-row items-center gap-4">
+                  <div className="flex items-center gap-2">
+                    <span className="text-gray-400 text-sm">Category:</span>
+                    <div className="flex space-x-1 bg-gray-900/50 rounded-lg p-1">
                       {getUniqueCategories().map((category) => (
-                        <option
+                        <button
                           key={category}
-                          value={category}
-                          className="bg-gray-800 text-white"
+                          onClick={() => setSelectedCategory(category)}
+                          className={`px-3 py-1 text-sm rounded-md transition-all ${
+                            selectedCategory === category
+                              ? "bg-customBlue text-black font-medium"
+                              : "text-gray-300 hover:text-white"
+                          }`}
                         >
                           {category}
-                        </option>
+                        </button>
                       ))}
-                    </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
                     </div>
                   </div>
 
-                  {/* Gender Filter */}
-                  <div className="relative">
-                    <select
-                      value={selectedGender}
-                      onChange={(e) => setSelectedGender(e.target.value)}
-                      className="
-                        appearance-none bg-transparent border border-gray-700 
-                        text-white text-sm rounded-lg px-4 py-2 pr-8
-                        focus:outline-none focus:border-customBlue focus:ring-1 focus:ring-customBlue
-                        transition-all duration-200 hover:border-gray-600
-                        cursor-pointer min-w-[120px]
-                      "
-                    >
+                  <div className="flex items-center gap-2">
+                    <span className="text-gray-400 text-sm">Target:</span>
+                    <div className="flex space-x-1 bg-gray-900/50 rounded-lg p-1">
                       {getUniqueGenders().map((gender) => (
-                        <option
+                        <button
                           key={gender}
-                          value={gender}
-                          className="bg-gray-800 text-white"
+                          onClick={() => setSelectedGender(gender)}
+                          className={`px-3 py-1 text-sm rounded-md transition-all ${
+                            selectedGender === gender
+                              ? "bg-customBlue text-black font-medium"
+                              : "text-gray-300 hover:text-white"
+                          }`}
                         >
                           {gender.charAt(0).toUpperCase() + gender.slice(1)}
-                        </option>
+                        </button>
                       ))}
-                    </select>
-                    <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-                      <svg
-                        className="w-4 h-4 text-gray-400"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M19 9l-7 7-7-7"
-                        />
-                      </svg>
                     </div>
                   </div>
-
-                  {/* Clear Filters Button */}
-                  {(selectedCategory !== "All" || selectedGender !== "All") && (
-                    <button
-                      onClick={() => {
-                        setSelectedCategory("All");
-                        setSelectedGender("All");
-                      }}
-                      className="
-                        text-gray-400 hover:text-white text-sm underline 
-                        underline-offset-4 decoration-1 hover:decoration-2
-                        transition-all duration-200 px-2 py-2
-                      "
-                    >
-                      Clear filters
-                    </button>
-                  )}
                 </div>
 
-                {/* Results Count */}
-                <div className="text-gray-500 text-xs">
-                  {filteredPlans.length} service
-                  {filteredPlans.length !== 1 ? "s" : ""}
+                {/* Results count - more subtle */}
+                <div className="text-sm text-gray-500">
+                  Showing {filteredPlans.length} of {plans.length} plans
                 </div>
               </div>
             </div>

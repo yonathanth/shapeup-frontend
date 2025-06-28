@@ -29,6 +29,116 @@ interface Service {
   description?: string[];
 }
 
+// Image compression utility function
+const compressImage = (file: File, maxSizeMB: number = 2): Promise<File> => {
+  return new Promise((resolve) => {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    const img = new Image();
+
+    img.onload = () => {
+      // Calculate new dimensions while maintaining aspect ratio
+      const maxWidth = 800;
+      const maxHeight = 600;
+      let { width, height } = img;
+
+      if (width > height) {
+        if (width > maxWidth) {
+          height = (height * maxWidth) / width;
+          width = maxWidth;
+        }
+      } else {
+        if (height > maxHeight) {
+          width = (width * maxHeight) / height;
+          height = maxHeight;
+        }
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+
+      // Draw and compress
+      ctx?.drawImage(img, 0, 0, width, height);
+
+      canvas.toBlob(
+        (blob) => {
+          if (blob) {
+            const compressedFile = new File([blob], file.name, {
+              type: "image/jpeg",
+              lastModified: Date.now(),
+            });
+            resolve(compressedFile);
+          } else {
+            resolve(file);
+          }
+        },
+        "image/jpeg",
+        0.8 // Compression quality
+      );
+    };
+
+    img.src = URL.createObjectURL(file);
+  });
+};
+
+// File size validation utility
+const validateFileSize = (file: File, maxSizeMB: number = 5): boolean => {
+  const maxSizeBytes = maxSizeMB * 1024 * 1024;
+  return file.size <= maxSizeBytes;
+};
+
+// Convert base64 to compressed file
+const base64ToCompressedFile = (
+  base64String: string,
+  fileName: string = "camera-photo.jpg"
+): Promise<File> => {
+  return new Promise((resolve) => {
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+    const img = new Image();
+
+    img.onload = () => {
+      // Calculate new dimensions
+      const maxWidth = 800;
+      const maxHeight = 600;
+      let { width, height } = img;
+
+      if (width > height) {
+        if (width > maxWidth) {
+          height = (height * maxWidth) / width;
+          width = maxWidth;
+        }
+      } else {
+        if (height > maxHeight) {
+          width = (width * maxHeight) / height;
+          height = maxHeight;
+        }
+      }
+
+      canvas.width = width;
+      canvas.height = height;
+
+      ctx?.drawImage(img, 0, 0, width, height);
+
+      canvas.toBlob(
+        (blob) => {
+          if (blob) {
+            const file = new File([blob], fileName, {
+              type: "image/jpeg",
+              lastModified: Date.now(),
+            });
+            resolve(file);
+          }
+        },
+        "image/jpeg",
+        0.8
+      );
+    };
+
+    img.src = base64String;
+  });
+};
+
 const Register = () => {
   const t = useTranslations("registration_page");
   const router = useRouter();
@@ -44,7 +154,7 @@ const Register = () => {
   const [formData, setFormData] = useState({
     fullName: "",
     phoneNumber: "",
-    password: "mf1234",
+    password: "",
     email: "",
     address: "",
     dob: "2020-10-10",
@@ -64,6 +174,7 @@ const Register = () => {
   const [selectedPackageName, setSelectedPackageName] = useState<string | null>(
     null
   );
+  const [isProcessingImage, setIsProcessingImage] = useState(false);
   const pathname = usePathname();
 
   const currentLocale = pathname.split("/")[1] || routing.defaultLocale;
@@ -143,6 +254,14 @@ const Register = () => {
       setError("Phone number must be 10 digits number");
       return false;
     }
+    if (!formData.password) {
+      setError("Please enter a password");
+      return false;
+    }
+    if (formData.password.length < 3) {
+      setError("Password must be at least 3 characters long");
+      return false;
+    }
     if (!formData.profileImage) {
       setError("Please upload a profile picture");
       return false;
@@ -217,7 +336,13 @@ const Register = () => {
     } catch (error) {
       console.error("Error during POST request:", error);
       if (axios.isAxiosError(error) && error.response) {
-        setError(error.response.data.message || "An unknown error occurred.");
+        if (error.response.status === 413) {
+          setError(
+            "The uploaded image is too large. Please try uploading a smaller image (under 2MB)."
+          );
+        } else {
+          setError(error.response.data.message || "An unknown error occurred.");
+        }
       } else {
         setError("Network error. Please try again later.");
       }
@@ -236,12 +361,29 @@ const Register = () => {
   };
 
   const handleCapture = (capturedPhoto: string | null) => {
-    setPhoto(capturedPhoto);
-    setFormData((prev) => ({
-      ...prev,
-      profileImage: capturedPhoto,
-    }));
-    setIsModalOpen(false);
+    if (capturedPhoto) {
+      setIsProcessingImage(true);
+      // Convert base64 to compressed file
+      base64ToCompressedFile(capturedPhoto)
+        .then((compressedFile) => {
+          setPhoto(URL.createObjectURL(compressedFile));
+          setFormData((prev) => ({
+            ...prev,
+            profileImage: compressedFile,
+          }));
+          setIsModalOpen(false);
+          setError(null);
+        })
+        .catch((error) => {
+          console.error("Error compressing camera photo:", error);
+          setError("Failed to process camera photo. Please try again.");
+        })
+        .finally(() => {
+          setIsProcessingImage(false);
+        });
+    } else {
+      setIsModalOpen(false);
+    }
   };
 
   const closeModal = () => {
@@ -249,14 +391,51 @@ const Register = () => {
     setIsModalOpen(false);
   };
 
-  const handleGallerySelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleGallerySelect = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     if (event.target.files && event.target.files[0]) {
       const selectedFile = event.target.files[0];
-      setFormData((prev) => ({
-        ...prev,
-        profileImage: selectedFile,
-      }));
-      setPhoto(URL.createObjectURL(selectedFile));
+
+      // Validate file type
+      if (!selectedFile.type.startsWith("image/")) {
+        setError("Please select a valid image file.");
+        return;
+      }
+
+      // Check initial file size (warn if > 10MB)
+      if (!validateFileSize(selectedFile, 10)) {
+        setError(
+          "Image file is too large. Please select an image smaller than 10MB."
+        );
+        return;
+      }
+
+      setIsProcessingImage(true);
+      try {
+        // Compress the image
+        const compressedFile = await compressImage(selectedFile);
+
+        // Final size check after compression
+        if (!validateFileSize(compressedFile, 5)) {
+          setError(
+            "Image is still too large after compression. Please try a smaller image."
+          );
+          return;
+        }
+
+        setFormData((prev) => ({
+          ...prev,
+          profileImage: compressedFile,
+        }));
+        setPhoto(URL.createObjectURL(compressedFile));
+        setError(null); // Clear any previous errors
+      } catch (error) {
+        console.error("Error compressing image:", error);
+        setError("Failed to process image. Please try a different image.");
+      } finally {
+        setIsProcessingImage(false);
+      }
     }
   };
 
@@ -335,6 +514,19 @@ const Register = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">
+                      Password *
+                    </label>
+                    <input
+                      name="password"
+                      value={formData.password}
+                      onChange={handleInputChange}
+                      type="password"
+                      className="w-full p-4 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-customBlue focus:border-transparent bg-gray-700 text-white placeholder-gray-400 transition-all"
+                      placeholder="Enter your password"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-300 mb-2">
                       Address
                     </label>
                     <input
@@ -346,6 +538,9 @@ const Register = () => {
                       placeholder="Enter your address"
                     />
                   </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
                     <label className="block text-sm font-medium text-gray-300 mb-2">
                       Emergency Contact
@@ -359,6 +554,7 @@ const Register = () => {
                       placeholder="Emergency contact number"
                     />
                   </div>
+                  <div></div>
                 </div>
 
                 {/* Upload Photo Section */}
@@ -372,10 +568,17 @@ const Register = () => {
                         e.preventDefault();
                         setIsModalOpen(true);
                       }}
-                      className="flex items-center space-x-2 px-6 py-3 bg-customBlue hover:bg-customHoverBlue text-black rounded-lg font-medium transition-all"
+                      disabled={isProcessingImage}
+                      className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all ${
+                        isProcessingImage
+                          ? "bg-gray-600 cursor-not-allowed"
+                          : "bg-customBlue hover:bg-customHoverBlue text-black"
+                      }`}
                     >
                       <Camera className="w-5 h-5" />
-                      <span>Upload Photo</span>
+                      <span>
+                        {isProcessingImage ? "Processing..." : "Upload Photo"}
+                      </span>
                     </button>
 
                     {photo && (
@@ -391,6 +594,14 @@ const Register = () => {
                       </div>
                     )}
                   </div>
+
+                  {/* Processing feedback */}
+                  {isProcessingImage && (
+                    <div className="flex items-center space-x-2 text-sm text-gray-400">
+                      <div className="w-4 h-4 border-2 border-customBlue border-t-transparent rounded-full animate-spin"></div>
+                      <span>Optimizing image for upload...</span>
+                    </div>
+                  )}
 
                   <PhotoUploadModal
                     isOpen={isModalOpen}
