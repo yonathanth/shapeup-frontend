@@ -47,7 +47,7 @@ export interface MealType {
   name: string;
   slug: string;
   description: string;
-  category: string;
+  category?: string;
   ingredients: {
     id: string;
     name: string;
@@ -78,15 +78,15 @@ const MealList: React.FC<MealListProps> = ({ meals, className }) => {
       ? meals
       : meals.filter((meal) =>
           filter === "breakfast"
-            ? meal.category.toLowerCase().includes("breakfast")
+            ? meal.category?.toLowerCase().includes("breakfast") || false
             : filter === "lunch"
-            ? meal.category.toLowerCase().includes("lunch")
+            ? meal.category?.toLowerCase().includes("lunch") || false
             : filter === "dinner"
-            ? meal.category.toLowerCase().includes("dinner")
+            ? meal.category?.toLowerCase().includes("dinner") || false
             : filter === "snack"
-            ? meal.category.toLowerCase().includes("snack")
+            ? meal.category?.toLowerCase().includes("snack") || false
             : filter === "other"
-            ? meal.category.toLowerCase().includes("other")
+            ? meal.category?.toLowerCase().includes("other") || false
             : false
         );
 
@@ -101,7 +101,11 @@ const MealList: React.FC<MealListProps> = ({ meals, className }) => {
     setShowModal(true);
   };
 
-  const getCategoryColor = (category: string) => {
+  const getCategoryColor = (category: string | undefined) => {
+    if (!category) {
+      return "bg-gray-500/20 text-gray-400 border-gray-500/30";
+    }
+
     switch (category.toLowerCase()) {
       case "breakfast":
         return "bg-yellow-500/20 text-yellow-400 border-yellow-500/30";
@@ -126,17 +130,17 @@ const MealList: React.FC<MealListProps> = ({ meals, className }) => {
   ];
 
   return (
-    <div className="min-h-screen bg-black p-2 sm:p-4 lg:p-6">
-      <div className="max-w-7xl mx-auto">
+    <div className="min-h-screen bg-black p-2 sm:p-4 lg:p-6 xl:p-8">
+      <div className="max-w-[1600px] mx-auto">
         {/* Header */}
         <div className="mb-6">
-          <div className="bg-gradient-to-r from-[#151515] to-[#252525] p-4 sm:p-6 rounded-xl">
+          <div className="bg-gradient-to-r from-[#151515] to-[#252525] p-4 sm:p-6 xl:p-8 rounded-xl">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
               <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-white">
+                <h1 className="text-2xl sm:text-3xl xl:text-4xl font-bold text-white">
                   Meal Library
                 </h1>
-                <p className="text-gray-400 mt-1">
+                <p className="text-gray-400 mt-1 text-base xl:text-lg">
                   Explore our collection of {meals.length} nutritious meals
                 </p>
               </div>
@@ -194,14 +198,14 @@ const MealList: React.FC<MealListProps> = ({ meals, className }) => {
           </div>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-5 gap-6">
           {/* Meals List */}
-          <div className="bg-[#151515] rounded-xl p-4 sm:p-6">
-            <h2 className="text-lg font-semibold text-white mb-4">
+          <div className="bg-[#151515] rounded-xl p-4 sm:p-6 xl:col-span-2">
+            <h2 className="text-lg xl:text-xl font-semibold text-white mb-4">
               Available Meals ({filteredMeals.length})
             </h2>
 
-            <div className="space-y-3 max-h-[70vh] overflow-y-auto pr-2">
+            <div className="space-y-3 max-h-[70vh] xl:max-h-[75vh] overflow-y-auto pr-2">
               {filteredMeals.map((meal) => (
                 <div
                   key={meal.slug}
@@ -213,19 +217,19 @@ const MealList: React.FC<MealListProps> = ({ meals, className }) => {
                   }`}
                 >
                   <div className="flex items-center gap-4">
-                    <div className="relative w-16 h-16 flex-shrink-0">
+                    <div className="relative w-16 h-16 xl:w-20 xl:h-20 flex-shrink-0">
                       <Image
                         src={`${NEXT_PUBLIC_API_BASE_URL}/uploads/meals/${meal.slug}`}
                         alt={meal.name}
-                        width={64}
-                        height={64}
+                        width={80}
+                        height={80}
                         className="w-full h-full object-cover rounded-lg"
                       />
                     </div>
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-start justify-between mb-2">
-                        <h3 className="font-medium text-white text-sm truncate pr-2">
+                        <h3 className="font-medium text-white text-sm xl:text-base truncate pr-2">
                           {meal.name}
                         </h3>
                         <div className="flex-shrink-0">
@@ -241,7 +245,7 @@ const MealList: React.FC<MealListProps> = ({ meals, className }) => {
                             meal.category
                           )}`}
                         >
-                          {meal.category}
+                          {meal.category || "Uncategorized"}
                         </span>
                         <div className="flex items-center gap-1">
                           <FontAwesomeIcon icon={faClock} />
@@ -262,10 +266,10 @@ const MealList: React.FC<MealListProps> = ({ meals, className }) => {
           </div>
 
           {/* Meal Details */}
-          <div className="bg-[#151515] rounded-xl p-4 sm:p-6">
+          <div className="bg-[#151515] rounded-xl p-4 sm:p-6 xl:col-span-3">
             {selectedMeal ? (
               <div className="space-y-6">
-                <div className="relative w-full h-48 sm:h-60 rounded-lg overflow-hidden">
+                <div className="relative w-full h-48 sm:h-60 xl:h-80 rounded-lg overflow-hidden">
                   <Image
                     src={`${NEXT_PUBLIC_API_BASE_URL}/uploads/meals/${selectedMeal.slug}`}
                     alt={selectedMeal.name}
@@ -277,48 +281,54 @@ const MealList: React.FC<MealListProps> = ({ meals, className }) => {
 
                 <div>
                   <div className="flex items-start justify-between mb-3">
-                    <h2 className="text-xl sm:text-2xl font-bold text-white">
+                    <h2 className="text-xl sm:text-2xl xl:text-3xl font-bold text-white">
                       {selectedMeal.name}
                     </h2>
                     <span
-                      className={`px-3 py-1 rounded-lg border text-sm ${getCategoryColor(
+                      className={`px-3 py-1 rounded-lg border text-sm xl:text-base ${getCategoryColor(
                         selectedMeal.category
                       )}`}
                     >
-                      {selectedMeal.category}
+                      {selectedMeal.category || "Uncategorized"}
                     </span>
                   </div>
 
-                  <p className="text-gray-300 text-sm leading-relaxed mb-4">
+                  <p className="text-gray-300 text-sm xl:text-base leading-relaxed mb-4">
                     {selectedMeal.description}
                   </p>
                 </div>
 
                 {/* Nutritional Info */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                  <div className="bg-[#1C1C1C] p-3 rounded-lg text-center">
-                    <div className="text-lg font-bold text-customBlue">
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 xl:gap-4">
+                  <div className="bg-[#1C1C1C] p-3 xl:p-4 rounded-lg text-center">
+                    <div className="text-lg xl:text-xl font-bold text-customBlue">
                       {selectedMeal.calories || 0}
                     </div>
-                    <div className="text-xs text-gray-400">Calories</div>
+                    <div className="text-xs xl:text-sm text-gray-400">
+                      Calories
+                    </div>
                   </div>
-                  <div className="bg-[#1C1C1C] p-3 rounded-lg text-center">
-                    <div className="text-lg font-bold text-red-400">
+                  <div className="bg-[#1C1C1C] p-3 xl:p-4 rounded-lg text-center">
+                    <div className="text-lg xl:text-xl font-bold text-red-400">
                       {selectedMeal.protein || 0}g
                     </div>
-                    <div className="text-xs text-gray-400">Protein</div>
+                    <div className="text-xs xl:text-sm text-gray-400">
+                      Protein
+                    </div>
                   </div>
-                  <div className="bg-[#1C1C1C] p-3 rounded-lg text-center">
-                    <div className="text-lg font-bold text-yellow-400">
+                  <div className="bg-[#1C1C1C] p-3 xl:p-4 rounded-lg text-center">
+                    <div className="text-lg xl:text-xl font-bold text-yellow-400">
                       {selectedMeal.carbs || 0}g
                     </div>
-                    <div className="text-xs text-gray-400">Carbs</div>
+                    <div className="text-xs xl:text-sm text-gray-400">
+                      Carbs
+                    </div>
                   </div>
-                  <div className="bg-[#1C1C1C] p-3 rounded-lg text-center">
-                    <div className="text-lg font-bold text-green-400">
+                  <div className="bg-[#1C1C1C] p-3 xl:p-4 rounded-lg text-center">
+                    <div className="text-lg xl:text-xl font-bold text-green-400">
                       {selectedMeal.fats || 0}g
                     </div>
-                    <div className="text-xs text-gray-400">Fats</div>
+                    <div className="text-xs xl:text-sm text-gray-400">Fats</div>
                   </div>
                 </div>
 
@@ -341,11 +351,11 @@ const MealList: React.FC<MealListProps> = ({ meals, className }) => {
 
                 {/* Ingredients */}
                 <div>
-                  <h3 className="text-lg font-semibold text-white mb-3">
+                  <h3 className="text-lg xl:text-xl font-semibold text-white mb-3">
                     Ingredients
                   </h3>
-                  <div className="bg-[#1C1C1C] p-4 rounded-lg">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div className="bg-[#1C1C1C] p-4 xl:p-6 rounded-lg">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-2 xl:gap-3">
                       {selectedMeal.ingredients.map((ingredient, index) => (
                         <div
                           key={index}
@@ -418,7 +428,7 @@ const MealList: React.FC<MealListProps> = ({ meals, className }) => {
                           selectedMeal.category
                         )}`}
                       >
-                        {selectedMeal.category}
+                        {selectedMeal.category || "Uncategorized"}
                       </span>
                     </div>
                     <p className="text-gray-300 text-sm">

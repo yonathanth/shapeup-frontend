@@ -193,7 +193,7 @@ const Page = () => {
                   className="rounded-full object-cover w-16 h-16 sm:w-20 sm:h-20"
                 />
               </div>
-              <div className="flex-1">
+              <div className="flex-1 text-white">
                 <FormattedName fullName={memberDetails?.fullName || ""} />
                 <p className="text-white text-sm mt-1">
                   Member since{" "}
