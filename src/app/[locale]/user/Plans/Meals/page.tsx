@@ -359,12 +359,12 @@ const MealList: React.FC<MealListProps> = ({ meals, className }) => {
                       {selectedMeal.ingredients.map((ingredient, index) => (
                         <div
                           key={index}
-                          className="flex justify-between text-sm"
+                          className="flex justify-between text-sm xl:text-base"
                         >
                           <span className="text-gray-300">
                             {ingredient.name}
                           </span>
-                          <span className="text-customBlue">
+                          <span className="text-customBlue font-medium">
                             {ingredient.quantity}
                           </span>
                         </div>
