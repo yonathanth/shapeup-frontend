@@ -543,9 +543,9 @@ const FitnessComponent = () => {
                 <div>
                   <h3 className="text-xl font-bold mb-2">Phone</h3>
                   <p className="text-gray-400">
-                    Main: 0944221314
+                    Main: 0941668383
                     <br />
-                    Support: 0941668383
+                    Support: 0944221314
                   </p>
                 </div>
               </div>

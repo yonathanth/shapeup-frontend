@@ -187,15 +187,10 @@ const RegisterSummary = () => {
               of the following accounts:
             </p>
             <ul className="list-none text-black space-y-1">
-              <li>
-                <strong>CBE:</strong> Account Number 123456789
-              </li>
-              <li>
-                <strong>Bank of Abyssinia:</strong> Account Number 987654321
-              </li>
-              <li>
-                <strong>TeleBirr:</strong> Phone Number 0945511884
-              </li>
+              <li>CBE: 1000629508655 - NURHUSSEN AND / OR YOHANNES </li>
+              <li>ABYSSINIA: 190213978 - NURHUSSEN AND / OR YOHANNES </li>
+
+              <li>AWASH: 013201349509600 - NURHUSSEN AND / OR YOHANNES</li>
             </ul>
           </div>
           <p className="text-sm text-gray-400 mt-4">

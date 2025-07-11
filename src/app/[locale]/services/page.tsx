@@ -346,6 +346,9 @@ const ServicesPage = () => {
                 <div className="text-sm text-gray-500">
                   Showing {filteredPlans.length} of {plans.length} plans
                 </div>
+                <p className="text-gray-400 text-sm">
+                  *All Packages are Subject to a 200 Br Registration Fee
+                </p>
               </div>
             </div>
           </section>

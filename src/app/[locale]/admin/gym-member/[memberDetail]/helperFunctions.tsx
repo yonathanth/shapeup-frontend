@@ -102,7 +102,7 @@ const downloadMemberId = async (memberDetails: memberDetails) => {
     : null;
 
   const barcodeImgBase64 = memberDetails.barcode;
-  const logoBase64 = await fetchImageAsBase64("/Images/yello logo-1.png");
+  const logoBase64 = await fetchImageAsBase64("/Images/shapeup-logo.png");
 
   // FRONT SIDE
   if (profileImgBase64) {
@@ -174,29 +174,24 @@ const downloadMemberId = async (memberDetails: memberDetails) => {
   doc.rect(0, 0, cardWidth, cardHeight, "F");
 
   if (logoBase64) {
-    doc.addImage(logoBase64, "PNG", cardWidth / 2 - 10, 8, 20, 24);
+    doc.addImage(logoBase64, "PNG", cardWidth / 2 - 16, 4, 28, 20);
   }
 
   doc.setTextColor(white);
   doc.setFont("Montserrat", "bold");
   doc.setFontSize(10);
-  doc.text("shape up fitness Center", cardWidth / 2, 33, { align: "center" });
+  doc.text("Shapeup Sport Zone", cardWidth / 2, 33, { align: "center" });
 
   doc.setFont("Montserrat", "normal");
   doc.setFontSize(8);
-  doc.text(
-    "shape up fitness - Megenagna, Figa, Gerji, Hayat 72",
-    cardWidth / 2,
-    38,
-    { align: "center" }
-  );
+  doc.text("Sarbet, Addis Ababa", cardWidth / 2, 38, { align: "center" });
 
-  doc.text("0945511884", cardWidth / 2, 43, {
+  doc.text("0941668383", cardWidth / 2, 43, {
     align: "center",
   });
 
   doc.setFont("Montserrat", "bold");
-  doc.text("www.s.com", cardWidth / 2, 50, { align: "center" });
+  doc.text("www.shapeupsportzone.com", cardWidth / 2, 50, { align: "center" });
 
   doc.save(`${memberDetails.fullName}_MembershipID.pdf`);
 };

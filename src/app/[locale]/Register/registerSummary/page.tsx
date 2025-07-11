@@ -71,10 +71,10 @@ const RegisterSummary = () => {
             </p>
 
             <ul className="text-sm text-black">
-              <li>CBE: 1000403462385 - Yohannes </li>
-              <li>CBE: 1000351858684 - shape up fitness Gym </li>
+              <li>CBE: 1000629508655 - NURHUSSEN AND / OR YOHANNES </li>
+              <li>ABYSSINIA: 190213978 - NURHUSSEN AND / OR YOHANNES </li>
 
-              <li>Telebirr: 0945511884 - Yohannes</li>
+              <li>AWASH: 013201349509600 - NURHUSSEN AND / OR YOHANNES</li>
             </ul>
           </div>
           <p className="text-sm text-gray-400 mt-4">

@@ -38,12 +38,10 @@ const PaymentOptions: React.FC<ModalProps> = ({ isOpen, amount, onClose }) => {
           <div className="bg-black p-4 rounded-lg">
             <p className="font-bold mb-2">Payment options</p>
             <ul className="text-sm">
-              <li>CBE: 1000403462385 - Samrawit Solomon </li>
-              <li>CBE: 1000351858684 - Robel Getahun </li>
+              <li>CBE: 1000629508655 - NURHUSSEN AND / OR YOHANNES </li>
+              <li>ABYSSINIA: 190213978 - NURHUSSEN AND / OR YOHANNES </li>
 
-              <li>
-                ABYSSINIA: 119144884 - Robel Getahun and or Samrawit Solomon
-              </li>
+              <li>AWASH: 013201349509600 - NURHUSSEN AND / OR YOHANNES</li>
             </ul>
           </div>
           <div className="flex justify-center mt-6">

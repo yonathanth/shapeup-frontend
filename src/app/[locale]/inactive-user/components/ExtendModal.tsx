@@ -148,10 +148,10 @@ const ExtendModal: React.FC<ExtendModalProps> = ({
             <div className="bg-black p-4 rounded-lg">
               <p className="font-bold mb-2">Payment Options</p>
               <ul className="text-sm">
-                <li>CBE: 1000403462385 - Nehemiah </li>
-                <li>CBE: 1000351858684 - shape up fitness Gym </li>
+                <li>CBE: 1000629508655 - NURHUSSEN AND / OR YOHANNES </li>
+                <li>ABYSSINIA: 190213978 - NURHUSSEN AND / OR YOHANNES </li>
 
-                <li>Telebirr: 0945511884 - Nehemiah</li>
+                <li>AWASH: 013201349509600 - NURHUSSEN AND / OR YOHANNES</li>
               </ul>
             </div>
             <div className="flex justify-center mt-6">
