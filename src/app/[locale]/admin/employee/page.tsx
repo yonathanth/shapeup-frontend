@@ -4,6 +4,8 @@ import {
   faSearch,
   faTrash,
   faPlus,
+  faImage,
+  faEdit,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect, useCallback } from "react";
@@ -11,6 +13,7 @@ import AddEmployeeModal from "../components/AddEmployeeForm";
 import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
 import axios from "axios";
 import EditEmployeeModal from "../components/EditEmployeeForm";
+import EmployeePhotoModal from "../components/EmployeePhotoModal";
 const NEXT_PUBLIC_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
 
 // Define the type for the Employee member
@@ -20,7 +23,7 @@ interface Member {
   phone: string;
   startDate: string;
   jobType: string;
-  profileImage?: string;
+  photoUrl?: string;
 }
 
 const Employee = () => {
@@ -30,6 +33,7 @@ const Employee = () => {
   const [isLoading, setIsLoading] = useState(false);
 
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [isPhotoModalOpen, setIsPhotoModalOpen] = useState(false);
   const [selectedEmployee, setSelectedEmployee] = useState<Member>({
     name: "",
     phone: "",
@@ -261,14 +265,30 @@ const Employee = () => {
                 key={member.id}
                 className="border-b border-[#D9D9D93B] hover:bg-[#1d1d1d]"
               >
-                <td
-                  className="px-6 py-4 border-r border-[#D9D9D93B] hover:cursor-pointer"
-                  onClick={() => {
-                    setIsEditModalOpen(true);
-                    setSelectedEmployee(member);
-                  }}
-                >
-                  {member.name}
+                <td className="px-6 py-4 border-r border-[#D9D9D93B]">
+                  <div className="flex items-center space-x-3">
+                    <span className="text-white">{member.name}</span>
+                    <div className="flex space-x-2">
+                      <FontAwesomeIcon
+                        icon={faImage}
+                        className="text-customBlue cursor-pointer hover:text-customHoverBlue transition-colors"
+                        title="View Photo"
+                        onClick={() => {
+                          setSelectedEmployee(member);
+                          setIsPhotoModalOpen(true);
+                        }}
+                      />
+                      <FontAwesomeIcon
+                        icon={faEdit}
+                        className="text-gray-400 cursor-pointer hover:text-white transition-colors"
+                        title="Edit Employee"
+                        onClick={() => {
+                          setSelectedEmployee(member);
+                          setIsEditModalOpen(true);
+                        }}
+                      />
+                    </div>
+                  </div>
                 </td>
                 <td className="px-6 py-4 border-r border-[#D9D9D93B]">
                   {member.phone}
@@ -350,6 +370,13 @@ const Employee = () => {
           updateMember={updatedMember}
         />
       )}
+
+      {/* Employee Photo Modal */}
+      <EmployeePhotoModal
+        employee={selectedEmployee}
+        isOpen={isPhotoModalOpen}
+        onClose={() => setIsPhotoModalOpen(false)}
+      />
     </div>
   );
 };

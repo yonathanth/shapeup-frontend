@@ -28,20 +28,38 @@ const AddEmployeeModal: React.FC<AddEmployeeModalProps> = ({
   const [phone, setPhone] = useState("");
   const [startDate, setStartDate] = useState("");
   const [jobType, setJobType] = useState("");
-  const [photoUrl, setPhotoUrl] = useState("");
+  const [photo, setPhoto] = useState<File | null>(null);
+  const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  // Function to handle photo selection
+  const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setPhoto(file);
+      // Create preview URL
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPhotoPreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   // Function to handle the form submission
   const handleAddEmployee = async () => {
     const token = localStorage.getItem("token");
     if (name && phone && startDate && jobType) {
-      const newMember: Omit<Member, "id"> = {
-        name,
-        phone,
-        startDate,
-        jobType,
-      };
+      const formData = new FormData();
+      formData.append("name", name);
+      formData.append("phone", phone);
+      formData.append("startDate", startDate);
+      formData.append("jobType", jobType);
+
+      if (photo) {
+        formData.append("photo", photo);
+      }
 
       try {
         setLoading(true);
@@ -52,9 +70,9 @@ const AddEmployeeModal: React.FC<AddEmployeeModalProps> = ({
             method: "POST",
             headers: {
               Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
+              // Don't set Content-Type for FormData, let browser set it with boundary
             },
-            body: JSON.stringify(newMember),
+            body: formData,
           }
         );
 
@@ -114,14 +132,27 @@ const AddEmployeeModal: React.FC<AddEmployeeModalProps> = ({
             <option value="Trainer">Trainer</option>
             <option value="Reception">Reception</option>
           </select>
-          {/* Optional photo URL field */}
-          <input
-            type="text"
-            placeholder="Photo URL (Optional)"
-            className="w-full px-4 py-2 rounded-md bg-[#1d1d1d] text-gray-300 focus:outline-none focus:ring-2 focus:ring-customBlue"
-            value={photoUrl}
-            onChange={(e) => setPhotoUrl(e.target.value)}
-          />
+          {/* Photo upload field */}
+          <div className="space-y-2">
+            <label className="block text-sm font-medium text-gray-300">
+              Employee Photo (Optional)
+            </label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handlePhotoChange}
+              className="w-full px-4 py-2 rounded-md bg-[#1d1d1d] text-gray-300 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-customBlue file:text-black hover:file:bg-customHoverBlue focus:outline-none focus:ring-2 focus:ring-customBlue"
+            />
+            {photoPreview && (
+              <div className="mt-2">
+                <img
+                  src={photoPreview}
+                  alt="Preview"
+                  className="w-20 h-20 object-cover rounded-full border-2 border-customBlue"
+                />
+              </div>
+            )}
+          </div>
         </div>
         {/* Error message */}
         {error && <div className="text-red-500 mt-2 text-sm">{error}</div>}

@@ -26,7 +26,7 @@ const AddAdmin = ({ setShowModal, fetchData }: AddAdminProps) => {
   const [formData, setFormData] = useState({
     fullName: "",
     phoneNumber: "",
-    password: "mf1234",
+    password: "1234",
     email: "",
     address: "Addis Ababa",
     dob: "2025-05-17",

@@ -49,20 +49,17 @@ const FinancialReport = () => {
 
       const sortedTransactions = data.transactions.sort(
         (a: transaction, b: transaction) =>
-          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime() // Ascending order
-        // or
-        // new Date(b.createdAt) - new Date(a.createdAt) // Descending order
+          new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
       );
 
       // Set the sorted transactions in state
       setTransactions(sortedTransactions);
-      // setTransactions(data.transactions);
       setIncome(data.summary.income);
       setExpense(data.summary.expense);
       setNet(data.summary.net);
 
-      const filteredData = data.transactions;
-      setChartData(filteredData);
+      // Use the aggregated chart data from backend
+      setChartData(data.chartData || []);
     } catch (error) {
       console.error("Error fetching transactions:", error);
       setError("Failed to load transactions. Please try again later.");
@@ -121,8 +118,6 @@ const FinancialReport = () => {
           setNet((prev) => prev - transactionAmount);
         }
 
-        setChartData([...transactions, addedTransaction]);
-
         setNewTransaction({
           name: "",
           category: "",
@@ -131,6 +126,7 @@ const FinancialReport = () => {
         });
         setError("");
 
+        // Refresh data to get updated chart aggregation
         fetchTransactions();
       })
       .catch((error) => {
@@ -146,35 +142,73 @@ const FinancialReport = () => {
 
       {/* Filter options */}
       <div className="p-4 bg-[#121212] rounded-lg my-4">
-        <div className="flex flex-wrap gap-4 mb-4">
+        <div className="flex flex-wrap gap-2 mb-4">
+          <button
+            onClick={() => setFilter("daily")}
+            className={`px-3 py-2 rounded text-sm ${
+              filter === "daily"
+                ? "bg-customBlue text-black"
+                : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+            }`}
+          >
+            Daily
+          </button>
           <button
             onClick={() => setFilter("weekly")}
-            className={`px-4 py-2 ${
-              filter === "weekly" ? "bg-customBlue text-black" : ""
+            className={`px-3 py-2 rounded text-sm ${
+              filter === "weekly"
+                ? "bg-customBlue text-black"
+                : "bg-gray-700 text-gray-300 hover:bg-gray-600"
             }`}
           >
             Weekly
           </button>
           <button
             onClick={() => setFilter("monthly")}
-            className={`px-4 py-2 ${
-              filter === "monthly" ? "bg-customBlue text-black" : ""
+            className={`px-3 py-2 rounded text-sm ${
+              filter === "monthly"
+                ? "bg-customBlue text-black"
+                : "bg-gray-700 text-gray-300 hover:bg-gray-600"
             }`}
           >
             Monthly
           </button>
           <button
+            onClick={() => setFilter("3months")}
+            className={`px-3 py-2 rounded text-sm ${
+              filter === "3months"
+                ? "bg-customBlue text-black"
+                : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+            }`}
+          >
+            3 Months
+          </button>
+          <button
+            onClick={() => setFilter("6months")}
+            className={`px-3 py-2 rounded text-sm ${
+              filter === "6months"
+                ? "bg-customBlue text-black"
+                : "bg-gray-700 text-gray-300 hover:bg-gray-600"
+            }`}
+          >
+            6 Months
+          </button>
+          <button
             onClick={() => setFilter("yearly")}
-            className={`px-4 py-2 ${
-              filter === "yearly" ? "bg-customBlue text-black" : ""
+            className={`px-3 py-2 rounded text-sm ${
+              filter === "yearly"
+                ? "bg-customBlue text-black"
+                : "bg-gray-700 text-gray-300 hover:bg-gray-600"
             }`}
           >
             Yearly
           </button>
           <button
             onClick={() => setFilter("all-time")}
-            className={`px-4 py-2 ${
-              filter === "all-time" ? "bg-customBlue text-black" : ""
+            className={`px-3 py-2 rounded text-sm ${
+              filter === "all-time"
+                ? "bg-customBlue text-black"
+                : "bg-gray-700 text-gray-300 hover:bg-gray-600"
             }`}
           >
             All Time
@@ -309,7 +343,8 @@ const FinancialReport = () => {
                 );
               }
 
-              setChartData(updatedTransactions);
+              // Refresh data to get updated chart aggregation
+              fetchTransactions();
 
               return updatedTransactions;
             });
