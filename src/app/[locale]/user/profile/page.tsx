@@ -219,7 +219,11 @@ const Page = () => {
                 <div className="text-xs text-gray-400">Attendance</div>
               </div>
 
-              <div className="flex flex-col items-center">
+              <div
+                className="flex flex-col items-center cursor-pointer hover:opacity-80 transition-opacity"
+                onClick={() => downloadMemberId(memberDetails)}
+                title="Click to download Member ID card"
+              >
                 <Image
                   src={memberDetails?.barcode || ""}
                   alt="barcode"
