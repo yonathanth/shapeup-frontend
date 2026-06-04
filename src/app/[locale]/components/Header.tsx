@@ -72,11 +72,6 @@ const Header = () => {
 
         {/* Right: Buttons (hidden on small screens) */}
         <div className="hidden md:flex gap-4 items-center">
-          <Link href="/en/Login">
-            <button className="px-5 py-2 text-base rounded-lg hover:text-customBlue hover:bg-white/10 transition">
-              Log In
-            </button>
-          </Link>
           <Link href="/en/Register">
             <button className="px-6 py-2 text-base bg-customBlue text-black rounded-lg hover:bg-white transition font-medium">
               Register
@@ -143,13 +138,6 @@ const Header = () => {
             Contact
           </Link>
           <div className="flex flex-col gap-3 mt-2">
-            <Link
-              href="/en/Login"
-              onClick={() => setIsMenuOpen(false)}
-              className="hover:text-customBlue text-white text-center transition py-3 border-t border-white/20 pt-4"
-            >
-              Log In
-            </Link>
             <Link
               href="/en/Register"
               onClick={() => setIsMenuOpen(false)}

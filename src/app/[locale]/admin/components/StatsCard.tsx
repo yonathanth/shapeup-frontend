@@ -1,0 +1,39 @@
+interface StatsCardProps {
+  title: string;
+  value: string | number;
+  icon: string;
+  trend?: { value: number; isPositive: boolean };
+  subtitle?: string;
+  color?: 'primary' | 'green' | 'blue' | 'orange' | 'red';
+}
+
+const colorClasses = {
+  primary: 'bg-primary/10 text-primary',
+  green: 'bg-emerald-500/10 text-emerald-400',
+  blue: 'bg-blue-500/10 text-blue-400',
+  orange: 'bg-orange-500/10 text-orange-400',
+  red: 'bg-red-500/10 text-red-400',
+};
+
+export default function StatsCard({ title, value, icon, trend, subtitle, color = 'primary' }: StatsCardProps) {
+  return (
+    <div className="bg-surface-dark rounded-xl border border-surface-dark-lighter p-6 hover:border-primary/30 transition-colors">
+      <div className="flex items-start justify-between mb-4">
+        <div className={`size-12 rounded-xl flex items-center justify-center ${colorClasses[color]}`}>
+          <span className="material-symbols-outlined text-2xl">{icon}</span>
+        </div>
+        {trend && (
+          <div className={`flex items-center gap-1 text-sm font-medium ${trend.isPositive ? 'text-emerald-400' : 'text-red-400'}`}>
+            <span className="material-symbols-outlined text-lg">{trend.isPositive ? 'trending_up' : 'trending_down'}</span>
+            <span>{Math.abs(trend.value)}%</span>
+          </div>
+        )}
+      </div>
+      <div>
+        <p className="text-white/60 text-sm mb-1">{title}</p>
+        <p className="text-white text-2xl font-bold">{value}</p>
+        {subtitle && <p className="text-white/40 text-xs mt-1">{subtitle}</p>}
+      </div>
+    </div>
+  );
+}

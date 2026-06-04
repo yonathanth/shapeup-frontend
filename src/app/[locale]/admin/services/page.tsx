@@ -1,425 +1,148 @@
-"use client";
-import React, { useState, ChangeEvent, useEffect } from "react";
-import axios from "axios";
-import ServiceCard from "../../services/ServicesCards";
-import EditServiceModal from "./EditServiceModal";
-import ConfirmDeleteModal from "../components/ConfirmDeleteModal";
-import SmallLoading from "../components/SmallLoading";
-const NEXT_PUBLIC_API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL;
+'use client';
 
-interface ServiceType {
-  id: number;
-  name: string;
-  price: number;
-  description: {
-    benefits: string[];
+import { useState, useEffect, useCallback } from 'react';
+import { servicesApi, Service, ServiceStats, PaginatedResponse } from '@/lib/api';
+import StatsCard from '../components/StatsCard';
+
+export default function ServicesPage() {
+  const [services, setServices] = useState<PaginatedResponse<Service> | null>(null);
+  const [stats, setStats] = useState<ServiceStats | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [categoryFilter, setCategoryFilter] = useState<string>('');
+
+  const formatCurrency = (amount: number) =>
+    new Intl.NumberFormat('en-ET', { style: 'currency', currency: 'ETB', minimumFractionDigits: 0 }).format(amount);
+
+  const parseBenefits = (description?: string | null): string[] => {
+    if (!description) return [];
+    try { return JSON.parse(description).benefits || []; } catch { return []; }
   };
-  preferred: boolean;
-  category: TabName;
-  gender?: string;
-}
 
-type TabName =
-  | "Body Building"
-  | "Exercise"
-  | "Group Fitness"
-  | "Personal Training";
-
-const Services: React.FC = () => {
-  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
-  const [error, setError] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [serviceToDelete, setServiceToDelete] = useState<ServiceType | null>(
-    null
-  );
-  const [services, setServices] = useState<{
-    [key in TabName]?: ServiceType[];
-  }>({});
-  const [activeTab, setActiveTab] = useState<keyof typeof services>("Exercise");
-  const [modalService, setModalService] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-  const token = localStorage.getItem("token");
-  const [formData, setFormData] = useState({
-    name: "",
-    period: "",
-    maxDays: "",
-    price: "",
-    category: "Exercise",
-    gender: "unisex",
-    details: "",
-    isPremium: false,
-  });
-
-  const fetchServices = async () => {
+  const fetchServices = useCallback(async () => {
     try {
-      const response = await axios.get(
-        `${NEXT_PUBLIC_API_BASE_URL}/api/services`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      const data = response.data.data;
-      const categorizedServices: { [key in TabName]?: ServiceType[] } = {};
-      data.forEach((service: ServiceType) => {
-        const category = normalizeCategory(service.category);
-        if (category) {
-          categorizedServices[category] = [
-            ...(categorizedServices[category] || []),
-            service,
-          ];
-        }
-      });
-      console.log("Categorized Services:", categorizedServices);
-      setServices(categorizedServices);
-    } catch (error) {
-      console.error("Error fetching services:", error);
+      setIsLoading(true);
+      const data = await servicesApi.getAll({ category: categoryFilter || undefined });
+      setServices(data);
+    } catch (err) {
+      console.error('Failed to fetch services:', err);
+    } finally {
+      setIsLoading(false);
     }
-  };
-  useEffect(() => {
-    fetchServices();
+  }, [categoryFilter]);
+
+  const fetchStats = useCallback(async () => {
+    try {
+      const data = await servicesApi.getStats();
+      setStats(data);
+    } catch (err) {
+      console.error('Failed to fetch stats:', err);
+    }
   }, []);
 
-  const handleInputChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value, type } = e.target;
-    const checked =
-      type === "checkbox" ? (e.target as HTMLInputElement).checked : false;
-    setFormData((prevFormData) => ({
-      ...prevFormData,
-      [name]: type === "checkbox" ? checked : value,
-    }));
-  };
+  useEffect(() => { fetchServices(); }, [fetchServices]);
+  useEffect(() => { fetchStats(); }, [fetchStats]);
 
-  const handleAddService = async () => {
-    setIsLoading(true);
-    const {
-      name,
-      period,
-      maxDays,
-      price,
-      category,
-      gender,
-      details,
-      isPremium,
-    } = formData;
-
-    // Prepare payload
-    const newService = {
-      name,
-      period: parseInt(period),
-      maxDays: parseInt(maxDays),
-      price: parseFloat(price),
-      category,
-      gender,
-      description: {
-        benefits: details.split(",").map((benefit) => benefit.trim()), // Assume comma-separated benefits
-      },
-      preferred: isPremium,
-    };
-
-    try {
-      const response = await axios.post(
-        `${NEXT_PUBLIC_API_BASE_URL}/api/services`,
-        newService,
-        {
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      // Parse response
-      const addedService = response.data.data;
-      const updatedCategory = normalizeCategory(addedService.category);
-
-      if (updatedCategory) {
-        setServices((prevServices) => ({
-          ...prevServices,
-          [updatedCategory]: [
-            ...(prevServices[updatedCategory] || []),
-            addedService,
-          ],
-        }));
-      }
-    } catch (error) {
-      console.error("Failed to add service:", error);
-      setErrorMessage("Failed to add service. Please try again.");
-    } finally {
-      setIsLoading(false);
-      setFormData({
-        name: "",
-        period: "",
-        maxDays: "",
-        price: "",
-        category: "Exercise",
-        gender: "unisex",
-        details: "",
-        isPremium: false,
-      });
-    }
-  };
-
-  const normalizeCategory = (category: string): TabName | null => {
-    switch (category.trim().toLowerCase()) {
-      case "body building":
-        return "Body Building";
-      case "exercise":
-        return "Exercise";
-      case "group fitness":
-        return "Group Fitness";
-      case "personal training":
-        return "Personal Training";
-      default:
-        return null;
-    }
-  };
-
-  const tabs = Object.keys(services) as TabName[];
-  const handleCardClick = (service: any) => {
-    setModalService(service);
-  };
-
-  const handleCloseModal = () => {
-    setModalService(null);
-  };
-
-  const handleSaveService = (updatedService: any) => {
-    const category = normalizeCategory(updatedService.category);
-    if (category) {
-      setServices((prevServices) => ({
-        ...prevServices,
-        [category]: prevServices[category]?.map((service) =>
-          service.id === updatedService.id ? updatedService : service
-        ),
-      }));
-    }
-  };
-
-  const handleOpenDeleteModal = (service: ServiceType) => {
-    setServiceToDelete(service);
-    setDeleteModalOpen(true);
-  };
-
-  const handleCloseDeleteModal = () => {
-    setDeleteModalOpen(false);
-    setServiceToDelete(null);
-  };
-
-  const handleDeleteService = async () => {
-    if (!serviceToDelete) return;
-    setIsLoading(true);
-
-    try {
-      const response = await axios.delete(
-        `${NEXT_PUBLIC_API_BASE_URL}/api/services/${serviceToDelete.id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      if (response.status === 204) {
-        // Successful deletion
-        const category = normalizeCategory(serviceToDelete.category);
-        if (category) {
-          setServices((prevServices) => ({
-            ...prevServices,
-            [category]: prevServices[category]?.filter(
-              (service) => service.id !== serviceToDelete.id
-            ),
-          }));
-        }
-        handleCloseDeleteModal();
-      } else {
-        setError(
-          "Can not Delete Service, Check if there are any users associated with it!"
-        );
-        // Prisma did not allow the delete
-        console.error("Service could not be deleted. Check server response.");
-        setTimeout(() => setError(""), 4000); // Clear error after 2 seconds
-      }
-    } catch (error) {
-      console.error("Failed to delete service:", error);
-    } finally {
-      handleCloseDeleteModal();
-      setIsLoading(false);
-      setModalService(null);
-    }
+  const formatDuration = (duration: number, unit: string) => {
+    if (!unit) return `${duration} period`;
+    return duration === 1 ? `1 ${unit.slice(0, -1)}` : `${duration} ${unit}`;
   };
 
   return (
-    <div className="flex flex-col lg:flex-row bg-black min-h-screen text-white">
-      {error && (
-        <div
-          className="fixed top-8 right-4 bg-red-500 text-white px-4 py-2 rounded shadow-md animate-fade-in-out"
-          style={{
-            animation: "fadeInOut 2s forwards",
-          }}
-        >
-          {error}
-        </div>
-      )}
-      {/* Left side form */}
-      <div className="w-full lg:w-1/3 p-4 space-y-4">
-        <h2 className="text-sm font-extralight">Name</h2>
-        <input
-          name="name"
-          value={formData.name}
-          onChange={handleInputChange}
-          type="text"
-          className="w-full bg-[#121212] text-sm font-extralight text-white rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
-        />
-        <div className="flex flex-col sm:flex-row gap-2">
-          <div>
-            <h2 className="text-sm font-extralight mb-3">Period</h2>
-            <input
-              name="period"
-              value={formData.period}
-              onChange={handleInputChange}
-              type="text"
-              className="w-full bg-[#121212] text-sm font-extralight text-white rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
-            />
-          </div>
-          <div>
-            <h2 className="text-sm font-extralight mb-3">Days Allocated</h2>
-            <input
-              name="maxDays"
-              value={formData.maxDays}
-              onChange={handleInputChange}
-              type="text"
-              className="w-full bg-[#121212] text-sm font-extralight text-white rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
-            />
-          </div>
-        </div>
-        <h2 className="text-sm font-extralight">Price</h2>
-        <input
-          name="price"
-          value={formData.price}
-          onChange={handleInputChange}
-          type="text"
-          className="w-full bg-[#121212] text-sm font-extralight text-white rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
-        />
-        <div className="flex flex-col sm:flex-row gap-2">
-          <div className="flex-1">
-            <h2 className="text-sm font-extralight mb-3">Category</h2>
-            <select
-              name="category"
-              value={formData.category}
-              onChange={handleInputChange}
-              className="w-full bg-[#121212] text-sm font-extralight text-gray-300 rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
-            >
-              <option>Exercise</option>
-              <option>Body Building</option>
-              <option>Group Fitness</option>
-              <option>Personal Training</option>
-            </select>
-          </div>
-          <div className="flex-1">
-            <h2 className="text-sm font-extralight mb-3">Gender</h2>
-            <select
-              name="gender"
-              value={formData.gender}
-              onChange={handleInputChange}
-              className="w-full bg-[#121212] text-sm font-extralight text-gray-300 rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
-            >
-              <option value="unisex">Unisex</option>
-              <option value="male">Male</option>
-              <option value="female">Female</option>
-            </select>
-          </div>
-        </div>
-        <h2 className="text-sm font-extralight">Details</h2>
-        <input
-          name="details"
-          value={formData.details}
-          onChange={handleInputChange}
-          type="text"
-          className="w-full bg-[#121212] text-sm font-extralight text-white rounded-lg p-3 focus:outline-none focus:ring-[0.5px] focus:ring-customBlue"
-        />
-        <div className="flex items-center gap-2 mt-4">
-          <input
-            type="checkbox"
-            name="isPremium"
-            checked={formData.isPremium}
-            onChange={handleInputChange}
-            className="form-checkbox w-5 h-5 border-2 border-customBlue rounded text-customBlue"
-          />
-          <label htmlFor="isPremium" className="text-sm font-extralight">
-            preferred{" "}
-          </label>
-        </div>
-        <button
-          onClick={handleAddService}
-          className="mt-4 px-5 py-[0.2rem] bg-customBlue text-black rounded hover:bg-zinc-800 text-sm font-extralight"
-        >
-          {isLoading ? <SmallLoading /> : "Add"}
-        </button>
-        {/* Error Message Display */}
-        {errorMessage && (
-          <div className="mt-4 text-red-500 text-center">{errorMessage}</div>
-        )}
+    <div className="space-y-8">
+      <div>
+        <h1 className="text-white text-2xl font-bold">Services</h1>
+        <p className="text-white/60 mt-1">Manage gym membership plans and services</p>
       </div>
 
-      {/* Right side tabs */}
-      <div className="w-full lg:w-2/3 bg-[#121212] p-4 lg:p-7 rounded-xl">
-        <div className="flex justify-center space-x-4 mb-4 text-lg font-semibold">
-          <ul className="flex text-base space-x-6 lg:space-x-10">
-            {tabs.map((tab) => (
-              <li
-                key={tab}
-                onClick={() => setActiveTab(tab as keyof typeof services)}
-                className={`cursor-pointer ${
-                  activeTab === tab ? "text-customBlue" : ""
-                }`}
-              >
-                {tab}
-              </li>
-            ))}
-          </ul>
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <StatsCard title="Total Services" value={stats?.total || 0} icon="category" color="primary" />
+        <StatsCard title="Active Services" value={stats?.active || 0} icon="check_circle" color="green" />
+        <StatsCard title="Inactive Services" value={stats?.inactive || 0} icon="cancel" color="red" />
+        <StatsCard title="Categories" value={stats?.categories || 0} icon="label" color="orange" />
+      </div>
 
-        {/* Service Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {services[activeTab]?.map((service, index) => (
-            <div key={index} onClick={() => handleCardClick(service)}>
-              <ServiceCard
-                key={index}
-                isFromAdmin={true}
-                title={service.name}
-                price={`Birr ${service.price}`}
-                benefits={service.description.benefits}
-                isPremium={service.preferred}
-                onClick={() => {}}
-                className="scale-75 sm:scale-75"
-              />
-            </div>
-          ))}
-          {modalService && (
-            <EditServiceModal
-              service={modalService}
-              onClose={() => setModalService(null)}
-              onSave={handleSaveService}
-              onDelete={() => handleOpenDeleteModal(modalService)}
-            />
+      <div className="bg-surface-dark rounded-xl border border-surface-dark-lighter p-4">
+        <div className="flex flex-col sm:flex-row gap-4">
+          <select
+            value={categoryFilter}
+            onChange={(e) => setCategoryFilter(e.target.value)}
+            className="h-10 px-4 bg-surface-dark-lighter border border-surface-dark-lighter rounded-lg text-white focus:outline-none focus:border-primary/50 transition-colors"
+          >
+            <option value="">All Categories</option>
+            {stats?.byCategory.map((cat) => (
+              <option key={cat.category} value={cat.category}>
+                {cat.category} ({cat.count})
+              </option>
+            ))}
+          </select>
+          {categoryFilter && (
+            <button onClick={() => setCategoryFilter('')} className="h-10 px-4 bg-surface-dark-lighter text-white/60 rounded-lg hover:text-white transition-colors">
+              Clear
+            </button>
           )}
         </div>
       </div>
-      {deleteModalOpen && serviceToDelete && (
-        <ConfirmDeleteModal
-          isLoading={isLoading}
-          isOpen={deleteModalOpen}
-          onClose={handleCloseDeleteModal}
-          onConfirm={handleDeleteService}
-          itemName={serviceToDelete.name}
-        />
+
+      {isLoading ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {[...Array(6)].map((_, i) => (
+            <div key={i} className="bg-surface-dark rounded-xl border border-surface-dark-lighter p-6 animate-pulse">
+              <div className="h-6 bg-surface-dark-lighter rounded w-3/4 mb-4" />
+              <div className="h-4 bg-surface-dark-lighter rounded w-1/2 mb-6" />
+              <div className="h-10 bg-surface-dark-lighter rounded w-1/3" />
+            </div>
+          ))}
+        </div>
+      ) : services?.data.length === 0 ? (
+        <div className="bg-surface-dark rounded-xl border border-surface-dark-lighter p-12 text-center">
+          <span className="material-symbols-outlined text-4xl text-white/40 mb-2">category</span>
+          <p className="text-white/60">No services found</p>
+        </div>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {services?.data.map((service) => {
+            const benefits = parseBenefits(service.description);
+            return (
+              <div key={service.id} className="bg-surface-dark rounded-xl border border-surface-dark-lighter hover:border-primary/50 transition-colors">
+                <div className="p-6">
+                  <div className="size-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-4">
+                    <span className="material-symbols-outlined text-2xl">fitness_center</span>
+                  </div>
+                  <h3 className="text-white text-lg font-semibold mb-3">{service.name}</h3>
+                  {service.category && (
+                    <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-primary/10 text-primary text-xs font-medium mb-3">
+                      {service.category}
+                    </span>
+                  )}
+                  {benefits.length > 0 && (
+                    <div className="mb-4">
+                      <p className="text-white/40 text-xs mb-2">Benefits:</p>
+                      <div className="flex flex-wrap gap-2">
+                        {benefits.map((benefit, index) => (
+                          <span key={index} className="inline-flex items-center px-2.5 py-1 rounded-lg bg-primary/10 text-primary text-xs font-medium">
+                            {benefit}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                  <div className="flex items-center gap-2 text-white/60 text-sm mb-4">
+                    <span className="material-symbols-outlined text-lg">schedule</span>
+                    <span>{formatDuration(service.duration, service.durationUnit)}</span>
+                  </div>
+                  <div className="pt-4 border-t border-surface-dark-lighter flex items-end justify-between">
+                    <div>
+                      <p className="text-white/40 text-xs mb-1">Price</p>
+                      <p className="text-primary text-2xl font-bold">{formatCurrency(service.price)}</p>
+                    </div>
+                    <p className="text-white/40 text-xs">per {service.durationUnit ? service.durationUnit.slice(0, -1) : 'period'}</p>
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
       )}
     </div>
   );
-};
-
-export default Services;
+}

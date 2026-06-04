@@ -7,7 +7,7 @@ import { MealCategory } from "@/src/app/[locale]/user/Plans/MealPlans/page";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faClock,
-  faTarget,
+  faBullseye,
   faUtensils,
   faFire,
   faCalendarDays,
@@ -258,7 +258,7 @@ export default function PlanDetails({
                 </h1>
                 <div className="flex flex-wrap gap-3 text-xs sm:text-sm">
                   <span className="px-3 py-1 rounded-full bg-gray-800 text-blue-400 font-medium">
-                    <FontAwesomeIcon icon={faTarget} className="mr-1" />
+                    <FontAwesomeIcon icon={faBullseye} className="mr-1" />
                     {plan.mainGoal}
                   </span>
                   <span className="px-3 py-1 rounded-full bg-gray-800 text-purple-400 font-medium">

@@ -80,6 +80,7 @@ interface User {
   updatedAt: string;
   serviceId: string | null;
   profileImageUrl: string | null;
+  fingerprintTemplate: string | null;
   attendance: Attendance[];
   service: Service;
 }

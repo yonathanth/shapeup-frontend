@@ -103,27 +103,18 @@ const Footer: React.FC = () => {
           </div>
         </div>
         <hr className="border-t border-black my-6 mt-20" />
-        <div className="flex flex-col md:flex-row justify-between items-center">
-          <div>
-            {/* <div className="text-sm mb-4 md:mb-0">
-              <button onClick={openModal} className="mr-6 hover:underline">
-                {t("support.links.5")}
-              </button>
-            </div> */}
-
-            {/* Modal component */}
-            {/* <TermsAndConditionsModal
-              isOpen={isModalOpen}
-              onClose={closeModal}
-            /> */}
+        <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+          {/* Staff access — subtle, left side */}
+          <div className="order-last md:order-first">
+            <a href="/en/admin/login" className="text-xs bg-black text-white px-3 py-1.5 rounded font-semibold hover:bg-black/80 transition-colors">
+              Staff access
+            </a>
           </div>
-          <div className="text-sm  font-light flex items-center justify-center space-x-2 p-4 bg-gradient-to-r order-last md:order-none">
+
+          {/* Made by */}
+          <div className="text-sm font-light flex items-center justify-center space-x-2 p-4 order-last md:order-none">
             <span>Made by</span>
-            <Link
-              className="animate-pulse"
-              href="https://shalops.com"
-              target="_blank"
-            >
+            <Link className="animate-pulse" href="https://shalops.com" target="_blank">
               <span className="bg-[#382859] text-white px-2 py-1 font-semibold rounded-lg shadow-lg transform transition-transform duration-300 hover:scale-105">
                 ShalOps Digitals
               </span>
@@ -131,39 +122,15 @@ const Footer: React.FC = () => {
           </div>
 
           <div className="flex space-x-4">
-            <a
-              href="https://www.instagram.com/shapeup_gymandfitness/"
-              aria-label="Instagram"
-              target="_blank"
-              className="transition-transform duration-200 hover:scale-110"
-            >
+            <a href="https://www.instagram.com/shapeup_gymandfitness/" aria-label="Instagram" target="_blank" className="transition-transform duration-200 hover:scale-110">
               <FontAwesomeIcon icon={faInstagram} size="lg" />
             </a>
-
-            <a
-              href="https://www.facebook.com/profile.php?id=61562896362190"
-              aria-label="Facebook"
-              target="_blank"
-              className="transition-transform duration-200 hover:scale-110"
-            >
+            <a href="https://www.facebook.com/profile.php?id=61562896362190" aria-label="Facebook" target="_blank" className="transition-transform duration-200 hover:scale-110">
               <FontAwesomeIcon icon={faFacebook} size="lg" />
             </a>
-            <a
-              href="https://www.tiktok.com/@.shape_up?is_from_webapp=1&sender_device=pc"
-              aria-label="TikTok"
-              target="_blank"
-              className="transition-transform duration-200 hover:scale-110"
-            >
+            <a href="https://www.tiktok.com/@.shape_up?is_from_webapp=1&sender_device=pc" aria-label="TikTok" target="_blank" className="transition-transform duration-200 hover:scale-110">
               <FontAwesomeIcon icon={faTiktok} size="lg" />
             </a>
-            {/* <a
-              href="https://t.me/musclefitness"
-              aria-label="Telegram"
-              target="_blank"
-              className="transition-transform duration-200 hover:scale-110"
-            >
-              <FontAwesomeIcon icon={faTelegram} size="lg" />
-            </a> */}
           </div>
         </div>
       </div>

@@ -6,6 +6,8 @@ module.exports = {
     "./src/app/**/*.{js,ts,jsx,tsx}",
     "./src/components/**/*.{js,ts,jsx,tsx}",
     "./src/pages/**/*.{js,ts,jsx,tsx}",
+    "./lib/**/*.{js,ts,jsx,tsx}",
+    "./contexts/**/*.{js,ts,jsx,tsx}",
     "./src/node_modules/@nextui-org/theme/dist/components/[object Object].js",
   ],
   theme: {
@@ -39,6 +41,10 @@ module.exports = {
       colors: {
         customBlue: "#F1AC17",
         customHoverBlue: "#7F5A0B",
+        // Admin panel tokens (mirrors fitlab dark theme)
+        primary: "#F1AC17",
+        "surface-dark": "#111111",
+        "surface-dark-lighter": "#1e1e1e",
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         card: {

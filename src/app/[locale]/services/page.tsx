@@ -26,8 +26,8 @@ interface ServicePlan {
 }
 
 interface ApiResponse {
-  success: boolean;
   data: ServicePlan[];
+  meta?: { total: number; page: number; limit: number; totalPages: number };
 }
 
 const ServicesPage = () => {
@@ -37,7 +37,6 @@ const ServicesPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [selectedCategory, setSelectedCategory] = useState("All");
-  const [selectedGender, setSelectedGender] = useState("All");
   const nextSectionRef = useRef<HTMLDivElement | null>(null);
 
   const scrollToNextSection = () => {
@@ -71,11 +70,11 @@ const ServicesPage = () => {
           throw new Error("Failed to fetch plans");
         }
         const data: ApiResponse = await response.json();
-        if (data.success) {
+        if (Array.isArray(data.data)) {
           setPlans(data.data);
           setFilteredPlans(data.data);
         } else {
-          throw new Error("API returned unsuccessful response");
+          throw new Error("Unexpected API response format");
         }
       } catch (err) {
         setError(err instanceof Error ? err.message : "An error occurred");
@@ -94,14 +93,6 @@ const ServicesPage = () => {
     if (selectedCategory !== "All") {
       filtered = filtered.filter(
         (plan) => plan.category.toLowerCase() === selectedCategory.toLowerCase()
-      );
-    }
-
-    if (selectedGender !== "All") {
-      filtered = filtered.filter(
-        (plan) =>
-          (plan.gender || "unisex").toLowerCase() ===
-          selectedGender.toLowerCase()
       );
     }
 
@@ -322,24 +313,7 @@ const ServicesPage = () => {
                     </div>
                   </div>
 
-                  <div className="flex items-center gap-2">
-                    <span className="text-gray-400 text-sm">Target:</span>
-                    <div className="flex space-x-1 bg-gray-900/50 rounded-lg p-1">
-                      {getUniqueGenders().map((gender) => (
-                        <button
-                          key={gender}
-                          onClick={() => setSelectedGender(gender)}
-                          className={`px-3 py-1 text-sm rounded-md transition-all ${
-                            selectedGender === gender
-                              ? "bg-customBlue text-black font-medium"
-                              : "text-gray-300 hover:text-white"
-                          }`}
-                        >
-                          {gender.charAt(0).toUpperCase() + gender.slice(1)}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
+
                 </div>
 
                 {/* Results count - more subtle */}
@@ -409,7 +383,7 @@ const ServicesPage = () => {
                         </div>
 
                         <div className="flex-grow">
-                          {plan.description.benefits &&
+                          {plan.description?.benefits &&
                             plan.description.benefits.length > 0 &&
                             plan.description.benefits[0] !== "" && (
                               <div className="space-y-3 mb-6">

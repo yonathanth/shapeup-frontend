@@ -10,7 +10,7 @@ import {
   faCalendarDays,
   faDumbbell,
   faFire,
-  faTarget,
+  faBullseye,
   faExpandAlt,
   faCompress,
 } from "@fortawesome/free-solid-svg-icons";
@@ -331,7 +331,7 @@ export default function WorkoutPlan({
                     {plan.difficulty}
                   </span>
                   <span className="px-3 py-1 rounded-full bg-gray-800 text-blue-400 font-medium">
-                    <FontAwesomeIcon icon={faTarget} className="mr-1" />
+                    <FontAwesomeIcon icon={faBullseye} className="mr-1" />
                     {plan.mainGoal}
                   </span>
                   <span className="px-3 py-1 rounded-full bg-gray-800 text-purple-400 font-medium">
