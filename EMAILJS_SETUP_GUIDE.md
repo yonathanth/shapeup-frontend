@@ -76,13 +76,7 @@ const templateId = "YOUR_TEMPLATE_ID"; // Replace with your Template ID
 const publicKey = "YOUR_PUBLIC_KEY"; // Replace with your Public Key
 ```
 
-**Example:**
 
-```typescript
-const serviceId = "service_abc123";
-const templateId = "template_xyz789";
-const publicKey = "abcDEF123ghiJKL";
-```
 
 ## Step 6: Test the Integration
 
