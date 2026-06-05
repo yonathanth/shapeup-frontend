@@ -39,7 +39,8 @@ export default function AdminLoginPage() {
       localStorage.setItem('accessToken', response.accessToken);
       localStorage.setItem('user', JSON.stringify(response.user));
       const locale = pathname.split('/')[1] || 'en';
-      router.push(`/${locale}/admin`);
+      // Use window.location for hard navigation to ensure localStorage is ready
+      window.location.href = `/${locale}/admin`;
     } catch (err) {
       const msg =
         err != null && typeof err === 'object' && 'message' in err
