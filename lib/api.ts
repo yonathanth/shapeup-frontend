@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:5003';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_BASE_URL || 'https://api.shapeupsportzone.com.et';
 
 const api = axios.create({
   baseURL: API_BASE_URL,

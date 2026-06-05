@@ -9,7 +9,7 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 import heroImage from "../../../../assets/heroImages/nine.jpg";
 const NEXT_PUBLIC_API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5003";
+  process.env.NEXT_PUBLIC_API_BASE_URL || "https://api.shapeupsportzone.com.et";
 
 const ContactPage = () => {
   const [isJumping, setIsJumping] = useState(true);

@@ -16,7 +16,7 @@ interface ContactMessage {
 }
 
 const NEXT_PUBLIC_API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5003";
+  process.env.NEXT_PUBLIC_API_BASE_URL || "https://api.shapeupsportzone.com.et";
 
 const AdminMessages: React.FC = () => {
   const [messages, setMessages] = useState<ContactMessage[]>([]);

@@ -22,6 +22,11 @@ const nextConfig = {
         port: "5003",
         pathname: "/uploads/**",
       },
+      {
+        protocol: "https",
+        hostname: "api.shapeupsportzone.com.et",
+        pathname: "/uploads/**",
+      },
     ], // Add your image domains here
   },
 };
