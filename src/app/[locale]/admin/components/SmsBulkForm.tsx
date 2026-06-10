@@ -91,8 +91,8 @@ export default function SmsBulkForm({ onSuccess }: SmsBulkFormProps) {
   const groupBtnClass = (group: RecipientGroup) =>
     `px-4 py-3 rounded-lg border transition-colors text-sm font-medium ${
       recipientGroup === group
-        ? 'bg-primary/20 border-primary text-primary'
-        : 'bg-surface-dark-lighter border-surface-dark-lighter text-white/80 hover:border-primary/50'
+        ? 'bg-customBlue/20 border-customBlue text-customBlue'
+        : 'bg-surface-dark-lighter border-surface-dark-lighter text-white/80 hover:border-customBlue/50'
     } disabled:opacity-50 disabled:cursor-not-allowed`;
 
   return (
@@ -135,7 +135,7 @@ export default function SmsBulkForm({ onSuccess }: SmsBulkFormProps) {
         </div>
         {error && <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3 text-red-400 text-sm">{error}</div>}
         {success && <div className="bg-emerald-500/10 border border-emerald-500/20 rounded-lg p-3 text-emerald-400 text-sm">{success}</div>}
-        <button type="submit" disabled={isSending || isLoadingMembers || phoneList.length === 0 || !message.trim()} className="w-full px-4 py-2 bg-primary text-black rounded-lg hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed">
+        <button type="submit" disabled={isSending || isLoadingMembers || phoneList.length === 0 || !message.trim()} className="w-full px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed">
           {isSending ? 'Sending...' : isLoadingMembers ? 'Loading...' : `Send to ${phoneList.length} Recipient${phoneList.length !== 1 ? 's' : ''}`}
         </button>
       </form>

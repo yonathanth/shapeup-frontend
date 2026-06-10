@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { PDFDocument, StandardFonts, rgb } from 'pdf-lib';
@@ -277,7 +277,7 @@ export default function TransactionsPage() {
             type="button"
             onClick={() => setShowExportMenu((v) => !v)}
             disabled={exporting}
-            className="h-10 px-4 flex items-center gap-2 bg-primary text-black font-medium rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-60"
+            className="h-10 px-4 flex items-center gap-2 bg-primary text-white font-medium rounded-lg hover:bg-primary/90 transition-colors disabled:opacity-60"
           >
             <span className="material-symbols-outlined text-lg">download</span>
             {exporting ? 'Exporting...' : 'Export'}
@@ -314,7 +314,7 @@ export default function TransactionsPage() {
           </select>
           <input type="date" value={datePreset === 'custom' ? customStartDate : ''} onChange={(e) => { setDatePreset('custom'); setCustomStartDate(e.target.value); setPage(1); }} disabled={datePreset !== 'custom'} className="h-10 px-4 bg-surface-dark-lighter border border-surface-dark-lighter rounded-lg text-white focus:outline-none focus:border-primary/50 disabled:opacity-50" />
           <input type="date" value={datePreset === 'custom' ? customEndDate : ''} onChange={(e) => { setDatePreset('custom'); setCustomEndDate(e.target.value); setPage(1); }} disabled={datePreset !== 'custom'} className="h-10 px-4 bg-surface-dark-lighter border border-surface-dark-lighter rounded-lg text-white focus:outline-none focus:border-primary/50 disabled:opacity-50" />
-          <button type="submit" className="h-10 px-6 bg-primary text-black font-medium rounded-lg hover:bg-primary/90 transition-colors">Filter</button>
+          <button type="submit" className="h-10 px-6 bg-primary text-white font-medium rounded-lg hover:bg-primary/90 transition-colors">Filter</button>
         </form>
       </div>
 

@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
 import { dashboardApi, DashboardOverview, RevenueBreakdown, MemberGrowth } from '@/lib/api';
@@ -42,7 +42,7 @@ export default function DashboardPage() {
         <div className="text-center">
           <span className="material-symbols-outlined text-4xl text-red-400 mb-2">error</span>
           <p className="text-white/60">{error}</p>
-          <button onClick={() => window.location.reload()} className="mt-4 px-4 py-2 bg-primary text-black rounded-lg font-medium hover:bg-primary/90 transition-colors">Retry</button>
+          <button onClick={() => window.location.reload()} className="mt-4 px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors">Retry</button>
         </div>
       </div>
     );

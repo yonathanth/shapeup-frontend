@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect, useCallback } from 'react';
 import {
@@ -149,7 +149,7 @@ export default function AttendancePage() {
             <>
               {today.checkIns.slice(0, 10).map((checkIn) => (
                 <div key={checkIn.id} className="flex items-center gap-2 px-3 py-2 bg-surface-dark-lighter rounded-lg">
-                  <div className="size-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                  <div className="size-8 rounded-full bg-customBlue/10 flex items-center justify-center text-customBlue">
                     <span className="material-symbols-outlined text-sm">person</span>
                   </div>
                   <div>
@@ -193,7 +193,7 @@ export default function AttendancePage() {
               Clear
             </button>
           )}
-          <button type="submit" className="h-10 px-6 bg-primary text-black font-medium rounded-lg hover:bg-primary/90 transition-colors">
+          <button type="submit" className="h-10 px-6 bg-primary text-white font-medium rounded-lg hover:bg-primary/90 transition-colors">
             Filter
           </button>
         </form>

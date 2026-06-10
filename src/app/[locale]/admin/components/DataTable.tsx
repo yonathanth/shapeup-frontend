@@ -132,7 +132,7 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
           <button
             key={page}
             onClick={() => onPageChange(page)}
-            className={`px-3 py-1 rounded-lg text-sm transition-colors ${page === currentPage ? 'bg-primary text-black font-medium' : 'text-white/60 hover:bg-surface-dark-lighter'}`}
+            className={`px-3 py-1 rounded-lg text-sm transition-colors ${page === currentPage ? 'bg-primary text-white font-medium' : 'text-white/60 hover:bg-surface-dark-lighter'}`}
           >
             {page}
           </button>

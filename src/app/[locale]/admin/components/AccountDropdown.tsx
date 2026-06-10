@@ -129,7 +129,7 @@ export default function AccountDropdown() {
                 {updateError && <p className="text-red-400 text-xs">{updateError}</p>}
                 {updateSuccess && <p className="text-emerald-400 text-xs">Profile updated successfully!</p>}
                 <div className="flex gap-2">
-                  <button type="submit" disabled={isUpdating} className="flex-1 h-9 px-4 bg-primary text-black font-medium rounded-lg hover:bg-primary/90 disabled:opacity-50 transition-colors">
+                  <button type="submit" disabled={isUpdating} className="flex-1 h-9 px-4 bg-primary text-white font-medium rounded-lg hover:bg-primary/90 disabled:opacity-50 transition-colors">
                     {isUpdating ? 'Updating...' : 'Update'}
                   </button>
                   <button type="button" onClick={() => { setShowUpdateForm(false); setFormData({ email: '', password: '', currentPassword: '' }); setUpdateError(null); setUpdateSuccess(false); }} className="h-9 px-4 bg-surface-dark-lighter text-white/60 rounded-lg hover:text-white transition-colors">

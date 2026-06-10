@@ -8,7 +8,7 @@ interface StatsCardProps {
 }
 
 const colorClasses = {
-  primary: 'bg-primary/10 text-primary',
+  primary: 'bg-customBlue/10 text-customBlue',
   green: 'bg-emerald-500/10 text-emerald-400',
   blue: 'bg-blue-500/10 text-blue-400',
   orange: 'bg-orange-500/10 text-orange-400',

@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect, useCallback } from 'react';
 import { potentialCustomersApi, type PotentialCustomer } from '@/lib/api';
@@ -60,7 +60,7 @@ export default function PotentialCustomersPage() {
       header: 'Name',
       render: (c: PotentialCustomer) => (
         <div className="flex items-center gap-3">
-          <div className="size-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+          <div className="size-10 rounded-full bg-customBlue/10 flex items-center justify-center text-customBlue">
             <span className="material-symbols-outlined text-lg">person</span>
           </div>
           <div>

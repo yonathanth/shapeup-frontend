@@ -114,7 +114,7 @@ export default function SmsSendModal({ isOpen, onClose, initialPhone = '', initi
             {error && <div className="bg-red-500/10 border border-red-500/20 rounded-lg p-3 text-red-400 text-sm">{error}</div>}
             <div className="flex gap-3 pt-4">
               <button type="button" onClick={onClose} disabled={isSending} className="flex-1 px-4 py-2 bg-surface-dark-lighter text-white rounded-lg hover:bg-surface-dark-lighter/80 disabled:opacity-50">Cancel</button>
-              <button type="submit" disabled={isSending || !phone.trim() || !message.trim()} className="flex-1 px-4 py-2 bg-primary text-black font-medium rounded-lg hover:bg-primary/90 disabled:opacity-50">
+              <button type="submit" disabled={isSending || !phone.trim() || !message.trim()} className="flex-1 px-4 py-2 bg-primary text-white font-medium rounded-lg hover:bg-primary/90 disabled:opacity-50">
                 {isSending ? 'Sending...' : 'Send SMS'}
               </button>
             </div>

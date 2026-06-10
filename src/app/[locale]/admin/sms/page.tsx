@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState } from 'react';
 import SmsSendModal from '../components/SmsSendModal';
@@ -36,7 +36,7 @@ export default function SmsPage() {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex items-center gap-2 px-6 py-4 text-sm font-medium transition-colors whitespace-nowrap ${
                   activeTab === tab.id
-                    ? 'text-primary border-b-2 border-primary'
+                    ? 'text-customBlue border-b-2 border-customBlue'
                     : 'text-white/60 hover:text-white hover:bg-surface-dark-lighter'
                 }`}
               >
@@ -52,7 +52,7 @@ export default function SmsPage() {
             <div>
               <button
                 onClick={() => setIsSendModalOpen(true)}
-                className="px-6 py-3 bg-primary text-black rounded-lg hover:bg-primary/90 font-medium flex items-center gap-2"
+                className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 font-medium flex items-center gap-2"
               >
                 <span className="material-symbols-outlined">send</span>
                 Send New SMS

@@ -105,12 +105,12 @@ export default function ServicesPage() {
             return (
               <div key={service.id} className="bg-surface-dark rounded-xl border border-surface-dark-lighter hover:border-primary/50 transition-colors">
                 <div className="p-6">
-                  <div className="size-12 rounded-xl bg-primary/10 flex items-center justify-center text-primary mb-4">
+                  <div className="size-12 rounded-xl bg-customBlue/10 flex items-center justify-center text-customBlue mb-4">
                     <span className="material-symbols-outlined text-2xl">fitness_center</span>
                   </div>
                   <h3 className="text-white text-lg font-semibold mb-3">{service.name}</h3>
                   {service.category && (
-                    <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-primary/10 text-primary text-xs font-medium mb-3">
+                    <span className="inline-flex items-center px-2.5 py-1 rounded-lg bg-customBlue/10 text-customBlue text-xs font-medium mb-3">
                       {service.category}
                     </span>
                   )}
@@ -119,7 +119,7 @@ export default function ServicesPage() {
                       <p className="text-white/40 text-xs mb-2">Benefits:</p>
                       <div className="flex flex-wrap gap-2">
                         {benefits.map((benefit, index) => (
-                          <span key={index} className="inline-flex items-center px-2.5 py-1 rounded-lg bg-primary/10 text-primary text-xs font-medium">
+                          <span key={index} className="inline-flex items-center px-2.5 py-1 rounded-lg bg-customBlue/10 text-customBlue text-xs font-medium">
                             {benefit}
                           </span>
                         ))}
@@ -133,7 +133,7 @@ export default function ServicesPage() {
                   <div className="pt-4 border-t border-surface-dark-lighter flex items-end justify-between">
                     <div>
                       <p className="text-white/40 text-xs mb-1">Price</p>
-                      <p className="text-primary text-2xl font-bold">{formatCurrency(service.price)}</p>
+                      <p className="text-customBlue text-2xl font-bold">{formatCurrency(service.price)}</p>
                     </div>
                     <p className="text-white/40 text-xs">per {service.durationUnit ? service.durationUnit.slice(0, -1) : 'period'}</p>
                   </div>

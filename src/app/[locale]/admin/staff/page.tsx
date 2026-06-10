@@ -121,7 +121,7 @@ export default function StaffPage() {
       header: 'Staff',
       render: (s: Staff) => (
         <div className="flex items-center gap-3">
-          <div className="size-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+          <div className="size-10 rounded-full bg-customBlue/10 flex items-center justify-center text-customBlue">
             <span className="material-symbols-outlined text-lg">badge</span>
           </div>
           <div>
@@ -148,7 +148,7 @@ export default function StaffPage() {
             setHistoryFrom(r.from);
             setHistoryTo(r.to);
           }}
-          className="text-primary hover:text-primary/80 text-sm font-medium"
+          className="text-customBlue hover:text-customBlue/80 text-sm font-medium"
         >
           Attendance history
         </button>
@@ -178,7 +178,7 @@ export default function StaffPage() {
               onChange={(e) => setSearch(e.target.value)}
               className="h-10 px-4 bg-surface-dark-lighter border border-surface-dark-lighter rounded-lg text-white placeholder:text-white/40 focus:outline-none focus:border-primary/50 w-64"
             />
-            <button type="submit" className="h-10 px-6 bg-primary text-black font-medium rounded-lg hover:bg-primary/90">Search</button>
+            <button type="submit" className="h-10 px-6 bg-primary text-white font-medium rounded-lg hover:bg-primary/90">Search</button>
           </form>
         </div>
         <DataTable<Staff>
@@ -210,7 +210,7 @@ export default function StaffPage() {
           <div className="flex flex-wrap gap-2">
             {dailyRecords.map((record) => (
               <div key={record.id} className="flex items-center gap-2 px-3 py-2 bg-surface-dark-lighter rounded-lg">
-                <div className="size-8 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+                <div className="size-8 rounded-full bg-customBlue/10 flex items-center justify-center text-customBlue">
                   <span className="material-symbols-outlined text-sm">badge</span>
                 </div>
                 <div>
@@ -239,7 +239,7 @@ export default function StaffPage() {
                     key={preset}
                     type="button"
                     onClick={() => setHistoryRangePreset(preset)}
-                    className={`px-3 py-1.5 rounded-lg text-sm font-medium capitalize ${historyRangePreset === preset ? 'bg-primary text-black' : 'bg-surface-dark-lighter text-white/80 hover:text-white'}`}
+                    className={`px-3 py-1.5 rounded-lg text-sm font-medium capitalize ${historyRangePreset === preset ? 'bg-primary text-white' : 'bg-surface-dark-lighter text-white/80 hover:text-white'}`}
                   >
                     {preset === 'week' ? 'This week' : preset === 'month' ? 'This month' : 'Custom'}
                   </button>

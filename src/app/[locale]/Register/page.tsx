@@ -84,7 +84,7 @@ function RegisterContent() {
           <div className="mx-auto w-full max-w-[1440px] px-6">
             <div className="mx-auto max-w-2xl bg-white/5 border border-white/10 p-10">
               <div className="mb-10">
-                <p className="text-xs font-black uppercase italic tracking-widest text-primary">
+                <p className="text-xs font-black uppercase italic tracking-widest text-customBlue">
                   Your details
                 </p>
                 <h2 className="mt-3 text-4xl font-black uppercase italic tracking-tighter md:text-5xl">
@@ -100,7 +100,7 @@ function RegisterContent() {
                   <label className="flex flex-col gap-2">
                     <span className="text-xs font-black uppercase tracking-widest text-white/60">Full Name</span>
                     <input
-                      className="h-12 w-full border-2 border-primary/10 bg-background px-4 text-white placeholder-white/30 transition-all focus:border-primary focus:outline-none"
+                      className="h-12 w-full border-2 border-customBlue/10 bg-background px-4 text-white placeholder-white/30 transition-all focus:border-customBlue focus:outline-none"
                       placeholder="e.g. Abebe Bikila"
                       type="text"
                       name="fullName"
@@ -113,7 +113,7 @@ function RegisterContent() {
                   <label className="flex flex-col gap-2">
                     <span className="text-xs font-black uppercase tracking-widest text-white/60">Phone Number</span>
                     <input
-                      className="h-12 w-full border-2 border-primary/10 bg-background px-4 text-white placeholder-white/30 transition-all focus:border-primary focus:outline-none"
+                      className="h-12 w-full border-2 border-customBlue/10 bg-background px-4 text-white placeholder-white/30 transition-all focus:border-customBlue focus:outline-none"
                       placeholder="+251 911 000 000"
                       type="tel"
                       name="phoneNumber"
@@ -179,7 +179,7 @@ function RegisterContent() {
                 )}
 
                 <button
-                  className="mt-4 flex h-14 w-full items-center justify-center gap-2 bg-primary text-lg font-black uppercase tracking-tighter text-on-primary transition-transform hover:-translate-y-1 hover:translate-x-1 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="mt-4 flex h-14 w-full items-center justify-center gap-2 bg-customBlue text-lg font-black uppercase tracking-tighter text-black transition-transform hover:-translate-y-1 hover:translate-x-1 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50"
                   type="submit"
                   disabled={loading}
                 >
@@ -213,7 +213,7 @@ function RegisterContent() {
             <button
               type="button"
               onClick={() => router.push(`/${locale}`)}
-              className="flex h-12 w-full items-center justify-center gap-2 bg-primary font-black uppercase tracking-wider text-on-primary transition-colors hover:bg-primary/90"
+              className="flex h-12 w-full items-center justify-center gap-2 bg-customBlue font-black uppercase tracking-wider text-black transition-colors hover:bg-customBlue/90"
             >
               <span>Back to Home</span>
               <span className="material-symbols-outlined text-xl">arrow_forward</span>

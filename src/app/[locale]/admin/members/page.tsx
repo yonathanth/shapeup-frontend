@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect, useCallback } from 'react';
 import { useRouter, useParams } from 'next/navigation';
@@ -74,7 +74,7 @@ export default function MembersPage() {
       header: 'Member',
       render: (member: Member) => (
         <div className="flex items-center gap-3">
-          <div className="size-10 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+          <div className="size-10 rounded-full bg-customBlue/10 flex items-center justify-center text-customBlue">
             <span className="material-symbols-outlined text-lg">person</span>
           </div>
           <div>
@@ -164,7 +164,7 @@ export default function MembersPage() {
             <option value="pending">Pending</option>
             <option value="expired">Expired</option>
           </select>
-          <button type="submit" className="h-10 px-6 bg-primary text-black font-medium rounded-lg hover:bg-primary/90 transition-colors">
+          <button type="submit" className="h-10 px-6 bg-primary text-white font-medium rounded-lg hover:bg-primary/90 transition-colors">
             Search
           </button>
         </form>

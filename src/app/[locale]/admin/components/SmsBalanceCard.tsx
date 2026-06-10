@@ -27,7 +27,7 @@ export default function SmsBalanceCard() {
     <div className="bg-surface-dark rounded-xl border border-surface-dark-lighter p-6">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-white font-semibold text-lg">Account Balance</h3>
-        <button onClick={fetchBalance} disabled={isLoading} className="text-primary hover:text-primary/80 disabled:opacity-50" title="Refresh balance">
+        <button onClick={fetchBalance} disabled={isLoading} className="text-customBlue hover:text-customBlue/80 disabled:opacity-50" title="Refresh balance">
           <span className="material-symbols-outlined">refresh</span>
         </button>
       </div>

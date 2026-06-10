@@ -100,7 +100,7 @@ export default function MemberDetailPage({ params }: Props) {
         <p className="text-white/60">Member not found</p>
         <Link
           href={`/${locale}/admin/members`}
-          className="mt-4 px-4 py-2 bg-primary text-black rounded-lg font-medium hover:bg-primary/90 transition-colors"
+          className="mt-4 px-4 py-2 bg-primary text-white rounded-lg font-medium hover:bg-primary/90 transition-colors"
         >
           Back to Members
         </Link>
@@ -120,7 +120,7 @@ export default function MemberDetailPage({ params }: Props) {
 
       <div className="bg-surface-dark rounded-xl border border-surface-dark-lighter p-6">
         <div className="flex flex-col sm:flex-row sm:items-center gap-6">
-          <div className="size-20 rounded-full bg-primary/10 flex items-center justify-center text-primary">
+          <div className="size-20 rounded-full bg-customBlue/10 flex items-center justify-center text-customBlue">
             <span className="material-symbols-outlined text-4xl">person</span>
           </div>
           <div className="flex-1">
@@ -140,7 +140,7 @@ export default function MemberDetailPage({ params }: Props) {
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`pb-3 text-sm font-medium capitalize transition-colors border-b-2 -mb-px ${
-                activeTab === tab ? 'text-primary border-primary' : 'text-white/60 border-transparent hover:text-white'
+                activeTab === tab ? 'text-customBlue border-customBlue' : 'text-white/60 border-transparent hover:text-white'
               }`}
             >
               {tab}
@@ -168,7 +168,7 @@ export default function MemberDetailPage({ params }: Props) {
                 {member.phone && (
                   <button
                     onClick={() => setIsSmsModalOpen(true)}
-                    className="px-3 py-1.5 bg-primary text-black rounded-lg hover:bg-primary/90 text-sm font-medium flex items-center gap-2"
+                    className="px-3 py-1.5 bg-primary text-white rounded-lg hover:bg-primary/90 text-sm font-medium flex items-center gap-2"
                   >
                     <span className="material-symbols-outlined text-sm">sms</span>
                     Send SMS
